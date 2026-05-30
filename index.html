@@ -8,11 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#080808;--s1:#111;--s2:#181818;--s3:#222;
-  --br:#2e2e2e;--txt:#f0f0f0;--mu:#666;--ac:#e8e8e8;
-  --gold:#d4a843;--red:#e53935;--r:14px;--rl:18px;
-}
+:root{--bg:#080808;--s1:#111;--s2:#181818;--s3:#222;--br:#2e2e2e;--txt:#f0f0f0;--mu:#666;--ac:#e8e8e8;--gold:#d4a843;--red:#e53935;--r:14px;--rl:18px}
 html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
 .page{max-width:680px;margin:0 auto;padding:0 1rem 5rem}
 @media(min-width:900px){.page{padding:0 2rem 5rem}}
@@ -25,8 +21,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .avatar-ring{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;transition:border-color .35s,transform .35s;pointer-events:none}
 .avatar-wrap:active .avatar-ring{border-color:var(--gold);transform:scale(1.06)}
-.tap-hint{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:#333;letter-spacing:1px;white-space:nowrap;pointer-events:none;transition:color .2s}
-.avatar-wrap:hover .tap-hint{color:#555}
 .username{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,8vw,3.4rem);letter-spacing:clamp(3px,1vw,6px);color:#fff;line-height:1;margin-top:.6rem}
 .tagline{font-size:clamp(11px,2.5vw,13px);color:var(--mu);margin-top:.5rem;letter-spacing:2px;text-transform:uppercase}
 .like-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1.4rem;padding:10px 24px;background:var(--s2);border:1px solid var(--br);border-radius:100px;cursor:pointer;font-size:13px;color:var(--mu);transition:all .25s;font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}
@@ -58,8 +52,8 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .vcard{flex-shrink:0;width:clamp(140px,38vw,170px);border-radius:12px;overflow:hidden;background:var(--s1);border:1px solid var(--br);transition:transform .2s}
 .vcard:hover{transform:translateY(-2px)}
 .vthumb{width:100%;height:clamp(90px,22vw,115px);background:var(--s3);display:flex;align-items:center;justify-content:center;text-decoration:none;position:relative;overflow:hidden}
-.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
-.vplay{width:38px;height:38px;background:rgba(0,0,0,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;border:1px solid rgba(255,255,255,.15);transition:transform .2s}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+.vplay{width:38px;height:38px;background:rgba(0,0,0,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;border:1px solid rgba(255,255,255,.2);transition:transform .2s;z-index:1}
 .vthumb:hover .vplay{transform:scale(1.1)}
 .vplay-arrow{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px}
 .vtitle{padding:8px 10px;font-size:clamp(11px,2.8vw,12px);color:#bbb;line-height:1.3}
@@ -82,8 +76,10 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .tcard-desc{font-size:clamp(10px,2.5vw,11px);color:#484848;margin-top:2px;line-height:1.4}
 .chk{position:absolute;top:9px;right:9px;width:15px;height:15px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700}
 .tcard.on .chk{display:flex}
-.bizform{display:none;background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);padding:clamp(1rem,4vw,1.3rem)}
+/* FORMULARIOS POR TIPO */
+.bizform{display:none;background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);padding:clamp(1rem,4vw,1.3rem);margin-top:.1rem}
 .bizform.on{display:block}
+.form-section-title{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid #2a1e00}
 .fl{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#484848;margin-bottom:.35rem}
 .fi,.ft,.fsel{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:clamp(13px,3vw,14px);font-family:'DM Sans',sans-serif;outline:none;transition:border .2s;margin-bottom:.75rem}
 .fi:focus,.ft:focus,.fsel:focus{border-color:#3a2f00}
@@ -117,12 +113,13 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .gifts-ico{font-size:2.8rem;opacity:.12;display:block;margin-bottom:.75rem}
 .gifts-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
 .gifts-ttl{font-size:clamp(.9rem,3vw,1rem);color:#555;line-height:1.5}
-.status-bar{font-size:11px;text-align:center;padding:.4rem;color:#555;letter-spacing:.5px;margin-bottom:.5rem}
+.status-bar{font-size:11px;text-align:center;padding:.3rem;color:#555;letter-spacing:.5px;margin-bottom:.4rem}
 .status-bar.ok{color:#4caf50}
 .status-bar.err{color:#e53935}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
+/* OVERLAY PANEL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
 .overlay.on{opacity:1;pointer-events:all}
-.modal{background:#111;border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.2rem,4vw,1.6rem);width:100%;max-width:460px;max-height:88vh;overflow-y:auto;transform:translateY(24px);transition:transform .3s;scrollbar-width:thin;scrollbar-color:#222 transparent}
+.modal{background:#111;border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.2rem,4vw,1.6rem);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:translateY(24px);transition:transform .3s;scrollbar-width:thin;scrollbar-color:#222 transparent}
 .overlay.on .modal{transform:translateY(0)}
 .mhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
 .mhd-ttl{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--gold)}
@@ -141,19 +138,25 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .plbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#484848;margin-bottom:.6rem}
 .crow{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem}
 .cico{font-size:14px;width:22px;text-align:center;flex-shrink:0}
-.cnm{font-size:12px;color:#666;width:64px;flex-shrink:0}
+.cnm{font-size:12px;color:#666;width:70px;flex-shrink:0}
 .cval{flex:1;min-width:0;background:var(--s3);border:1px solid var(--br);border-radius:6px;padding:6px 8px;color:var(--txt);font-size:12px;font-family:'DM Sans',sans-serif;outline:none}
 .svbtn{width:100%;padding:9px;background:#1a1200;border:1px solid #3a2f00;color:var(--gold);font-size:12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.4rem}
 .svbtn:hover{background:#2a1e00}
 .flash{font-size:11px;color:#4caf50;text-align:center;margin-top:.4rem;opacity:0;transition:opacity .3s;height:16px}
 .psec{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--br)}
 .vedit{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.9rem;margin-bottom:.6rem}
-.vedit-ttl{font-size:11px;color:var(--gold);margin-bottom:.6rem;font-weight:500}
+.vedit-ttl{font-size:11px;color:var(--gold);margin-bottom:.6rem;font-weight:500;display:flex;align-items:center;gap:6px}
 .vfi{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:6px;padding:6px 9px;color:var(--txt);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.4rem}
+.vfi:focus{border-color:#3a2f00}
+.vpreview{width:100%;height:60px;border-radius:6px;object-fit:cover;margin-bottom:.4rem;display:none;border:1px solid var(--br)}
+.vpreview.on{display:block}
+.vfi-lbl{font-size:10px;color:#555;margin-bottom:.3rem;display:block}
 .breq{background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:.75rem;font-size:12px;margin-bottom:.4rem}
 .breq-hdr{color:var(--gold);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
 .breq-nm{color:#ccc;font-weight:500}
 .breq-msg{color:#777;margin-top:3px;line-height:1.4}
+.panel-links-sec{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.9rem;margin-bottom:.8rem}
+.panel-links-ttl{font-size:11px;color:var(--gold);margin-bottom:.7rem;font-weight:500}
 </style>
 </head>
 <body>
@@ -161,18 +164,13 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 
   <div class="hero">
     <div class="avatar-wrap" id="avatarWrap">
-      <div class="avatar" id="avatar">
-        <img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/>
-      </div>
+      <div class="avatar"><img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/></div>
       <div class="avatar-ring" id="ring"></div>
-      <span class="tap-hint">doble toque · panel</span>
     </div>
     <div class="username">19Rey10</div>
     <div class="tagline">Creador de contenido · Comunidad</div>
     <button class="like-btn" id="likeBtn" onclick="toggleLike()">
-      <span id="heart">♡</span>
-      <span id="likeCount">0</span>
-      <span>me gusta</span>
+      <span id="heart">♡</span><span id="likeCount">0</span><span>me gusta</span>
     </button>
   </div>
 
@@ -192,18 +190,17 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
   <div class="sec">
     <div class="sec-title">Mis redes</div>
     <div class="links-grid">
-      <!-- ✏️ Cambia estos links por los tuyos reales -->
-      <a class="lcard" href="https://tiktok.com/@19Rey10" target="_blank" rel="noopener">
+      <a class="lcard" id="link-tiktok" href="#" target="_blank" rel="noopener">
         <div class="lico li-tt"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.83 1.54V6.79a4.85 4.85 0 0 1-1.06-.1z"/></svg></div>
-        <div><div class="lcard-name">TikTok</div><div class="lcard-sub">@19Rey10</div></div>
+        <div><div class="lcard-name">TikTok</div><div class="lcard-sub" id="sub-tiktok">@19Rey10</div></div>
       </a>
-      <a class="lcard" href="https://youtube.com/@19Rey10" target="_blank" rel="noopener">
+      <a class="lcard" id="link-youtube" href="#" target="_blank" rel="noopener">
         <div class="lico li-yt"><svg width="20" height="20" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg></div>
-        <div><div class="lcard-name">YouTube</div><div class="lcard-sub">19Rey10</div></div>
+        <div><div class="lcard-name">YouTube</div><div class="lcard-sub" id="sub-youtube">19Rey10</div></div>
       </a>
-      <a class="lcard" href="https://discord.gg/TULINK" target="_blank" rel="noopener" style="grid-column:1/-1">
+      <a class="lcard" id="link-discord" href="#" target="_blank" rel="noopener" style="grid-column:1/-1">
         <div class="lico li-dc"><svg width="22" height="22" viewBox="0 0 24 24" fill="#7289da"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.101 18.08.114 18.1.136 18.114a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></div>
-        <div><div class="lcard-name">Discord</div><div class="lcard-sub">Únete a la comunidad</div></div>
+        <div><div class="lcard-name">Discord</div><div class="lcard-sub" id="sub-discord">Únete a la comunidad</div></div>
       </a>
     </div>
   </div>
@@ -212,7 +209,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 
   <div class="sec">
     <div class="sec-title">Videos virales</div>
-    <div class="vscroll" id="videoList"></div>
+    <div class="vscroll" id="videoList"><div style="color:#333;font-size:12px;padding:1rem">Cargando...</div></div>
   </div>
 
   <div class="divider"></div>
@@ -225,22 +222,67 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
       <div class="biz-sub">¿Quieres llegar a mi comunidad? Hablemos. Respondo en menos de 48h.</div>
     </div>
     <div class="type-grid">
-      <div class="tcard" onclick="selType('promo',this)"><div class="chk">✓</div><div class="tcard-ico">📢</div><div class="tcard-name">Promoción</div><div class="tcard-desc">Menciono tu marca</div></div>
-      <div class="tcard" onclick="selType('collab',this)"><div class="chk">✓</div><div class="tcard-ico">🤝</div><div class="tcard-name">Colaboración</div><div class="tcard-desc">Contenido juntos</div></div>
-      <div class="tcard" onclick="selType('sponsored',this)"><div class="chk">✓</div><div class="tcard-ico">🎬</div><div class="tcard-name">Patrocinado</div><div class="tcard-desc">Video dedicado</div></div>
-      <div class="tcard" onclick="selType('other',this)"><div class="chk">✓</div><div class="tcard-ico">💡</div><div class="tcard-name">Otro</div><div class="tcard-desc">Tu idea</div></div>
+      <div class="tcard" id="tc-promo" onclick="selType('promo',this)"><div class="chk">✓</div><div class="tcard-ico">📢</div><div class="tcard-name">Promoción</div><div class="tcard-desc">Menciono tu marca</div></div>
+      <div class="tcard" id="tc-collab" onclick="selType('collab',this)"><div class="chk">✓</div><div class="tcard-ico">🤝</div><div class="tcard-name">Colaboración</div><div class="tcard-desc">Contenido juntos</div></div>
+      <div class="tcard" id="tc-sponsored" onclick="selType('sponsored',this)"><div class="chk">✓</div><div class="tcard-ico">🎬</div><div class="tcard-name">Patrocinado</div><div class="tcard-desc">Video dedicado</div></div>
+      <div class="tcard" id="tc-other" onclick="selType('other',this)"><div class="chk">✓</div><div class="tcard-ico">💡</div><div class="tcard-name">Otro</div><div class="tcard-desc">Tu idea</div></div>
     </div>
-    <div class="bizform" id="bizForm">
-      <div class="fgrid">
-        <div><label class="fl">Nombre</label><input class="fi" id="bn" placeholder="Nombre o empresa"/></div>
-        <div><label class="fl">Contacto</label><input class="fi" id="bc" placeholder="Email o Instagram"/></div>
-      </div>
+
+    <!-- FORMULARIO PROMOCIÓN -->
+    <div class="bizform" id="form-promo">
+      <div class="form-section-title">📢 Solicitud de Promoción</div>
+      <div class="fgrid"><div><label class="fl">Tu nombre / marca</label><input class="fi" id="p-name" placeholder="Nombre o empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="p-contact" placeholder="Email o Instagram"/></div></div>
+      <label class="fl">¿Qué quieres promocionar?</label>
+      <select class="fsel" id="p-type"><option value="">Selecciona...</option><option>Producto físico</option><option>App / Software</option><option>Servicio</option><option>Marca personal</option><option>Otro</option></select>
+      <label class="fl">Descripción del producto/servicio</label>
+      <textarea class="ft" id="p-desc" placeholder="Cuéntame qué es lo que quieres que promocione..."></textarea>
       <label class="fl">Presupuesto</label>
-      <select class="fsel" id="bb"><option value="">Selecciona...</option><option>Menos de $50</option><option>$50–$200</option><option>$200–$500</option><option>$500+</option><option>Hablemos primero</option></select>
-      <label class="fl" style="margin-top:.1rem">Tu idea</label>
-      <textarea class="ft" id="bm" placeholder="Cuéntame qué tienes en mente..."></textarea>
-      <button class="sbtn" onclick="submitBiz()">Enviar solicitud</button>
-      <div class="succ" id="bsucc">✅ ¡Solicitud enviada! Te respondo pronto.</div>
+      <select class="fsel" id="p-budget"><option value="">Selecciona...</option><option>Menos de $50</option><option>$50–$200</option><option>$200–$500</option><option>$500+</option><option>Hablemos primero</option></select>
+      <button class="sbtn" onclick="submitBiz('promo')">Enviar solicitud</button>
+      <div class="succ" id="succ-promo">✅ ¡Solicitud enviada! Te respondo pronto.</div>
+      <div class="fnote">Tu mensaje llega directo al creador.</div>
+    </div>
+
+    <!-- FORMULARIO COLABORACIÓN -->
+    <div class="bizform" id="form-collab">
+      <div class="form-section-title">🤝 Solicitud de Colaboración</div>
+      <div class="fgrid"><div><label class="fl">Tu nombre / usuario</label><input class="fi" id="c-name" placeholder="Nombre o @usuario"/></div><div><label class="fl">Contacto</label><input class="fi" id="c-contact" placeholder="Email o Instagram"/></div></div>
+      <label class="fl">¿En qué plataforma eres creador?</label>
+      <select class="fsel" id="c-platform"><option value="">Selecciona...</option><option>TikTok</option><option>YouTube</option><option>Instagram</option><option>Twitch</option><option>Varias</option></select>
+      <label class="fl">¿Cuántos seguidores tienes?</label>
+      <select class="fsel" id="c-followers"><option value="">Selecciona...</option><option>Menos de 1K</option><option>1K – 10K</option><option>10K – 100K</option><option>100K+</option></select>
+      <label class="fl">Idea de colaboración</label>
+      <textarea class="ft" id="c-idea" placeholder="¿Qué tipo de collab tienes en mente? ¿Qué tema? ¿Cómo beneficia a los dos?"></textarea>
+      <button class="sbtn" onclick="submitBiz('collab')">Enviar solicitud</button>
+      <div class="succ" id="succ-collab">✅ ¡Solicitud enviada! Te respondo pronto.</div>
+      <div class="fnote">Tu mensaje llega directo al creador.</div>
+    </div>
+
+    <!-- FORMULARIO PATROCINADO -->
+    <div class="bizform" id="form-sponsored">
+      <div class="form-section-title">🎬 Video Patrocinado</div>
+      <div class="fgrid"><div><label class="fl">Empresa / Marca</label><input class="fi" id="s-name" placeholder="Nombre de la empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="s-contact" placeholder="Email o Instagram"/></div></div>
+      <label class="fl">Link del producto o sitio web</label>
+      <input class="fi" id="s-link" placeholder="https://..."/>
+      <label class="fl">¿Para qué plataforma?</label>
+      <select class="fsel" id="s-platform"><option value="">Selecciona...</option><option>TikTok</option><option>YouTube</option><option>Ambas</option></select>
+      <label class="fl">Presupuesto disponible</label>
+      <select class="fsel" id="s-budget"><option value="">Selecciona...</option><option>$100–$300</option><option>$300–$500</option><option>$500–$1000</option><option>$1000+</option><option>Hablemos primero</option></select>
+      <label class="fl">Detalles adicionales</label>
+      <textarea class="ft" id="s-desc" placeholder="¿Qué mensaje quieres transmitir? ¿Hay algo específico que incluir?"></textarea>
+      <button class="sbtn" onclick="submitBiz('sponsored')">Enviar solicitud</button>
+      <div class="succ" id="succ-sponsored">✅ ¡Solicitud enviada! Te respondo pronto.</div>
+      <div class="fnote">Tu mensaje llega directo al creador.</div>
+    </div>
+
+    <!-- FORMULARIO OTRO -->
+    <div class="bizform" id="form-other">
+      <div class="form-section-title">💡 Otra propuesta</div>
+      <div class="fgrid"><div><label class="fl">Tu nombre</label><input class="fi" id="o-name" placeholder="Nombre o empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="o-contact" placeholder="Email o Instagram"/></div></div>
+      <label class="fl">¿De qué se trata?</label>
+      <textarea class="ft" id="o-desc" style="min-height:100px" placeholder="Cuéntame tu idea, no importa si es algo diferente. Todas las propuestas son bienvenidas 🙌"></textarea>
+      <button class="sbtn" onclick="submitBiz('other')">Enviar propuesta</button>
+      <div class="succ" id="succ-other">✅ ¡Propuesta enviada! Te respondo pronto.</div>
       <div class="fnote">Tu mensaje llega directo al creador.</div>
     </div>
   </div>
@@ -251,7 +293,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div class="sec-title">Chat con la comunidad</div>
     <div id="statusBar" class="status-bar">Conectando...</div>
     <div class="chatbox">
-      <div class="chatmsgs" id="chatMsgs"></div>
+      <div class="chatmsgs" id="chatMsgs"><div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Conectando...</div></div>
       <div style="padding:.7rem .7rem .4rem;border-top:1px solid var(--br)">
         <input class="ni" id="nameIn" placeholder="Tu nombre o usuario..." maxlength="30"/>
       </div>
@@ -272,18 +314,17 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
       <div class="gifts-ttl">Sorteos y regalos reales para la comunidad</div>
     </div>
   </div>
-
 </div>
 
-<!-- PANEL CREADOR -->
+<!-- PANEL CREADOR (oculto) -->
 <div class="overlay" id="overlay" onclick="overlayClick(event)">
-  <div class="modal" id="modal">
+  <div class="modal">
     <div class="mhd">
       <div class="mhd-ttl">PANEL CREADOR</div>
       <button class="mclose" onclick="closePanel()">✕</button>
     </div>
     <div id="loginSec">
-      <div style="font-size:12px;color:#484848;margin-bottom:.75rem">Ingresa tu contraseña secreta</div>
+      <div style="font-size:12px;color:#484848;margin-bottom:.75rem">Contraseña secreta</div>
       <div class="pwrap">
         <input class="pi" id="passIn" type="password" placeholder="Contraseña..." onkeydown="if(event.key==='Enter')tryUnlock()"/>
         <button class="pbtn" onclick="tryUnlock()">Entrar</button>
@@ -293,24 +334,59 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div id="panelSec" style="display:none">
       <div class="tabs">
         <button class="tab on" onclick="showTab('t-stats',this)">Audiencia</button>
+        <button class="tab" onclick="showTab('t-links',this)">Links</button>
         <button class="tab" onclick="showTab('t-videos',this)">Videos</button>
         <button class="tab" onclick="showTab('t-chat',this)">Chat</button>
         <button class="tab" onclick="showTab('t-biz',this)">Solicitudes</button>
       </div>
+
+      <!-- TAB AUDIENCIA -->
       <div class="tc on" id="t-stats">
-        <span class="plbl">Actualizar contadores</span>
+        <span class="plbl">Contadores de audiencia</span>
         <div class="crow"><span class="cico">📱</span><span class="cnm">TikTok</span><input class="cval" id="it" placeholder="ej: 12.5K"/></div>
         <div class="crow"><span class="cico">▶</span><span class="cnm">YouTube</span><input class="cval" id="iy" placeholder="ej: 3.2K"/></div>
         <div class="crow"><span class="cico">💬</span><span class="cnm">Discord</span><input class="cval" id="idc" placeholder="ej: 850"/></div>
         <button class="svbtn" onclick="saveStats()">Guardar y publicar</button>
-        <div class="flash" id="sf">✓ Actualizado para todos</div>
+        <div class="flash" id="sf">✓ Guardado para todos</div>
       </div>
+
+      <!-- TAB LINKS -->
+      <div class="tc" id="t-links">
+        <span class="plbl">Links de redes sociales</span>
+        <div class="panel-links-sec">
+          <div class="panel-links-ttl">📱 TikTok</div>
+          <span class="vfi-lbl">URL del perfil</span>
+          <input class="vfi" id="lnk-tt" placeholder="https://tiktok.com/@tuusuario"/>
+          <span class="vfi-lbl">Usuario visible</span>
+          <input class="vfi" id="lnk-tt-sub" placeholder="@tuusuario"/>
+        </div>
+        <div class="panel-links-sec">
+          <div class="panel-links-ttl">▶ YouTube</div>
+          <span class="vfi-lbl">URL del canal</span>
+          <input class="vfi" id="lnk-yt" placeholder="https://youtube.com/@tucanal"/>
+          <span class="vfi-lbl">Nombre del canal</span>
+          <input class="vfi" id="lnk-yt-sub" placeholder="NombreCanal"/>
+        </div>
+        <div class="panel-links-sec">
+          <div class="panel-links-ttl" style="color:#7289da">💬 Discord</div>
+          <span class="vfi-lbl">Link de invitación</span>
+          <input class="vfi" id="lnk-dc" placeholder="https://discord.gg/tucódigo"/>
+          <span class="vfi-lbl">Texto descriptivo</span>
+          <input class="vfi" id="lnk-dc-sub" placeholder="Únete a la comunidad"/>
+        </div>
+        <button class="svbtn" onclick="saveLinks()">Guardar links</button>
+        <div class="flash" id="lf">✓ Links actualizados</div>
+      </div>
+
+      <!-- TAB VIDEOS -->
       <div class="tc" id="t-videos">
         <span class="plbl">Editar videos virales</span>
         <div id="videoEditors"></div>
         <button class="svbtn" onclick="saveVideos()">Guardar videos</button>
         <div class="flash" id="vf">✓ Videos guardados</div>
       </div>
+
+      <!-- TAB CHAT -->
       <div class="tc" id="t-chat">
         <div class="psec">
           <span class="plbl">Responder como creador</span>
@@ -322,6 +398,8 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
         <span class="plbl">Últimos mensajes</span>
         <div id="chatPreview" style="font-size:12px;color:#484848"></div>
       </div>
+
+      <!-- TAB SOLICITUDES -->
       <div class="tc" id="t-biz">
         <span class="plbl">Solicitudes recibidas</span>
         <div id="bizList"><div style="color:#3a3a3a;font-size:12px">Cargando...</div></div>
@@ -331,311 +409,300 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 </div>
 
 <script type="module">
-import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc,
-         addDoc, getDocs, getDoc, setDoc,
-         onSnapshot, query, orderBy, limit,
-         serverTimestamp }         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, doc,
+  addDoc, getDocs, getDoc, setDoc,
+  onSnapshot, query, orderBy, limit,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ── CONFIG ── */
-const firebaseConfig = {
+const app = initializeApp({
   apiKey:            "AIzaSyBs28Pg-j5o9_NiqHfxWvNN0vxr_55_JZU",
   authDomain:        "rey10-page.firebaseapp.com",
   projectId:         "rey10-page",
   storageBucket:     "rey10-page.firebasestorage.app",
   messagingSenderId: "499824519272",
   appId:             "1:499824519272:web:ff5036523b8ed7286bb3dd"
-};
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+});
+const db = getFirestore(app);
 
-/* ── CONTRASEÑA DEL PANEL ✏️ cámbiala ── */
+/* ✏️ CAMBIA TU CONTRASEÑA */
 const PASS = '19rey10admin';
 
-/* ── ESTADO ── */
-let isUnlocked = false;
-let likedByMe  = false;
-let bizType    = '';
-let currentVideos = [];
-
-const DEF_VIDEOS = [
-  {title:'Tu video más viral', views:'1.2M', url:'https://tiktok.com/@19Rey10', thumb:''},
-  {title:'Segundo video viral', views:'980K', url:'https://tiktok.com/@19Rey10', thumb:''},
-  {title:'Tercer video aquí',  views:'750K', url:'https://tiktok.com/@19Rey10', thumb:''}
-];
-
-/* ── REFS ── */
 const likesRef  = doc(db,'site','likes');
 const statsRef  = doc(db,'site','stats');
 const videosRef = doc(db,'site','videos');
+const linksRef  = doc(db,'site','links');
 const chatCol   = collection(db,'chat');
 const bizCol    = collection(db,'business');
 
-/* ── UTILS ── */
-const $  = id => document.getElementById(id);
-const sf = id => { const e=$(id); e.style.opacity='1'; setTimeout(()=>e.style.opacity='0',2200); };
+let isUnlocked = false;
+let likedByMe  = false;
+let activeBizType = null;
+
+const DEF_VIDEOS = [
+  {title:'Tu video más viral', views:'1.2M', url:'#', thumb:''},
+  {title:'Segundo video viral', views:'980K', url:'#', thumb:''},
+  {title:'Tercer video aquí',   views:'750K', url:'#', thumb:''}
+];
+let curVideos = [...DEF_VIDEOS];
+
+const g  = id => document.getElementById(id);
+const fl = id => { const e=g(id); e.style.opacity='1'; setTimeout(()=>e.style.opacity='0',2200); };
 
 function showTab(id,btn){
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  $(id).classList.add('on'); btn.classList.add('on');
+  g(id).classList.add('on'); btn.classList.add('on');
 }
 window.showTab = showTab;
 
-/* ── PANEL MODAL ── */
-let tapCount=0, tapTimer=null;
-$('avatarWrap').addEventListener('click',()=>{
-  tapCount++;
-  clearTimeout(tapTimer);
-  tapTimer = setTimeout(()=>{ if(tapCount>=2) openPanel(); tapCount=0; },350);
-  $('ring').style.borderColor='var(--gold)';
-  setTimeout(()=>$('ring').style.borderColor='',500);
+/* ── DOBLE TAP AVATAR ── */
+let tapC=0, tapT=null;
+g('avatarWrap').addEventListener('click',()=>{
+  tapC++;
+  clearTimeout(tapT);
+  tapT = setTimeout(()=>{ if(tapC>=2) openPanel(); tapC=0; },380);
+  g('ring').style.borderColor='var(--gold)';
+  setTimeout(()=>g('ring').style.borderColor='',500);
 });
-
-function openPanel(){
-  $('overlay').classList.add('on');
-  setTimeout(()=>{ if(!isUnlocked) $('passIn').focus(); },300);
-}
-function closePanel(){ $('overlay').classList.remove('on'); }
-function overlayClick(e){ if(e.target===$('overlay')) closePanel(); }
+function openPanel(){ g('overlay').classList.add('on'); setTimeout(()=>{ if(!isUnlocked) g('passIn').focus(); },300); }
+function closePanel(){ g('overlay').classList.remove('on'); }
+function overlayClick(e){ if(e.target===g('overlay')) closePanel(); }
 window.openPanel=openPanel; window.closePanel=closePanel; window.overlayClick=overlayClick;
 
 function tryUnlock(){
-  if($('passIn').value === PASS){
-    isUnlocked = true;
-    $('loginSec').style.display = 'none';
-    $('panelSec').style.display = 'block';
-    /* cargar datos en el panel */
-    fillStatsPanel();
-    buildVideoEditors();
-    loadBizRequests();
+  if(g('passIn').value===PASS){
+    isUnlocked=true;
+    g('loginSec').style.display='none';
+    g('panelSec').style.display='block';
+    fillStats(); buildEditors(); loadLinks(); loadBiz();
   } else {
-    $('perr').textContent = 'Contraseña incorrecta';
-    $('passIn').style.borderColor = '#e53935';
-    setTimeout(()=>{ $('passIn').style.borderColor=''; $('perr').textContent=''; },1500);
+    g('perr').textContent='Contraseña incorrecta';
+    g('passIn').style.borderColor='#e53935';
+    setTimeout(()=>{ g('passIn').style.borderColor=''; g('perr').textContent=''; },1500);
   }
 }
-window.tryUnlock = tryUnlock;
+window.tryUnlock=tryUnlock;
 
 /* ── LIKES ── */
 async function loadLikes(){
-  try {
-    const snap = await getDoc(likesRef);
-    $('likeCount').textContent = snap.exists() ? (snap.data().count||0) : 0;
-  } catch(e){ $('likeCount').textContent = 0; }
+  try { const s=await getDoc(likesRef); g('likeCount').textContent=s.exists()?(s.data().count??0):0; } catch(e){}
 }
-
 async function toggleLike(){
-  likedByMe = !likedByMe;
-  let n = parseInt($('likeCount').textContent)||0;
-  n = likedByMe ? n+1 : Math.max(0,n-1);
-  $('likeCount').textContent = n;
-  $('heart').textContent     = likedByMe ? '♥' : '♡';
-  $('likeBtn').classList.toggle('liked', likedByMe);
+  likedByMe=!likedByMe;
+  let n=parseInt(g('likeCount').textContent)||0;
+  n=likedByMe?n+1:Math.max(0,n-1);
+  g('likeCount').textContent=n;
+  g('heart').textContent=likedByMe?'♥':'♡';
+  g('likeBtn').classList.toggle('liked',likedByMe);
   try { await setDoc(likesRef,{count:n},{merge:true}); } catch(e){}
 }
-window.toggleLike = toggleLike;
+window.toggleLike=toggleLike;
 loadLikes();
 
-/* ── STATS ── */
-async function loadStats(){
-  try {
-    const snap = await getDoc(statsRef);
-    if(snap.exists()){
-      const d = snap.data();
-      $('d-tt').textContent = d.tiktok  || '—';
-      $('d-yt').textContent = d.youtube || '—';
-      $('d-dc').textContent = d.discord || '—';
-    }
-  } catch(e){}
+/* ── STATS (tiempo real) ── */
+onSnapshot(statsRef, snap=>{
+  if(!snap.exists()) return;
+  const d=snap.data();
+  g('d-tt').textContent=d.tiktok||'—';
+  g('d-yt').textContent=d.youtube||'—';
+  g('d-dc').textContent=d.discord||'—';
+});
+function fillStats(){
+  g('it').value =g('d-tt').textContent==='—'?'':g('d-tt').textContent;
+  g('iy').value =g('d-yt').textContent==='—'?'':g('d-yt').textContent;
+  g('idc').value=g('d-dc').textContent==='—'?'':g('d-dc').textContent;
 }
-
-function fillStatsPanel(){
-  loadStats().then(()=>{
-    $('it').value  = $('d-tt').textContent === '—' ? '' : $('d-tt').textContent;
-    $('iy').value  = $('d-yt').textContent === '—' ? '' : $('d-yt').textContent;
-    $('idc').value = $('d-dc').textContent === '—' ? '' : $('d-dc').textContent;
-  });
-}
-
 async function saveStats(){
-  const tt = $('it').value.trim()  || '—';
-  const yt = $('iy').value.trim()  || '—';
-  const dc = $('idc').value.trim() || '—';
   try {
-    await setDoc(statsRef,{tiktok:tt, youtube:yt, discord:dc},{merge:true});
-    $('d-tt').textContent = tt;
-    $('d-yt').textContent = yt;
-    $('d-dc').textContent = dc;
-    sf('sf');
-  } catch(e){ alert('Error al guardar estadísticas: '+e.message); }
+    await setDoc(statsRef,{tiktok:g('it').value.trim()||'—',youtube:g('iy').value.trim()||'—',discord:g('idc').value.trim()||'—'},{merge:true});
+    fl('sf');
+  } catch(e){ alert('Error: '+e.message); }
 }
-window.saveStats = saveStats;
-loadStats();
+window.saveStats=saveStats;
 
-/* ── VIDEOS ── */
-async function loadVideos(){
+/* ── LINKS (tiempo real) ── */
+onSnapshot(linksRef, snap=>{
+  if(!snap.exists()) return;
+  const d=snap.data();
+  if(d.ttUrl)   g('link-tiktok').href=d.ttUrl;
+  if(d.ttSub)   g('sub-tiktok').textContent=d.ttSub;
+  if(d.ytUrl)   g('link-youtube').href=d.ytUrl;
+  if(d.ytSub)   g('sub-youtube').textContent=d.ytSub;
+  if(d.dcUrl)   g('link-discord').href=d.dcUrl;
+  if(d.dcSub)   g('sub-discord').textContent=d.dcSub;
+});
+function loadLinks(){
+  getDoc(linksRef).then(snap=>{
+    if(!snap.exists()) return;
+    const d=snap.data();
+    if(d.ttUrl)  g('lnk-tt').value=d.ttUrl;
+    if(d.ttSub)  g('lnk-tt-sub').value=d.ttSub;
+    if(d.ytUrl)  g('lnk-yt').value=d.ytUrl;
+    if(d.ytSub)  g('lnk-yt-sub').value=d.ytSub;
+    if(d.dcUrl)  g('lnk-dc').value=d.dcUrl;
+    if(d.dcSub)  g('lnk-dc-sub').value=d.dcSub;
+  }).catch(()=>{});
+}
+async function saveLinks(){
   try {
-    const snap = await getDoc(videosRef);
-    currentVideos = (snap.exists() && snap.data().list) ? snap.data().list : [...DEF_VIDEOS];
-  } catch(e){ currentVideos = [...DEF_VIDEOS]; }
+    await setDoc(linksRef,{
+      ttUrl:g('lnk-tt').value.trim(),   ttSub:g('lnk-tt-sub').value.trim(),
+      ytUrl:g('lnk-yt').value.trim(),   ytSub:g('lnk-yt-sub').value.trim(),
+      dcUrl:g('lnk-dc').value.trim(),   dcSub:g('lnk-dc-sub').value.trim()
+    },{merge:true});
+    fl('lf');
+  } catch(e){ alert('Error: '+e.message); }
+}
+window.saveLinks=saveLinks;
+
+/* ── VIDEOS (tiempo real) ── */
+onSnapshot(videosRef, snap=>{
+  curVideos=(snap.exists()&&snap.data().list)?snap.data().list:[...DEF_VIDEOS];
   renderVideos();
-}
-
+});
 function renderVideos(){
-  $('videoList').innerHTML = currentVideos.map((v,i)=>`
+  g('videoList').innerHTML=curVideos.map((v,i)=>`
     <div class="vcard">
       <a class="vthumb" href="${v.url||'#'}" target="_blank" rel="noopener">
-        ${v.thumb ? `<img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'"/>` : ''}
+        ${v.thumb?`<img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'"/>`:''}
         <div class="vplay"><div class="vplay-arrow"></div></div>
       </a>
       <div class="vtitle">${v.title||'Video '+(i+1)}</div>
       <div class="vviews">🔥 ${v.views||'—'} vistas</div>
     </div>`).join('');
 }
-
-function buildVideoEditors(){
-  $('videoEditors').innerHTML = currentVideos.map((v,i)=>`
+function buildEditors(){
+  g('videoEditors').innerHTML=curVideos.map((v,i)=>`
     <div class="vedit">
-      <div class="vedit-ttl">Video ${i+1}</div>
-      <input class="vfi" id="vt${i}" placeholder="Título" value="${v.title||''}"/>
-      <input class="vfi" id="vv${i}" placeholder="Vistas (ej: 1.2M)" value="${v.views||''}"/>
-      <input class="vfi" id="vu${i}" placeholder="URL del video" value="${v.url||''}"/>
-      <input class="vfi" id="vth${i}" placeholder="URL miniatura (opcional)" value="${v.thumb||''}"/>
+      <div class="vedit-ttl">🎬 Video ${i+1}</div>
+      <span class="vfi-lbl">Título</span>
+      <input class="vfi" id="vt${i}" placeholder="Título del video" value="${v.title||''}"/>
+      <span class="vfi-lbl">Vistas</span>
+      <input class="vfi" id="vv${i}" placeholder="ej: 1.2M" value="${v.views||''}"/>
+      <span class="vfi-lbl">URL del video (al hacer click)</span>
+      <input class="vfi" id="vu${i}" placeholder="https://tiktok.com/..." value="${v.url||''}"/>
+      <span class="vfi-lbl">URL de la miniatura (imagen de portada)</span>
+      <input class="vfi" id="vth${i}" placeholder="https://imagen.com/miniatura.jpg" value="${v.thumb||''}" oninput="previewThumb(${i})"/>
+      <img class="vpreview ${v.thumb?'on':''}" id="vprev${i}" src="${v.thumb||''}" alt="preview"/>
     </div>`).join('');
 }
-
-async function saveVideos(){
-  const list = currentVideos.map((_,i)=>({
-    title: $('vt'+i)?.value||'',
-    views: $('vv'+i)?.value||'',
-    url:   $('vu'+i)?.value||'',
-    thumb: $('vth'+i)?.value||''
-  }));
-  try {
-    await setDoc(videosRef,{list},{merge:true});
-    currentVideos = list;
-    renderVideos();
-    sf('vf');
-  } catch(e){ alert('Error al guardar videos: '+e.message); }
+function previewThumb(i){
+  const url=g('vth'+i).value.trim();
+  const img=g('vprev'+i);
+  if(url){ img.src=url; img.classList.add('on'); img.onerror=()=>img.classList.remove('on'); }
+  else img.classList.remove('on');
 }
-window.saveVideos = saveVideos;
-loadVideos();
+window.previewThumb=previewThumb;
+async function saveVideos(){
+  const list=curVideos.map((_,i)=>({
+    title:g('vt'+i)?.value||'', views:g('vv'+i)?.value||'',
+    url:g('vu'+i)?.value||'',   thumb:g('vth'+i)?.value||''
+  }));
+  try { await setDoc(videosRef,{list},{merge:true}); fl('vf'); } catch(e){ alert('Error: '+e.message); }
+}
+window.saveVideos=saveVideos;
 
-/* ── CHAT EN TIEMPO REAL ── */
-const chatQ = query(chatCol, orderBy('ts','asc'), limit(60));
-
-onSnapshot(chatQ, snap => {
-  const msgs = snap.docs.map(d => d.data());
-  const box  = $('chatMsgs');
-  const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
-
-  if(!msgs.length){
-    box.innerHTML = '<div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Sé el primero en comentar 👇</div>';
-  } else {
-    box.innerHTML = msgs.map(m=>`
-      <div class="msg ${m.cr?'cm':''}">
-        <div class="mhdr">
-          <span class="mname ${m.cr?'cr':''}">${m.name}</span>
-          ${m.cr ? '<span class="cbadge">Creador</span>' : ''}
-          <span>${m.time||''}</span>
-        </div>
-        <div class="mbody">${m.text}</div>
-      </div>`).join('');
-  }
-  if(atBottom) box.scrollTop = box.scrollHeight;
-
-  $('statusBar').textContent  = '🟢 En línea · tiempo real';
-  $('statusBar').className    = 'status-bar ok';
-
-  if(isUnlocked){
-    $('chatPreview').innerHTML = msgs.slice(-6).reverse().map(m=>`
-      <div style="padding:5px 0;border-bottom:1px solid var(--br)">
-        <span style="color:${m.cr?'var(--gold)':'#666'}">${m.name}:</span>
-        <span style="color:#555"> ${(m.text||'').substring(0,55)}${m.text.length>55?'...':''}</span>
-      </div>`).join('');
-  }
-}, ()=>{
-  $('statusBar').textContent = '⚠️ Sin conexión';
-  $('statusBar').className   = 'status-bar err';
-});
+/* ── CHAT (tiempo real) ── */
+const chatQ=query(chatCol,orderBy('ts','asc'),limit(60));
+onSnapshot(chatQ, snap=>{
+  const msgs=snap.docs.map(d=>d.data());
+  const box=g('chatMsgs');
+  const atBot=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+  box.innerHTML=msgs.length
+    ?msgs.map(m=>`<div class="msg ${m.cr?'cm':''}"><div class="mhdr"><span class="mname ${m.cr?'cr':''}">${m.name}</span>${m.cr?'<span class="cbadge">Creador</span>':''}<span>${m.time||''}</span></div><div class="mbody">${m.text}</div></div>`).join('')
+    :'<div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Sé el primero en comentar 👇</div>';
+  if(atBot) box.scrollTop=box.scrollHeight;
+  g('statusBar').textContent='🟢 En línea · tiempo real';
+  g('statusBar').className='status-bar ok';
+  if(isUnlocked) g('chatPreview').innerHTML=msgs.slice(-6).reverse().map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--br)"><span style="color:${m.cr?'var(--gold)':'#666'}">${m.name}:</span><span style="color:#555"> ${(m.text||'').substring(0,55)}${m.text.length>55?'...':''}</span></div>`).join('');
+},()=>{ g('statusBar').textContent='⚠️ Sin conexión'; g('statusBar').className='status-bar err'; });
 
 async function sendMsg(){
-  const name = $('nameIn').value.trim() || 'Anónimo';
-  const text = $('msgIn').value.trim();
+  const name=g('nameIn').value.trim()||'Anónimo';
+  const text=g('msgIn').value.trim();
   if(!text) return;
-  $('msgIn').value = '';
-  try {
-    await addDoc(chatCol,{
-      name, text, cr: false,
-      time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),
-      ts: serverTimestamp()
-    });
-  } catch(e){ alert('Error al enviar: '+e.message); }
+  g('msgIn').value='';
+  try { await addDoc(chatCol,{name,text,cr:false,time:new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),ts:serverTimestamp()}); } catch(e){ alert('Error: '+e.message); }
 }
-window.sendMsg = sendMsg;
+window.sendMsg=sendMsg;
 
 async function sendCreator(){
-  const text = $('creatorIn').value.trim();
+  const text=g('creatorIn').value.trim();
   if(!text) return;
-  $('creatorIn').value = '';
-  try {
-    await addDoc(chatCol,{
-      name:'19Rey10', text, cr: true,
-      time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),
-      ts: serverTimestamp()
-    });
-  } catch(e){ alert('Error: '+e.message); }
+  g('creatorIn').value='';
+  try { await addDoc(chatCol,{name:'19Rey10',text,cr:true,time:new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),ts:serverTimestamp()}); } catch(e){ alert('Error: '+e.message); }
 }
-window.sendCreator = sendCreator;
+window.sendCreator=sendCreator;
 
 /* ── NEGOCIOS ── */
-function selType(t,el){
-  bizType = t;
+function selType(type, el){
+  const same = activeBizType === type;
+  /* cerrar todos */
   document.querySelectorAll('.tcard').forEach(e=>e.classList.remove('on'));
-  el.classList.add('on');
-  $('bizForm').classList.add('on');
-  $('bsucc').style.display = 'none';
+  document.querySelectorAll('.bizform').forEach(f=>f.classList.remove('on'));
+  if(same){
+    /* segundo toque = cerrar */
+    activeBizType = null;
+  } else {
+    activeBizType = type;
+    el.classList.add('on');
+    g('form-'+type).classList.add('on');
+    g('succ-'+type).style.display='none';
+  }
 }
-window.selType = selType;
+window.selType=selType;
 
-async function submitBiz(){
-  const n=$('bn').value.trim(), c=$('bc').value.trim(), m=$('bm').value.trim();
-  if(!n||!c||!m){
-    ['bn','bc','bm'].forEach(id=>{ if(!$(id).value.trim()) $(id).style.borderColor='#e53935'; });
-    setTimeout(()=>['bn','bc','bm'].forEach(id=>$(id).style.borderColor=''),1500);
-    return;
+async function submitBiz(type){
+  let name='', contact='', extra={};
+  if(type==='promo'){
+    name=g('p-name').value.trim(); contact=g('p-contact').value.trim();
+    extra={productType:g('p-type').value, desc:g('p-desc').value.trim(), budget:g('p-budget').value};
+    if(!name||!contact||!extra.desc){ highlight(['p-name','p-contact','p-desc']); return; }
+    ['p-name','p-contact','p-desc'].forEach(id=>g(id).value=''); g('p-type').value=''; g('p-budget').value='';
+  } else if(type==='collab'){
+    name=g('c-name').value.trim(); contact=g('c-contact').value.trim();
+    extra={platform:g('c-platform').value, followers:g('c-followers').value, idea:g('c-idea').value.trim()};
+    if(!name||!contact||!extra.idea){ highlight(['c-name','c-contact','c-idea']); return; }
+    ['c-name','c-contact','c-idea'].forEach(id=>g(id).value=''); g('c-platform').value=''; g('c-followers').value='';
+  } else if(type==='sponsored'){
+    name=g('s-name').value.trim(); contact=g('s-contact').value.trim();
+    extra={link:g('s-link').value.trim(), platform:g('s-platform').value, budget:g('s-budget').value, desc:g('s-desc').value.trim()};
+    if(!name||!contact||!extra.desc){ highlight(['s-name','s-contact','s-desc']); return; }
+    ['s-name','s-contact','s-link','s-desc'].forEach(id=>g(id).value=''); g('s-platform').value=''; g('s-budget').value='';
+  } else {
+    name=g('o-name').value.trim(); contact=g('o-contact').value.trim();
+    extra={desc:g('o-desc').value.trim()};
+    if(!name||!contact||!extra.desc){ highlight(['o-name','o-contact','o-desc']); return; }
+    ['o-name','o-contact','o-desc'].forEach(id=>g(id).value='');
   }
   try {
-    await addDoc(bizCol,{
-      type:bizType, name:n, contact:c,
-      budget: $('bb').value, msg:m,
-      ts: serverTimestamp(),
-      time: new Date().toLocaleDateString('es',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
-    });
-    $('bsucc').style.display = 'block';
-    ['bn','bc','bm'].forEach(id=>$(id).value='');
-    $('bb').value = '';
-  } catch(e){ alert('Error al enviar: '+e.message); }
+    await addDoc(bizCol,{type,name,contact,...extra,ts:serverTimestamp(),time:new Date().toLocaleDateString('es',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})});
+    g('succ-'+type).style.display='block';
+  } catch(e){ alert('Error: '+e.message); }
 }
-window.submitBiz = submitBiz;
+window.submitBiz=submitBiz;
+
+function highlight(ids){
+  ids.forEach(id=>{ if(!g(id).value.trim()) g(id).style.borderColor='#e53935'; });
+  setTimeout(()=>ids.forEach(id=>g(id).style.borderColor=''),1500);
+}
 
 /* ── CARGAR SOLICITUDES EN PANEL ── */
-async function loadBizRequests(){
-  const box = $('bizList');
+async function loadBiz(){
+  const box=g('bizList');
   try {
-    const snap = await getDocs(bizCol);
+    const snap=await getDocs(bizCol);
     if(snap.empty){ box.innerHTML='<div style="color:#3a3a3a;font-size:12px">No hay solicitudes aún</div>'; return; }
-    box.innerHTML = snap.docs.map(d=>{
-      const r = d.data();
-      return `<div class="breq">
-        <div class="breq-hdr">${r.type||'general'} · ${r.time||''}</div>
-        <div class="breq-nm">${r.name} <span style="color:#555;font-weight:400">· ${r.contact}</span></div>
-        ${r.budget?`<div style="color:#555;font-size:11px;margin-top:2px">${r.budget}</div>`:''}
-        <div class="breq-msg">${r.msg}</div>
-      </div>`;
+    box.innerHTML=snap.docs.map(d=>{
+      const r=d.data();
+      const extras=Object.entries(r).filter(([k])=>!['type','name','contact','ts','time'].includes(k)).map(([k,v])=>`<div style="color:#666;font-size:11px;margin-top:2px"><span style="color:#555">${k}:</span> ${v}</div>`).join('');
+      return `<div class="breq"><div class="breq-hdr">${r.type||'general'} · ${r.time||''}</div><div class="breq-nm">${r.name} <span style="color:#555;font-weight:400">· ${r.contact}</span></div>${extras}</div>`;
     }).join('');
-  } catch(e){ box.innerHTML='<div style="color:#e53935;font-size:12px">Error al cargar: '+e.message+'</div>'; }
+  } catch(e){ box.innerHTML=`<div style="color:#e53935;font-size:12px">Error: ${e.message}</div>`; }
 }
 </script>
 </body>
