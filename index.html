@@ -17,7 +17,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .page{max-width:680px;margin:0 auto;padding:0 1rem 5rem}
 @media(min-width:900px){.page{padding:0 2rem 5rem}}
 @media(min-width:1200px){.page{max-width:760px}}
-
 .hero{text-align:center;padding:2.8rem 0 1.8rem}
 @media(min-width:768px){.hero{padding:3.5rem 0 2.2rem}}
 .avatar-wrap{position:relative;display:inline-block;margin-bottom:1.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -33,20 +32,17 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .like-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1.4rem;padding:10px 24px;background:var(--s2);border:1px solid var(--br);border-radius:100px;cursor:pointer;font-size:13px;color:var(--mu);transition:all .25s;font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}
 .like-btn:hover{border-color:#b71c1c;color:#ef9a9a}
 .like-btn.liked{border-color:var(--red);color:var(--red)}
-
 .divider{height:1px;background:linear-gradient(to right,transparent,var(--br) 15%,var(--br) 85%,transparent)}
 .sec{padding:1.6rem 0}
 @media(min-width:768px){.sec{padding:2rem 0}}
 .sec-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#484848;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--br)}
-
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
 .stat{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem .5rem;text-align:center;position:relative;overflow:hidden}
 .stat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(212,168,67,.07),transparent 65%);pointer-events:none}
 .stat-ico{font-size:clamp(14px,3vw,18px);margin-bottom:4px}
 .stat-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,4vw,1.8rem);letter-spacing:2px;color:var(--gold);line-height:1}
 .stat-lbl{font-size:clamp(9px,2vw,10px);color:#484848;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
-
 .links-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
 .lcard{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--s1);border:1px solid var(--br);border-radius:var(--r);text-decoration:none;color:var(--txt);transition:all .2s;-webkit-tap-highlight-color:transparent}
 .lcard:hover{background:var(--s2);border-color:#404040;transform:translateY(-2px)}
@@ -57,7 +53,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .li-dc{background:#0a0a1a;border:1px solid #15153a}
 .lcard-name{font-size:clamp(13px,3vw,14px);font-weight:500;white-space:nowrap}
 .lcard-sub{font-size:clamp(10px,2.5vw,11px);color:var(--mu);margin-top:2px}
-
 .vscroll{display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.75rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .vscroll::-webkit-scrollbar{display:none}
 .vcard{flex-shrink:0;width:clamp(140px,38vw,170px);border-radius:12px;overflow:hidden;background:var(--s1);border:1px solid var(--br);transition:transform .2s}
@@ -69,7 +64,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .vplay-arrow{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px}
 .vtitle{padding:8px 10px;font-size:clamp(11px,2.8vw,12px);color:#bbb;line-height:1.3}
 .vviews{font-size:clamp(9px,2.3vw,11px);color:#484848;padding:0 10px 8px}
-
 .biz-banner{background:var(--s1);border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.1rem,4vw,1.5rem);margin-bottom:1rem;position:relative;overflow:hidden}
 .biz-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(212,168,67,.04);pointer-events:none}
 .biz-avail{display:inline-flex;align-items:center;gap:6px;background:#1a1200;color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid #332200;margin-bottom:.75rem}
@@ -102,7 +96,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .sbtn:hover{opacity:.85}
 .succ{display:none;text-align:center;padding:.8rem;color:#4caf50;font-size:13px;margin-top:.5rem}
 .fnote{font-size:11px;color:#3a3a3a;text-align:center;margin-top:.6rem;line-height:1.5}
-
 .chatbox{background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);overflow:hidden}
 .chatmsgs{height:clamp(200px,45vw,280px);overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#222 transparent}
 .chatmsgs::-webkit-scrollbar{width:4px}
@@ -120,16 +113,13 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .ni{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:clamp(13px,3vw,14px);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.5rem}
 .cbtn{padding:9px 16px;background:var(--ac);color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:13px;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .cbtn:active{opacity:.8}
-
 .gifts{background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);padding:clamp(1.5rem,5vw,2rem);text-align:center}
 .gifts-ico{font-size:2.8rem;opacity:.12;display:block;margin-bottom:.75rem}
 .gifts-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
 .gifts-ttl{font-size:clamp(.9rem,3vw,1rem);color:#555;line-height:1.5}
-
-.status-bar{font-size:11px;text-align:center;padding:.4rem;color:#555;letter-spacing:.5px}
+.status-bar{font-size:11px;text-align:center;padding:.4rem;color:#555;letter-spacing:.5px;margin-bottom:.5rem}
 .status-bar.ok{color:#4caf50}
 .status-bar.err{color:#e53935}
-
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
 .overlay.on{opacity:1;pointer-events:all}
 .modal{background:#111;border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.2rem,4vw,1.6rem);width:100%;max-width:460px;max-height:88vh;overflow-y:auto;transform:translateY(24px);transition:transform .3s;scrollbar-width:thin;scrollbar-color:#222 transparent}
@@ -171,8 +161,11 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 
   <div class="hero">
     <div class="avatar-wrap" id="avatarWrap">
-      <div class="avatar" id="avatar"><img src="foto.png" alt="19Rey10"/></div>
+      <div class="avatar" id="avatar">
+        <img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/>
+      </div>
       <div class="avatar-ring" id="ring"></div>
+      <span class="tap-hint">doble toque · panel</span>
     </div>
     <div class="username">19Rey10</div>
     <div class="tagline">Creador de contenido · Comunidad</div>
@@ -199,6 +192,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
   <div class="sec">
     <div class="sec-title">Mis redes</div>
     <div class="links-grid">
+      <!-- ✏️ Cambia estos links por los tuyos reales -->
       <a class="lcard" href="https://tiktok.com/@19Rey10" target="_blank" rel="noopener">
         <div class="lico li-tt"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.83 1.54V6.79a4.85 4.85 0 0 1-1.06-.1z"/></svg></div>
         <div><div class="lcard-name">TikTok</div><div class="lcard-sub">@19Rey10</div></div>
@@ -330,40 +324,57 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
       </div>
       <div class="tc" id="t-biz">
         <span class="plbl">Solicitudes recibidas</span>
-        <div id="bizList"></div>
+        <div id="bizList"><div style="color:#3a3a3a;font-size:12px">Cargando...</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FIREBASE SDK -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, setDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc,
+         addDoc, getDocs, getDoc, setDoc,
+         onSnapshot, query, orderBy, limit,
+         serverTimestamp }         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ── CONFIGURACIÓN FIREBASE ──
+/* ── CONFIG ── */
 const firebaseConfig = {
-  apiKey: "AIzaSyBs28Pg-j5o9_NiqHfxWvNN0vxr_55_JZU",
-  authDomain: "rey10-page.firebaseapp.com",
-  projectId: "rey10-page",
-  storageBucket: "rey10-page.firebasestorage.app",
+  apiKey:            "AIzaSyBs28Pg-j5o9_NiqHfxWvNN0vxr_55_JZU",
+  authDomain:        "rey10-page.firebaseapp.com",
+  projectId:         "rey10-page",
+  storageBucket:     "rey10-page.firebasestorage.app",
   messagingSenderId: "499824519272",
-  appId: "1:499824519272:web:ff5036523b8ed7286bb3dd"
+  appId:             "1:499824519272:web:ff5036523b8ed7286bb3dd"
 };
-
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-// ── CONTRASEÑA DEL PANEL ── ✏️ cámbiala por una tuya
+/* ── CONTRASEÑA DEL PANEL ✏️ cámbiala ── */
 const PASS = '19rey10admin';
 
+/* ── ESTADO ── */
 let isUnlocked = false;
-let bizType = '';
-let likedByMe = false;
+let likedByMe  = false;
+let bizType    = '';
+let currentVideos = [];
 
-// ── HELPERS ──
-const $ = id => document.getElementById(id);
-function showFlash(id){ const el=$(id); el.style.opacity='1'; setTimeout(()=>el.style.opacity='0',2200); }
+const DEF_VIDEOS = [
+  {title:'Tu video más viral', views:'1.2M', url:'https://tiktok.com/@19Rey10', thumb:''},
+  {title:'Segundo video viral', views:'980K', url:'https://tiktok.com/@19Rey10', thumb:''},
+  {title:'Tercer video aquí',  views:'750K', url:'https://tiktok.com/@19Rey10', thumb:''}
+];
+
+/* ── REFS ── */
+const likesRef  = doc(db,'site','likes');
+const statsRef  = doc(db,'site','stats');
+const videosRef = doc(db,'site','videos');
+const chatCol   = collection(db,'chat');
+const bizCol    = collection(db,'business');
+
+/* ── UTILS ── */
+const $  = id => document.getElementById(id);
+const sf = id => { const e=$(id); e.style.opacity='1'; setTimeout(()=>e.style.opacity='0',2200); };
+
 function showTab(id,btn){
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
@@ -371,109 +382,103 @@ function showTab(id,btn){
 }
 window.showTab = showTab;
 
-// ── AVATAR DOBLE TAP ──
+/* ── PANEL MODAL ── */
 let tapCount=0, tapTimer=null;
 $('avatarWrap').addEventListener('click',()=>{
   tapCount++;
   clearTimeout(tapTimer);
-  tapTimer = setTimeout(()=>{ if(tapCount>=2) openPanel(); tapCount=0; }, 350);
+  tapTimer = setTimeout(()=>{ if(tapCount>=2) openPanel(); tapCount=0; },350);
   $('ring').style.borderColor='var(--gold)';
   setTimeout(()=>$('ring').style.borderColor='',500);
 });
-function openPanel(){ $('overlay').classList.add('on'); setTimeout(()=>{ if(!isUnlocked) $('passIn').focus(); },300); }
+
+function openPanel(){
+  $('overlay').classList.add('on');
+  setTimeout(()=>{ if(!isUnlocked) $('passIn').focus(); },300);
+}
 function closePanel(){ $('overlay').classList.remove('on'); }
 function overlayClick(e){ if(e.target===$('overlay')) closePanel(); }
 window.openPanel=openPanel; window.closePanel=closePanel; window.overlayClick=overlayClick;
 
 function tryUnlock(){
-  if($('passIn').value===PASS){
-    isUnlocked=true;
-    $('loginSec').style.display='none';
-    $('panelSec').style.display='block';
-    loadStatsIntoPanel();
-    renderVideoEditors();
+  if($('passIn').value === PASS){
+    isUnlocked = true;
+    $('loginSec').style.display = 'none';
+    $('panelSec').style.display = 'block';
+    /* cargar datos en el panel */
+    fillStatsPanel();
+    buildVideoEditors();
     loadBizRequests();
   } else {
-    $('perr').textContent='Contraseña incorrecta';
-    $('passIn').style.borderColor='#e53935';
+    $('perr').textContent = 'Contraseña incorrecta';
+    $('passIn').style.borderColor = '#e53935';
     setTimeout(()=>{ $('passIn').style.borderColor=''; $('perr').textContent=''; },1500);
   }
 }
-window.tryUnlock=tryUnlock;
+window.tryUnlock = tryUnlock;
 
-// ── LIKES (compartidos) ──
-const likesRef = doc(db,'site','likes');
-
+/* ── LIKES ── */
 async function loadLikes(){
   try {
     const snap = await getDoc(likesRef);
-    const n = snap.exists() ? (snap.data().count||0) : 0;
-    $('likeCount').textContent = n;
-  } catch(e){ $('likeCount').textContent='0'; }
+    $('likeCount').textContent = snap.exists() ? (snap.data().count||0) : 0;
+  } catch(e){ $('likeCount').textContent = 0; }
 }
 
 async function toggleLike(){
   likedByMe = !likedByMe;
-  const h=$('heart'), btn=$('likeBtn');
   let n = parseInt($('likeCount').textContent)||0;
-  if(likedByMe){ n++; h.textContent='♥'; btn.classList.add('liked'); }
-  else { n=Math.max(0,n-1); h.textContent='♡'; btn.classList.remove('liked'); }
+  n = likedByMe ? n+1 : Math.max(0,n-1);
   $('likeCount').textContent = n;
+  $('heart').textContent     = likedByMe ? '♥' : '♡';
+  $('likeBtn').classList.toggle('liked', likedByMe);
   try { await setDoc(likesRef,{count:n},{merge:true}); } catch(e){}
 }
 window.toggleLike = toggleLike;
 loadLikes();
 
-// ── STATS (contadores audiencia) ──
-const statsRef = doc(db,'site','stats');
-
+/* ── STATS ── */
 async function loadStats(){
   try {
     const snap = await getDoc(statsRef);
     if(snap.exists()){
       const d = snap.data();
-      $('d-tt').textContent = d.tiktok||'—';
-      $('d-yt').textContent  = d.youtube||'—';
-      $('d-dc').textContent  = d.discord||'—';
+      $('d-tt').textContent = d.tiktok  || '—';
+      $('d-yt').textContent = d.youtube || '—';
+      $('d-dc').textContent = d.discord || '—';
     }
   } catch(e){}
 }
 
-function loadStatsIntoPanel(){
+function fillStatsPanel(){
   loadStats().then(()=>{
-    $('it').value  = $('d-tt').textContent==='—'?'':$('d-tt').textContent;
-    $('iy').value  = $('d-yt').textContent==='—'?'':$('d-yt').textContent;
-    $('idc').value = $('d-dc').textContent==='—'?'':$('d-dc').textContent;
+    $('it').value  = $('d-tt').textContent === '—' ? '' : $('d-tt').textContent;
+    $('iy').value  = $('d-yt').textContent === '—' ? '' : $('d-yt').textContent;
+    $('idc').value = $('d-dc').textContent === '—' ? '' : $('d-dc').textContent;
   });
 }
 
 async function saveStats(){
-  const tt=$('it').value.trim()||'—';
-  const yt=$('iy').value.trim()||'—';
-  const dc=$('idc').value.trim()||'—';
+  const tt = $('it').value.trim()  || '—';
+  const yt = $('iy').value.trim()  || '—';
+  const dc = $('idc').value.trim() || '—';
   try {
-    await setDoc(statsRef,{tiktok:tt,youtube:yt,discord:dc},{merge:true});
-    $('d-tt').textContent=tt; $('d-yt').textContent=yt; $('d-dc').textContent=dc;
-    showFlash('sf');
-  } catch(e){ alert('Error al guardar: '+e.message); }
+    await setDoc(statsRef,{tiktok:tt, youtube:yt, discord:dc},{merge:true});
+    $('d-tt').textContent = tt;
+    $('d-yt').textContent = yt;
+    $('d-dc').textContent = dc;
+    sf('sf');
+  } catch(e){ alert('Error al guardar estadísticas: '+e.message); }
 }
 window.saveStats = saveStats;
 loadStats();
 
-// ── VIDEOS ──
-const videosRef = doc(db,'site','videos');
-const DEF_VIDEOS = [
-  {title:'Tu video más viral',views:'1.2M',url:'https://tiktok.com/@19Rey10',thumb:''},
-  {title:'Segundo video viral',views:'980K',url:'https://tiktok.com/@19Rey10',thumb:''},
-  {title:'Tercer video aquí',views:'750K',url:'https://tiktok.com/@19Rey10',thumb:''}
-];
-let currentVideos = [...DEF_VIDEOS];
-
+/* ── VIDEOS ── */
 async function loadVideos(){
   try {
     const snap = await getDoc(videosRef);
-    if(snap.exists() && snap.data().list) currentVideos = snap.data().list;
-  } catch(e){}
+    currentVideos = (snap.exists() && snap.data().list) ? snap.data().list : [...DEF_VIDEOS];
+  } catch(e){ currentVideos = [...DEF_VIDEOS]; }
   renderVideos();
 }
 
@@ -481,7 +486,7 @@ function renderVideos(){
   $('videoList').innerHTML = currentVideos.map((v,i)=>`
     <div class="vcard">
       <a class="vthumb" href="${v.url||'#'}" target="_blank" rel="noopener">
-        ${v.thumb?`<img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'"/>`:''}
+        ${v.thumb ? `<img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'"/>` : ''}
         <div class="vplay"><div class="vplay-arrow"></div></div>
       </a>
       <div class="vtitle">${v.title||'Video '+(i+1)}</div>
@@ -489,75 +494,83 @@ function renderVideos(){
     </div>`).join('');
 }
 
-function renderVideoEditors(){
+function buildVideoEditors(){
   $('videoEditors').innerHTML = currentVideos.map((v,i)=>`
     <div class="vedit">
       <div class="vedit-ttl">Video ${i+1}</div>
-      <input class="vfi" id="vt${i}" placeholder="Título del video" value="${v.title||''}"/>
+      <input class="vfi" id="vt${i}" placeholder="Título" value="${v.title||''}"/>
       <input class="vfi" id="vv${i}" placeholder="Vistas (ej: 1.2M)" value="${v.views||''}"/>
       <input class="vfi" id="vu${i}" placeholder="URL del video" value="${v.url||''}"/>
-      <input class="vfi" id="vth${i}" placeholder="URL de miniatura (opcional)" value="${v.thumb||''}"/>
+      <input class="vfi" id="vth${i}" placeholder="URL miniatura (opcional)" value="${v.thumb||''}"/>
     </div>`).join('');
 }
 
 async function saveVideos(){
   const list = currentVideos.map((_,i)=>({
-    title: $('vt'+i)?.value||'', views: $('vv'+i)?.value||'',
-    url:   $('vu'+i)?.value||'', thumb: $('vth'+i)?.value||''
+    title: $('vt'+i)?.value||'',
+    views: $('vv'+i)?.value||'',
+    url:   $('vu'+i)?.value||'',
+    thumb: $('vth'+i)?.value||''
   }));
   try {
     await setDoc(videosRef,{list},{merge:true});
     currentVideos = list;
     renderVideos();
-    showFlash('vf');
-  } catch(e){ alert('Error: '+e.message); }
+    sf('vf');
+  } catch(e){ alert('Error al guardar videos: '+e.message); }
 }
 window.saveVideos = saveVideos;
 loadVideos();
 
-// ── CHAT EN TIEMPO REAL ──
-const chatCol = collection(db,'chat');
-const chatQ   = query(chatCol, orderBy('ts','asc'), limit(60));
+/* ── CHAT EN TIEMPO REAL ── */
+const chatQ = query(chatCol, orderBy('ts','asc'), limit(60));
 
 onSnapshot(chatQ, snap => {
-  const msgs = snap.docs.map(d=>d.data());
-  const box = $('chatMsgs');
-  const wasBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 60;
+  const msgs = snap.docs.map(d => d.data());
+  const box  = $('chatMsgs');
+  const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+
   if(!msgs.length){
-    box.innerHTML='<div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Sé el primero en comentar 👇</div>';
+    box.innerHTML = '<div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Sé el primero en comentar 👇</div>';
   } else {
     box.innerHTML = msgs.map(m=>`
       <div class="msg ${m.cr?'cm':''}">
         <div class="mhdr">
           <span class="mname ${m.cr?'cr':''}">${m.name}</span>
-          ${m.cr?'<span class="cbadge">Creador</span>':''}
+          ${m.cr ? '<span class="cbadge">Creador</span>' : ''}
           <span>${m.time||''}</span>
         </div>
         <div class="mbody">${m.text}</div>
       </div>`).join('');
   }
-  if(wasBottom) box.scrollTop = box.scrollHeight;
-  $('statusBar').textContent='🟢 En línea · chat en tiempo real';
-  $('statusBar').className='status-bar ok';
+  if(atBottom) box.scrollTop = box.scrollHeight;
+
+  $('statusBar').textContent  = '🟢 En línea · tiempo real';
+  $('statusBar').className    = 'status-bar ok';
+
   if(isUnlocked){
     $('chatPreview').innerHTML = msgs.slice(-6).reverse().map(m=>`
       <div style="padding:5px 0;border-bottom:1px solid var(--br)">
         <span style="color:${m.cr?'var(--gold)':'#666'}">${m.name}:</span>
-        <span style="color:#555"> ${m.text.substring(0,55)}${m.text.length>55?'...':''}</span>
+        <span style="color:#555"> ${(m.text||'').substring(0,55)}${m.text.length>55?'...':''}</span>
       </div>`).join('');
   }
-}, err=>{
-  $('statusBar').textContent='⚠️ Sin conexión';
-  $('statusBar').className='status-bar err';
+}, ()=>{
+  $('statusBar').textContent = '⚠️ Sin conexión';
+  $('statusBar').className   = 'status-bar err';
 });
 
 async function sendMsg(){
-  const name = $('nameIn').value.trim()||'Anónimo';
+  const name = $('nameIn').value.trim() || 'Anónimo';
   const text = $('msgIn').value.trim();
   if(!text) return;
-  $('msgIn').value='';
+  $('msgIn').value = '';
   try {
-    await addDoc(chatCol,{ name, text, cr:false, time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}), ts: serverTimestamp() });
+    await addDoc(chatCol,{
+      name, text, cr: false,
+      time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),
+      ts: serverTimestamp()
+    });
   } catch(e){ alert('Error al enviar: '+e.message); }
 }
 window.sendMsg = sendMsg;
@@ -565,22 +578,24 @@ window.sendMsg = sendMsg;
 async function sendCreator(){
   const text = $('creatorIn').value.trim();
   if(!text) return;
-  $('creatorIn').value='';
+  $('creatorIn').value = '';
   try {
-    await addDoc(chatCol,{ name:'19Rey10', text, cr:true, time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}), ts: serverTimestamp() });
+    await addDoc(chatCol,{
+      name:'19Rey10', text, cr: true,
+      time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),
+      ts: serverTimestamp()
+    });
   } catch(e){ alert('Error: '+e.message); }
 }
 window.sendCreator = sendCreator;
 
-// ── SOLICITUDES DE NEGOCIOS ──
-const bizCol = collection(db,'business');
-
+/* ── NEGOCIOS ── */
 function selType(t,el){
-  bizType=t;
+  bizType = t;
   document.querySelectorAll('.tcard').forEach(e=>e.classList.remove('on'));
   el.classList.add('on');
   $('bizForm').classList.add('on');
-  $('bsucc').style.display='none';
+  $('bsucc').style.display = 'none';
 }
 window.selType = selType;
 
@@ -592,30 +607,36 @@ async function submitBiz(){
     return;
   }
   try {
-    await addDoc(bizCol,{ type:bizType, name:n, contact:c, budget:$('bb').value, msg:m, ts:serverTimestamp(), time: new Date().toLocaleDateString('es',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) });
-    $('bsucc').style.display='block';
+    await addDoc(bizCol,{
+      type:bizType, name:n, contact:c,
+      budget: $('bb').value, msg:m,
+      ts: serverTimestamp(),
+      time: new Date().toLocaleDateString('es',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
+    });
+    $('bsucc').style.display = 'block';
     ['bn','bc','bm'].forEach(id=>$(id).value='');
-    $('bb').value='';
-  } catch(e){ alert('Error: '+e.message); }
+    $('bb').value = '';
+  } catch(e){ alert('Error al enviar: '+e.message); }
 }
 window.submitBiz = submitBiz;
 
+/* ── CARGAR SOLICITUDES EN PANEL ── */
 async function loadBizRequests(){
+  const box = $('bizList');
   try {
-    const snap = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m=>m.getDocs(bizCol));
-    const reqs = snap.docs.map(d=>d.data());
-    const box = $('bizList');
-    if(!reqs.length){ box.innerHTML='<div style="color:#3a3a3a;font-size:12px">No hay solicitudes aún</div>'; return; }
-    box.innerHTML = reqs.map(r=>`
-      <div class="breq">
+    const snap = await getDocs(bizCol);
+    if(snap.empty){ box.innerHTML='<div style="color:#3a3a3a;font-size:12px">No hay solicitudes aún</div>'; return; }
+    box.innerHTML = snap.docs.map(d=>{
+      const r = d.data();
+      return `<div class="breq">
         <div class="breq-hdr">${r.type||'general'} · ${r.time||''}</div>
         <div class="breq-nm">${r.name} <span style="color:#555;font-weight:400">· ${r.contact}</span></div>
         ${r.budget?`<div style="color:#555;font-size:11px;margin-top:2px">${r.budget}</div>`:''}
         <div class="breq-msg">${r.msg}</div>
-      </div>`).join('');
-  } catch(e){}
+      </div>`;
+    }).join('');
+  } catch(e){ box.innerHTML='<div style="color:#e53935;font-size:12px">Error al cargar: '+e.message+'</div>'; }
 }
-
 </script>
 </body>
 </html>
