@@ -157,6 +157,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .breq-msg{color:#777;margin-top:3px;line-height:1.4}
 .panel-links-sec{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.9rem;margin-bottom:.8rem}
 .panel-links-ttl{font-size:11px;color:var(--gold);margin-bottom:.7rem;font-weight:500}
+#chatRegister .ni{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -294,12 +295,24 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div id="statusBar" class="status-bar">Conectando...</div>
     <div class="chatbox">
       <div class="chatmsgs" id="chatMsgs"><div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Conectando...</div></div>
-      <div style="padding:.7rem .7rem .4rem;border-top:1px solid var(--br)">
-        <input class="ni" id="nameIn" placeholder="Tu nombre o usuario..." maxlength="30"/>
+      <!-- Registro de usuario -->
+      <div id="chatRegister" style="display:none;padding:.8rem;border-top:1px solid var(--br);background:var(--s2)">
+        <div style="font-size:11px;color:#555;margin-bottom:.5rem;letter-spacing:1px">¿Cómo te llamas? Solo la primera vez 👇</div>
+        <div style="display:flex;gap:.5rem">
+          <input class="ni" id="regName" placeholder="Tu nombre o @usuario..." maxlength="30" style="margin-bottom:0" onkeydown="if(event.key==='Enter')registerUser()"/>
+          <button class="cbtn" onclick="registerUser()">Entrar</button>
+        </div>
       </div>
-      <div class="cinrow">
-        <input class="ci" id="msgIn" placeholder="Escribe un mensaje..." maxlength="200" onkeydown="if(event.key==='Enter')sendMsg()"/>
-        <button class="cbtn" onclick="sendMsg()">Enviar</button>
+      <!-- Input normal (después de registrarse) -->
+      <div id="chatInput" style="display:none">
+        <div style="padding:.4rem .7rem .2rem;border-top:1px solid var(--br);background:var(--s2);display:flex;align-items:center;gap:6px">
+          <span id="chatUserBadge" style="font-size:11px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px"></span>
+          <span style="font-size:10px;color:#444;cursor:pointer" onclick="resetUser()" title="Cambiar nombre">✎</span>
+        </div>
+        <div class="cinrow">
+          <input class="ci" id="msgIn" placeholder="Escribe un mensaje..." maxlength="200" onkeydown="if(event.key==='Enter')sendMsg()"/>
+          <button class="cbtn" onclick="sendMsg()">Enviar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -487,12 +500,14 @@ function tryUnlock(){
 }
 window.tryUnlock=tryUnlock;
 
-/* ── LIKES (onSnapshot para tiempo real) ── */
+/* ── LIKES — único por usuario (localStorage + Firebase) ── */
 let serverLikeCount = 0;
+likedByMe = localStorage.getItem('liked_19rey10') === '1';
+
 onSnapshot(likesRef, snap=>{
   if(snap.exists()){
     serverLikeCount = snap.data().count ?? 0;
-    if(!likedByMe) g('likeCount').textContent = serverLikeCount;
+    g('likeCount').textContent = serverLikeCount;
     console.log('likes recibidos:', serverLikeCount);
   } else {
     serverLikeCount = 0;
@@ -500,18 +515,28 @@ onSnapshot(likesRef, snap=>{
   }
 }, err => console.error('likes onSnapshot error:', err));
 
+// Aplicar estado visual al cargar
+window.addEventListener('DOMContentLoaded', ()=>{
+  if(likedByMe){
+    g('heart').textContent = '♥';
+    g('likeBtn').classList.add('liked');
+  }
+});
+
 async function toggleLike(){
-  likedByMe=!likedByMe;
-  let n = likedByMe ? serverLikeCount+1 : Math.max(0,serverLikeCount-1);
-  g('likeCount').textContent=n;
-  g('heart').textContent=likedByMe?'♥':'♡';
-  g('likeBtn').classList.toggle('liked',likedByMe);
+  if(likedByMe) return; // solo 1 like por usuario
+  likedByMe = true;
+  localStorage.setItem('liked_19rey10','1');
+  let n = serverLikeCount + 1;
+  g('likeCount').textContent = n;
+  g('heart').textContent = '♥';
+  g('likeBtn').classList.add('liked');
+  g('likeBtn').style.pointerEvents = 'none';
   try {
     await setDoc(likesRef,{count:n},{merge:true});
     console.log('like guardado:',n);
   } catch(e){
     console.error('toggleLike error:',e.code, e.message);
-    alert('Error al guardar like: '+e.code+' — '+e.message);
   }
 }
 window.toggleLike=toggleLike;
@@ -603,36 +628,52 @@ onSnapshot(videosRef, snap=>{
   }
   renderVideos();
 }, err => console.error('videos onSnapshot error:', err));
+function getYTThumb(url){
+  // Extrae ID de YouTube y devuelve miniatura
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
+  return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
+}
+
 function renderVideos(){
-  g('videoList').innerHTML=curVideos.map((v,i)=>`
-    <div class="vcard">
+  g('videoList').innerHTML=curVideos.map((v,i)=>{
+    const ytThumb = v.url ? getYTThumb(v.url) : null;
+    const thumbSrc = v.thumb || ytThumb || '';
+    return `<div class="vcard">
       <a class="vthumb" href="${v.url||'#'}" target="_blank" rel="noopener">
-        ${v.thumb?`<img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'"/>`:''}
+        ${thumbSrc ? `<img src="${thumbSrc}" alt="${v.title||''}" onerror="this.style.display='none'"/>` : ''}
         <div class="vplay"><div class="vplay-arrow"></div></div>
       </a>
       <div class="vtitle">${v.title||'Video '+(i+1)}</div>
       <div class="vviews">🔥 ${v.views||'—'} vistas</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function buildEditors(){
-  g('videoEditors').innerHTML=curVideos.map((v,i)=>`
-    <div class="vedit">
+  g('videoEditors').innerHTML=curVideos.map((v,i)=>{
+    const ytId = getYtId(v.url||'');
+    const autoThumb = ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '';
+    const previewSrc = v.thumb || autoThumb;
+    return `<div class="vedit">
       <div class="vedit-ttl">🎬 Video ${i+1}</div>
       <span class="vfi-lbl">Título</span>
       <input class="vfi" id="vt${i}" placeholder="Título del video" value="${v.title||''}"/>
       <span class="vfi-lbl">Vistas</span>
       <input class="vfi" id="vv${i}" placeholder="ej: 1.2M" value="${v.views||''}"/>
-      <span class="vfi-lbl">URL del video (al hacer click)</span>
-      <input class="vfi" id="vu${i}" placeholder="https://tiktok.com/..." value="${v.url||''}"/>
-      <span class="vfi-lbl">URL de la miniatura (imagen de portada)</span>
-      <input class="vfi" id="vth${i}" placeholder="https://imagen.com/miniatura.jpg" value="${v.thumb||''}" oninput="previewThumb(${i})"/>
-      <img class="vpreview ${v.thumb?'on':''}" id="vprev${i}" src="${v.thumb||''}" alt="preview"/>
-    </div>`).join('');
+      <span class="vfi-lbl">URL del video</span>
+      <input class="vfi" id="vu${i}" placeholder="https://tiktok.com/... o https://youtube.com/watch?v=..." value="${v.url||''}" oninput="previewThumb(${i})"/>
+      <span class="vfi-lbl">Miniatura — YouTube: automática ✅ · TikTok: pega URL de screenshot subido a GitHub</span>
+      <input class="vfi" id="vth${i}" placeholder="https://19rey10-on.github.io/19rey10/v${i+1}.jpg" value="${v.thumb||''}" oninput="previewThumb(${i})"/>
+      <img class="vpreview ${previewSrc?'on':''}" id="vprev${i}" src="${previewSrc||''}" alt="preview"/>
+    </div>`;
+  }).join('');
 }
 function previewThumb(i){
-  const url=g('vth'+i).value.trim();
-  const img=g('vprev'+i);
-  if(url){ img.src=url; img.classList.add('on'); img.onerror=()=>img.classList.remove('on'); }
+  const thumbUrl = g('vth'+i).value.trim();
+  const videoUrl = g('vu'+i)?.value.trim()||'';
+  const ytId = getYtId(videoUrl);
+  const img = g('vprev'+i);
+  const src = thumbUrl || (ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '');
+  if(src){ img.src=src; img.classList.add('on'); img.onerror=()=>img.classList.remove('on'); }
   else img.classList.remove('on');
 }
 window.previewThumb=previewThumb;
@@ -660,12 +701,75 @@ onSnapshot(chatQ, snap=>{
   if(isUnlocked) g('chatPreview').innerHTML=msgs.slice(-6).reverse().map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--br)"><span style="color:${m.cr?'var(--gold)':'#666'}">${m.name}:</span><span style="color:#555"> ${(m.text||'').substring(0,55)}${m.text.length>55?'...':''}</span></div>`).join('');
 },()=>{ g('statusBar').textContent='⚠️ Sin conexión'; g('statusBar').className='status-bar err'; });
 
+/* ── REGISTRO DE USUARIO ── */
+const usersCol = collection(db,'users');
+let currentUser = null;
+
+function genUID(){
+  return 'u_'+Math.random().toString(36).substr(2,9)+Date.now().toString(36);
+}
+
+function initChat(){
+  const uid = localStorage.getItem('chat_uid_19rey10');
+  const name = localStorage.getItem('chat_name_19rey10');
+  if(uid && name){
+    currentUser = {uid, name};
+    showChatInput(name);
+  } else {
+    g('chatRegister').style.display='block';
+    g('chatInput').style.display='none';
+  }
+}
+
+function showChatInput(name){
+  g('chatRegister').style.display='none';
+  g('chatInput').style.display='block';
+  g('chatUserBadge').textContent = name;
+}
+
+async function registerUser(){
+  const name = g('regName').value.trim();
+  if(!name) return;
+  const uid = genUID();
+  currentUser = {uid, name};
+  localStorage.setItem('chat_uid_19rey10', uid);
+  localStorage.setItem('chat_name_19rey10', name);
+  showChatInput(name);
+  try {
+    await setDoc(doc(db,'users',uid), {
+      name, uid,
+      joined: serverTimestamp()
+    });
+  } catch(e){ console.warn('user save:', e); }
+  g('regName').value='';
+}
+window.registerUser=registerUser;
+
+function resetUser(){
+  if(!confirm('¿Cambiar tu nombre?')) return;
+  localStorage.removeItem('chat_uid_19rey10');
+  localStorage.removeItem('chat_name_19rey10');
+  currentUser = null;
+  g('chatInput').style.display='none';
+  g('chatRegister').style.display='block';
+  g('regName').value='';
+}
+window.resetUser=resetUser;
+
 async function sendMsg(){
-  const name=g('nameIn').value.trim()||'Anónimo';
+  if(!currentUser){ g('chatRegister').style.display='block'; return; }
   const text=g('msgIn').value.trim();
   if(!text) return;
   g('msgIn').value='';
-  try { await addDoc(chatCol,{name,text,cr:false,time:new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),ts:serverTimestamp()}); } catch(e){ alert('Error: '+e.message); }
+  try {
+    await addDoc(chatCol,{
+      name: currentUser.name,
+      uid:  currentUser.uid,
+      text, cr:false,
+      time: new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}),
+      ts:   serverTimestamp()
+    });
+  } catch(e){ alert('Error: '+e.message); }
 }
 window.sendMsg=sendMsg;
 
@@ -729,6 +833,9 @@ function highlight(ids){
   ids.forEach(id=>{ if(!g(id).value.trim()) g(id).style.borderColor='#e53935'; });
   setTimeout(()=>ids.forEach(id=>g(id).style.borderColor=''),1500);
 }
+
+/* ── INIT CHAT ── */
+initChat();
 
 /* ── CARGAR SOLICITUDES EN PANEL ── */
 async function loadBiz(){
