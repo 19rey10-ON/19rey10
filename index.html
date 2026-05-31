@@ -487,39 +487,47 @@ function tryUnlock(){
 }
 window.tryUnlock=tryUnlock;
 
-/* ── LIKES ── */
-async function loadLikes(){
-  try {
-    const s=await getDoc(likesRef);
-    g('likeCount').textContent=s.exists()?(s.data().count??0):0;
-  } catch(e){ console.error('loadLikes error:',e.code, e.message); }
-}
+/* ── LIKES (onSnapshot para tiempo real) ── */
+let serverLikeCount = 0;
+onSnapshot(likesRef, snap=>{
+  if(snap.exists()){
+    serverLikeCount = snap.data().count ?? 0;
+    if(!likedByMe) g('likeCount').textContent = serverLikeCount;
+    console.log('likes recibidos:', serverLikeCount);
+  } else {
+    serverLikeCount = 0;
+    g('likeCount').textContent = 0;
+  }
+}, err => console.error('likes onSnapshot error:', err));
+
 async function toggleLike(){
   likedByMe=!likedByMe;
-  let n=parseInt(g('likeCount').textContent)||0;
-  n=likedByMe?n+1:Math.max(0,n-1);
+  let n = likedByMe ? serverLikeCount+1 : Math.max(0,serverLikeCount-1);
   g('likeCount').textContent=n;
   g('heart').textContent=likedByMe?'♥':'♡';
   g('likeBtn').classList.toggle('liked',likedByMe);
   try {
     await setDoc(likesRef,{count:n},{merge:true});
-    console.log('✅ like guardado:',n);
+    console.log('like guardado:',n);
   } catch(e){
-    console.error('❌ toggleLike error:',e.code, e.message);
+    console.error('toggleLike error:',e.code, e.message);
     alert('Error al guardar like: '+e.code+' — '+e.message);
   }
 }
 window.toggleLike=toggleLike;
-loadLikes();
 
 /* ── STATS (tiempo real) ── */
 onSnapshot(statsRef, snap=>{
-  if(!snap.exists()) return;
-  const d=snap.data();
-  g('d-tt').textContent=d.tiktok||'—';
-  g('d-yt').textContent=d.youtube||'—';
-  g('d-dc').textContent=d.discord||'—';
-});
+  if(snap.exists()){
+    const d=snap.data();
+    g('d-tt').textContent=d.tiktok||'—';
+    g('d-yt').textContent=d.youtube||'—';
+    g('d-dc').textContent=d.discord||'—';
+    console.log('stats recibidos:', d);
+  } else {
+    console.log('stats doc no existe aun');
+  }
+}, err => console.error('stats onSnapshot error:', err));
 function fillStats(){
   g('it').value =g('d-tt').textContent==='—'?'':g('d-tt').textContent;
   g('iy').value =g('d-yt').textContent==='—'?'':g('d-yt').textContent;
@@ -541,15 +549,19 @@ window.saveStats=saveStats;
 
 /* ── LINKS (tiempo real) ── */
 onSnapshot(linksRef, snap=>{
-  if(!snap.exists()) return;
-  const d=snap.data();
-  if(d.ttUrl)   g('link-tiktok').href=d.ttUrl;
-  if(d.ttSub)   g('sub-tiktok').textContent=d.ttSub;
-  if(d.ytUrl)   g('link-youtube').href=d.ytUrl;
-  if(d.ytSub)   g('sub-youtube').textContent=d.ytSub;
-  if(d.dcUrl)   g('link-discord').href=d.dcUrl;
-  if(d.dcSub)   g('sub-discord').textContent=d.dcSub;
-});
+  if(snap.exists()){
+    const d=snap.data();
+    if(d.ttUrl)   g('link-tiktok').href=d.ttUrl;
+    if(d.ttSub)   g('sub-tiktok').textContent=d.ttSub;
+    if(d.ytUrl)   g('link-youtube').href=d.ytUrl;
+    if(d.ytSub)   g('sub-youtube').textContent=d.ytSub;
+    if(d.dcUrl)   g('link-discord').href=d.dcUrl;
+    if(d.dcSub)   g('sub-discord').textContent=d.dcSub;
+    console.log('links recibidos:', d);
+  } else {
+    console.log('links doc no existe aun');
+  }
+}, err => console.error('links onSnapshot error:', err));
 function loadLinks(){
   getDoc(linksRef).then(snap=>{
     if(!snap.exists()) return;
@@ -582,9 +594,15 @@ window.saveLinks=saveLinks;
 
 /* ── VIDEOS (tiempo real) ── */
 onSnapshot(videosRef, snap=>{
-  curVideos=(snap.exists()&&snap.data().list)?snap.data().list:[...DEF_VIDEOS];
+  if(snap.exists() && snap.data().list){
+    curVideos = snap.data().list;
+    console.log('videos recibidos:', curVideos.length);
+  } else {
+    curVideos = [...DEF_VIDEOS];
+    console.log('videos: usando defaults');
+  }
   renderVideos();
-});
+}, err => console.error('videos onSnapshot error:', err));
 function renderVideos(){
   g('videoList').innerHTML=curVideos.map((v,i)=>`
     <div class="vcard">
