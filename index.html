@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>19Rey10</title>
+<link rel="icon" type="image/png" href="foto.png"/>
+<link rel="apple-touch-icon" href="foto.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -638,12 +640,12 @@ async function saveVideos(){
 window.saveVideos=saveVideos;
 
 /* VIDEO MODAL */
+function isTikTok(url){ return url && url.indexOf('tiktok.com') !== -1; }
 function getEmbedUrl(url){
   if(!url||url==='#') return null;
+  if(isTikTok(url)) return null;
   var ytM=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
   if(ytM) return 'https://www.youtube.com/embed/'+ytM[1]+'?autoplay=1&rel=0';
-  var ttM=url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
-  if(ttM) return 'https://www.tiktok.com/embed/v2/'+ttM[1];
   return null;
 }
 function openVideo(el, evt){
