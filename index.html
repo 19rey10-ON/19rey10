@@ -489,7 +489,10 @@ window.tryUnlock=tryUnlock;
 
 /* ── LIKES ── */
 async function loadLikes(){
-  try { const s=await getDoc(likesRef); g('likeCount').textContent=s.exists()?(s.data().count??0):0; } catch(e){}
+  try {
+    const s=await getDoc(likesRef);
+    g('likeCount').textContent=s.exists()?(s.data().count??0):0;
+  } catch(e){ console.error('loadLikes error:',e.code, e.message); }
 }
 async function toggleLike(){
   likedByMe=!likedByMe;
@@ -498,7 +501,13 @@ async function toggleLike(){
   g('likeCount').textContent=n;
   g('heart').textContent=likedByMe?'♥':'♡';
   g('likeBtn').classList.toggle('liked',likedByMe);
-  try { await setDoc(likesRef,{count:n},{merge:true}); } catch(e){}
+  try {
+    await setDoc(likesRef,{count:n},{merge:true});
+    console.log('✅ like guardado:',n);
+  } catch(e){
+    console.error('❌ toggleLike error:',e.code, e.message);
+    alert('Error al guardar like: '+e.code+' — '+e.message);
+  }
 }
 window.toggleLike=toggleLike;
 loadLikes();
@@ -517,10 +526,16 @@ function fillStats(){
   g('idc').value=g('d-dc').textContent==='—'?'':g('d-dc').textContent;
 }
 async function saveStats(){
+  const data={tiktok:g('it').value.trim()||'—',youtube:g('iy').value.trim()||'—',discord:g('idc').value.trim()||'—'};
+  console.log('saveStats ->', JSON.stringify(data));
   try {
-    await setDoc(statsRef,{tiktok:g('it').value.trim()||'—',youtube:g('iy').value.trim()||'—',discord:g('idc').value.trim()||'—'},{merge:true});
+    await setDoc(statsRef, data, {merge:true});
+    console.log('stats guardados OK');
     fl('sf');
-  } catch(e){ alert('Error: '+e.message); }
+  } catch(e){
+    console.error('saveStats ERROR:', e.code, e.message);
+    alert('Error guardando: ' + e.code + ' — ' + e.message);
+  }
 }
 window.saveStats=saveStats;
 
@@ -548,14 +563,20 @@ function loadLinks(){
   }).catch(()=>{});
 }
 async function saveLinks(){
+  const data={
+    ttUrl:g('lnk-tt').value.trim(),   ttSub:g('lnk-tt-sub').value.trim(),
+    ytUrl:g('lnk-yt').value.trim(),   ytSub:g('lnk-yt-sub').value.trim(),
+    dcUrl:g('lnk-dc').value.trim(),   dcSub:g('lnk-dc-sub').value.trim()
+  };
+  console.log('saveLinks ->', JSON.stringify(data));
   try {
-    await setDoc(linksRef,{
-      ttUrl:g('lnk-tt').value.trim(),   ttSub:g('lnk-tt-sub').value.trim(),
-      ytUrl:g('lnk-yt').value.trim(),   ytSub:g('lnk-yt-sub').value.trim(),
-      dcUrl:g('lnk-dc').value.trim(),   dcSub:g('lnk-dc-sub').value.trim()
-    },{merge:true});
+    await setDoc(linksRef, data, {merge:true});
+    console.log('links guardados OK');
     fl('lf');
-  } catch(e){ alert('Error: '+e.message); }
+  } catch(e){
+    console.error('saveLinks ERROR:', e.code, e.message);
+    alert('Error guardando links: ' + e.code + ' — ' + e.message);
+  }
 }
 window.saveLinks=saveLinks;
 
