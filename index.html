@@ -10,184 +10,204 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#080808;--s1:#111;--s2:#181818;--s3:#222;--br:#2e2e2e;--txt:#f0f0f0;--mu:#666;--ac:#e8e8e8;--gold:#d4a843;--red:#e53935;--r:14px;--rl:18px;--blue:#4a9eff}
-html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
-.page{max-width:680px;margin:0 auto;padding:0 1rem 2rem}
+:root{
+  --bg:#040a12;--s1:#070f1a;--s2:#0d1622;--s3:#111e2e;--br:#1a2a3a;
+  --txt:#d0e4f0;--mu:#4a6a8a;--ac:#e8e8e8;--gold:#d4a843;--red:#e53935;
+  --blue:#4a9eff;--r:14px;--rl:18px
+}
+html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%;overflow-x:hidden}
+
+/* CANVAS STARS */
+#starCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* MOON */
+#moon{position:fixed;top:24px;right:24px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffae8,#f0d060 40%,#c8a030 70%,#8a6010 100%);box-shadow:0 0 30px rgba(240,200,60,.35),0 0 80px rgba(240,200,60,.12),inset -8px -8px 20px rgba(0,0,0,.4);pointer-events:none;z-index:1}
+#moon::before{content:'';position:absolute;top:12px;left:14px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:18px 8px 0 6px rgba(0,0,0,.1),8px 28px 0 4px rgba(0,0,0,.1),28px 22px 0 3px rgba(0,0,0,.08)}
+
+.page{max-width:680px;margin:0 auto;padding:0 1rem 2rem;position:relative;z-index:2}
 @media(min-width:900px){.page{padding:0 2rem 2rem}}
 @media(min-width:1200px){.page{max-width:760px}}
-.hero{text-align:center;padding:2.8rem 0 1.8rem}
-@media(min-width:768px){.hero{padding:3.5rem 0 2.2rem}}
+
+.hero{text-align:center;padding:3rem 0 2rem}
 .avatar-wrap{position:relative;display:inline-block;margin-bottom:1.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.avatar{width:88px;height:88px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--ac);border:2px solid var(--br);overflow:hidden;transition:border-color .3s}
+.avatar{width:88px;height:88px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--ac);border:2px solid var(--br);overflow:hidden;transition:border-color .3s;box-shadow:0 0 20px rgba(74,158,255,.1)}
 @media(min-width:768px){.avatar{width:104px;height:104px;font-size:30px}}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .avatar-ring{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;transition:border-color .35s,transform .35s;pointer-events:none}
 .avatar-wrap:active .avatar-ring{border-color:var(--gold);transform:scale(1.06)}
-.username{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,8vw,3.4rem);letter-spacing:clamp(3px,1vw,6px);color:#fff;line-height:1;margin-top:.6rem}
+.username{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,8vw,3.4rem);letter-spacing:clamp(3px,1vw,6px);color:#e8f4ff;line-height:1;margin-top:.6rem;text-shadow:0 0 30px rgba(74,158,255,.3)}
 .tagline{font-size:clamp(11px,2.5vw,13px);color:var(--mu);margin-top:.5rem;letter-spacing:2px;text-transform:uppercase}
 .like-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1.4rem;padding:10px 24px;background:var(--s2);border:1px solid var(--br);border-radius:100px;cursor:pointer;font-size:13px;color:var(--mu);transition:all .25s;font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}
 .like-btn:hover{border-color:#b71c1c;color:#ef9a9a}
 .like-btn.liked{border-color:var(--red);color:var(--red)}
-.divider{height:1px;background:linear-gradient(to right,transparent,var(--br) 15%,var(--br) 85%,transparent)}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--br) 15%,var(--br) 85%,transparent);margin:.25rem 0}
 .sec{padding:1.6rem 0}
-@media(min-width:768px){.sec{padding:2rem 0}}
-.sec-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#484848;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.sec-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#2a4a6a;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--br)}
+
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
 .stat{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem .5rem;text-align:center;position:relative;overflow:hidden}
-.stat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(212,168,67,.07),transparent 65%);pointer-events:none}
+.stat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(74,158,255,.06),transparent 65%);pointer-events:none}
 .stat-ico{font-size:clamp(14px,3vw,18px);margin-bottom:4px}
 .stat-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,4vw,1.8rem);letter-spacing:2px;color:var(--gold);line-height:1}
-.stat-lbl{font-size:clamp(9px,2vw,10px);color:#484848;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.stat-lbl{font-size:clamp(9px,2vw,10px);color:#2a4a6a;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+
 .links-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
 .lcard{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--s1);border:1px solid var(--br);border-radius:var(--r);text-decoration:none;color:var(--txt);transition:all .2s;-webkit-tap-highlight-color:transparent}
-.lcard:hover{background:var(--s2);border-color:#404040;transform:translateY(-2px)}
+.lcard:hover{background:var(--s2);border-color:#2a4a6a;transform:translateY(-2px)}
 .lcard:active{transform:translateY(0)}
 .lico{width:38px;height:38px;min-width:38px;border-radius:10px;display:flex;align-items:center;justify-content:center}
-.li-tt{background:#0d0d0d;border:1px solid #222}
-.li-yt{background:#1a0000;border:1px solid #2a0000}
-.li-dc{background:#0a0a1a;border:1px solid #15153a}
-.lcard-name{font-size:clamp(13px,3vw,14px);font-weight:500;white-space:nowrap}
+.li-tt{background:#05080d;border:1px solid #1a2a3a}
+.li-yt{background:#0d0500;border:1px solid #2a1000}
+.li-dc{background:#05050d;border:1px solid #0a0a2a}
+.lcard-name{font-size:clamp(13px,3vw,14px);font-weight:500;white-space:nowrap;color:#c0d8f0}
 .lcard-sub{font-size:clamp(10px,2.5vw,11px);color:var(--mu);margin-top:2px}
+
 .vscroll{display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.75rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .vscroll::-webkit-scrollbar{display:none}
 .vcard{flex-shrink:0;width:clamp(140px,38vw,170px);border-radius:12px;overflow:hidden;background:var(--s1);border:1px solid var(--br);transition:transform .2s}
 .vcard:hover{transform:translateY(-2px)}
 .vthumb{width:100%;height:clamp(90px,22vw,115px);background:var(--s3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
 .vthumb img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;pointer-events:none}
-.vplay{width:38px;height:38px;background:rgba(0,0,0,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;border:1px solid rgba(255,255,255,.2);transition:transform .2s;z-index:1;pointer-events:none}
+.vplay{width:38px;height:38px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;border:1px solid rgba(74,158,255,.3);transition:transform .2s;z-index:1;pointer-events:none}
 .vthumb:hover .vplay{transform:scale(1.1)}
-.vplay-arrow{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px}
-.vtitle{padding:8px 10px;font-size:clamp(11px,2.8vw,12px);color:#bbb;line-height:1.3}
-.vviews{font-size:clamp(9px,2.3vw,11px);color:#484848;padding:0 10px 8px}
+.vplay-arrow{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #e8f4ff;margin-left:3px}
+.vtitle{padding:8px 10px;font-size:clamp(11px,2.8vw,12px);color:#8ab0c8;line-height:1.3}
+.vviews{font-size:clamp(9px,2.3vw,11px);color:#2a4a6a;padding:0 10px 8px}
+
 /* VIDEO MODAL */
-.vid-overlay{position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
+.vid-overlay{position:fixed;inset:0;background:rgba(2,6,12,.96);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
 .vid-overlay.on{opacity:1;pointer-events:all}
 .vid-modal{width:100%;max-width:640px;position:relative}
-.vid-close{position:absolute;top:-42px;right:0;background:none;border:1px solid #444;color:#aaa;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif}
-.vid-close:hover{background:#222;color:#fff}
+.vid-close{position:absolute;top:-42px;right:0;background:none;border:1px solid var(--br);color:var(--mu);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.vid-close:hover{background:var(--s3);color:#e8f4ff}
 .vid-frame{width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
 .vid-frame iframe{width:100%;height:100%;border:none}
-.vid-label{color:#888;font-size:12px;margin-top:.6rem;text-align:center}
+.vid-label{color:#4a6a8a;font-size:12px;margin-top:.6rem;text-align:center}
+
 /* BIZ */
-.biz-banner{background:var(--s1);border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.1rem,4vw,1.5rem);margin-bottom:1rem;position:relative;overflow:hidden}
-.biz-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(212,168,67,.04);pointer-events:none}
-.biz-avail{display:inline-flex;align-items:center;gap:6px;background:#1a1200;color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid #332200;margin-bottom:.75rem}
+.biz-banner{background:var(--s1);border:1px solid #1a2a1a;border-radius:var(--rl);padding:clamp(1.1rem,4vw,1.5rem);margin-bottom:1rem;position:relative;overflow:hidden}
+.biz-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(212,168,67,.03);pointer-events:none}
+.biz-avail{display:inline-flex;align-items:center;gap:6px;background:#0a1a0a;color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid #1a3a1a;margin-bottom:.75rem}
 .biz-avail::before{content:'';width:6px;height:6px;border-radius:50%;background:#4caf50;flex-shrink:0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.biz-ttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);letter-spacing:4px;color:#fff;line-height:1}
-.biz-sub{font-size:clamp(12px,3vw,13px);color:#555;margin-top:.5rem;line-height:1.6}
+.biz-ttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);letter-spacing:4px;color:#e8f4ff;line-height:1}
+.biz-sub{font-size:clamp(12px,3vw,13px);color:#2a4a6a;margin-top:.5rem;line-height:1.6}
 .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1rem}
 @media(min-width:600px){.type-grid{grid-template-columns:repeat(4,1fr)}}
 .tcard{padding:clamp(11px,3vw,14px);background:var(--s1);border:1px solid var(--br);border-radius:var(--r);cursor:pointer;transition:all .2s;position:relative;-webkit-tap-highlight-color:transparent}
 .tcard:hover{background:var(--s2)}
-.tcard.on{border-color:var(--gold);background:#130f00}
+.tcard.on{border-color:var(--gold);background:#0d100a}
 .tcard-ico{font-size:clamp(18px,4vw,22px);margin-bottom:5px}
-.tcard-name{font-size:clamp(12px,3vw,13px);font-weight:500;color:#ccc}
+.tcard-name{font-size:clamp(12px,3vw,13px);font-weight:500;color:#8ab0c8}
 .tcard.on .tcard-name{color:var(--gold)}
-.tcard-desc{font-size:clamp(10px,2.5vw,11px);color:#484848;margin-top:2px;line-height:1.4}
+.tcard-desc{font-size:clamp(10px,2.5vw,11px);color:#2a4a6a;margin-top:2px;line-height:1.4}
 .chk{position:absolute;top:9px;right:9px;width:15px;height:15px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700}
 .tcard.on .chk{display:flex}
 .bizform{display:none;background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);padding:clamp(1rem,4vw,1.3rem);margin-top:.1rem}
 .bizform.on{display:block}
-.form-section-title{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid #2a1e00}
-.fl{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#484848;margin-bottom:.35rem}
+.form-section-title{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid #1a2a1a}
+.fl{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#2a4a6a;margin-bottom:.35rem}
 .fi,.ft,.fsel{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:clamp(13px,3vw,14px);font-family:'DM Sans',sans-serif;outline:none;transition:border .2s;margin-bottom:.75rem}
-.fi:focus,.ft:focus,.fsel:focus{border-color:#3a2f00}
+.fi:focus,.ft:focus,.fsel:focus{border-color:#2a4a6a}
 .ft{resize:vertical;min-height:80px;line-height:1.5}
 .fsel{appearance:none;cursor:pointer}
-.fsel option{background:#1e1e1e}
+.fsel option{background:#070f1a}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 @media(max-width:400px){.fgrid{grid-template-columns:1fr}}
 .sbtn{width:100%;padding:12px;background:var(--gold);color:#000;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;font-family:'DM Sans',sans-serif;transition:opacity .2s}
 .sbtn:hover{opacity:.85}
-.succ{display:none;background:var(--s2);border:1px solid #1a3a1a;border-radius:10px;padding:.9rem 1rem;margin-top:.5rem}
+.succ{display:none;background:var(--s2);border:1px solid #0a2a1a;border-radius:10px;padding:.9rem 1rem;margin-top:.5rem}
 .succ-txt{color:#4caf50;font-size:13px;margin-bottom:.5rem}
-.chat-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0d2a1a;border:1px solid #1a4a2a;border-radius:8px;color:#4caf50;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s;text-decoration:none}
-.chat-btn:hover{background:#1a3a22;border-color:#2a6a3a}
-.fnote{font-size:11px;color:#3a3a3a;text-align:center;margin-top:.6rem;line-height:1.5}
-/* PUBLIC CHAT */
+.chat-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#050f0a;border:1px solid #0a3a1a;border-radius:8px;color:#4caf50;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s}
+.chat-btn:hover{background:#0a1a10;border-color:#1a5a2a}
+.fnote{font-size:11px;color:#1a3a5a;text-align:center;margin-top:.6rem;line-height:1.5}
+
+/* CHAT */
 .chatbox{background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);overflow:hidden}
-.chatmsgs{height:clamp(220px,45vw,300px);overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#222 transparent}
+.chatmsgs{height:clamp(220px,45vw,300px);overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent}
 .chatmsgs::-webkit-scrollbar{width:4px}
-.chatmsgs::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
+.chatmsgs::-webkit-scrollbar-thumb{background:#1a2a3a;border-radius:4px}
 .msg{display:flex;flex-direction:column;gap:3px}
-.msg-reply-bar{background:#1a1a1a;border-left:3px solid var(--gold);border-radius:4px;padding:4px 8px;font-size:10px;color:#666;margin-bottom:3px;cursor:pointer}
-.msg-reply-bar:hover{color:#888}
+.msg-reply-bar{background:#0a1420;border-left:3px solid var(--gold);border-radius:4px;padding:4px 8px;font-size:10px;color:#2a4a6a;margin-bottom:3px}
 .mhdr{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu);flex-wrap:wrap}
-.mname{font-weight:500;color:#aaa}
+.mname{font-weight:500;color:#6a9ab8}
 .mname.cr{color:var(--gold)}
-.cbadge{background:#1a1200;color:var(--gold);font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:4px;border:1px solid #332200;text-transform:uppercase}
-.reply-btn{background:none;border:none;color:#3a3a3a;font-size:10px;cursor:pointer;padding:2px 4px;border-radius:4px;font-family:'DM Sans',sans-serif;margin-left:auto}
-.reply-btn:hover{background:var(--s3);color:#666}
-.mbody{font-size:clamp(12px,3vw,13px);color:#ccc;line-height:1.5;background:var(--s2);padding:8px 12px;border-radius:0 10px 10px 10px;max-width:88%;width:fit-content;word-break:break-word}
-.msg.cm .mbody{background:#130f00;border:1px solid #2a1e00}
-.reply-preview{background:#111;border:1px solid var(--br);border-radius:8px;padding:6px 10px;margin-bottom:.4rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.reply-preview-txt{font-size:11px;color:#555;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.reply-preview-close{background:none;border:none;color:#444;cursor:pointer;font-size:14px;padding:0 4px;font-family:'DM Sans',sans-serif}
+.cbadge{background:#0a0d05;color:var(--gold);font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:4px;border:1px solid #1a1a05;text-transform:uppercase}
+.reply-btn{background:none;border:none;color:#1a3a5a;font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;font-family:'DM Sans',sans-serif;margin-left:auto}
+.reply-btn:hover{background:var(--s3);color:#4a6a8a}
+.mbody{font-size:clamp(12px,3vw,13px);color:#9abcd0;line-height:1.5;background:var(--s2);padding:8px 12px;border-radius:0 10px 10px 10px;max-width:88%;width:fit-content;word-break:break-word;border:1px solid var(--br)}
+.msg.cm .mbody{background:#0a0d05;border:1px solid #1a1a05;color:#d4b86a}
+.reply-preview{background:#05080d;border:1px solid var(--br);border-radius:8px;padding:6px 10px;margin:.4rem .7rem 0;display:flex;align-items:center;gap:8px}
+.reply-preview-txt{font-size:11px;color:#2a4a6a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reply-preview-close{background:none;border:none;color:#1a3a5a;cursor:pointer;font-size:14px;padding:0 4px;font-family:'DM Sans',sans-serif}
 .chat-input-area{border-top:1px solid var(--br);background:var(--s2)}
 .cinrow{display:flex;gap:.5rem;padding:.7rem}
 .ci{flex:1;min-width:0;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:clamp(13px,3vw,14px);font-family:'DM Sans',sans-serif;outline:none}
-.ci::placeholder{color:#3a3a3a}
-.cbtn{padding:9px 16px;background:var(--ac);color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:13px;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.ci::placeholder{color:#1a3a5a}
+.cbtn{padding:9px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:13px;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .cbtn:active{opacity:.8}
 .reg-box{padding:.75rem;border-top:1px solid var(--br);background:var(--s2)}
-.reg-label{font-size:11px;color:#555;margin-bottom:.5rem;letter-spacing:.5px}
+.reg-label{font-size:11px;color:#2a4a6a;margin-bottom:.5rem;letter-spacing:.5px}
 .reg-row{display:flex;gap:.5rem}
 .ni{flex:1;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:clamp(13px,3vw,14px);font-family:'DM Sans',sans-serif;outline:none}
-.ni::placeholder{color:#3a3a3a}
-.chat-user-bar{display:flex;align-items:center;justify-content:space-between;padding:.45rem .7rem;border-top:1px solid var(--br);background:var(--s2);font-size:11px;color:#555}
-.chat-user-name{color:#888;font-weight:500}
-.chat-user-btns{display:flex;gap:.5rem;align-items:center}
-.chat-sm-btn{font-size:10px;color:#3a3a3a;cursor:pointer;background:none;border:1px solid #2a2a2a;border-radius:5px;padding:2px 7px;font-family:'DM Sans',sans-serif}
-.chat-sm-btn:hover{color:#777;border-color:#444}
-/* PRIVATE CHAT MODAL */
-.priv-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:flex-end;justify-content:center;z-index:9998;opacity:0;pointer-events:none;transition:opacity .25s;padding:0}
+.ni::placeholder{color:#1a3a5a}
+.chat-user-bar{display:flex;align-items:center;justify-content:space-between;padding:.45rem .7rem;border-top:1px solid var(--br);background:var(--s2);font-size:11px;color:#2a4a6a}
+.chat-user-name{color:#4a6a8a;font-weight:500}
+.chat-user-btns{display:flex;gap:.5rem}
+.chat-sm-btn{font-size:10px;color:#1a3a5a;cursor:pointer;background:none;border:1px solid var(--br);border-radius:5px;padding:2px 7px;font-family:'DM Sans',sans-serif}
+.chat-sm-btn:hover{color:#4a6a8a;border-color:#2a4a6a}
+
+/* PRIVATE CHAT */
+.priv-overlay{position:fixed;inset:0;background:rgba(2,6,12,.94);display:flex;align-items:flex-end;justify-content:center;z-index:9998;opacity:0;pointer-events:none;transition:opacity .25s;padding:0}
 .priv-overlay.on{opacity:1;pointer-events:all}
 @media(min-width:600px){.priv-overlay{align-items:center;padding:1rem}}
-.priv-modal{width:100%;max-width:480px;background:#111;border:1px solid #2a1e00;border-radius:var(--rl) var(--rl) 0 0;height:85vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s}
+.priv-modal{width:100%;max-width:480px;background:#070f1a;border:1px solid #1a2a3a;border-radius:var(--rl) var(--rl) 0 0;height:85vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s}
 @media(min-width:600px){.priv-modal{border-radius:var(--rl);height:80vh;transform:translateY(30px)}}
 .priv-overlay.on .priv-modal{transform:translateY(0)}
 .priv-header{display:flex;align-items:center;gap:10px;padding:1rem;border-bottom:1px solid var(--br);flex-shrink:0}
 .priv-avatar{width:36px;height:36px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold);border:1px solid var(--br);overflow:hidden;flex-shrink:0}
 .priv-avatar img{width:100%;height:100%;object-fit:cover}
 .priv-title{flex:1}
-.priv-name{font-size:14px;font-weight:500;color:#ccc}
+.priv-name{font-size:14px;font-weight:500;color:#c0d8f0}
 .priv-status{font-size:10px;color:#4caf50;letter-spacing:.5px}
-.priv-close{background:none;border:1px solid var(--br);color:var(--mu);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;flex-shrink:0}
+.priv-close{background:none;border:1px solid var(--br);color:var(--mu);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .priv-close:hover{background:var(--s3)}
-.priv-msgs{flex:1;overflow-y:auto;padding:.75rem;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:#222 transparent}
-.priv-msgs::-webkit-scrollbar{width:3px}
-.priv-msgs::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:3px}
+.priv-msgs{flex:1;overflow-y:auto;padding:.75rem;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent}
 .pmsg{display:flex;flex-direction:column;max-width:78%}
 .pmsg.mine{align-self:flex-end;align-items:flex-end}
-.pmsg.theirs{align-self:flex-start;align-items:flex-start}
-.pmsg.creator{align-self:flex-start;align-items:flex-start}
+.pmsg.theirs,.pmsg.creator{align-self:flex-start;align-items:flex-start}
 .pmsg-body{padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.4;word-break:break-word}
-.pmsg.mine .pmsg-body{background:var(--gold);color:#000;border-radius:14px 14px 4px 14px}
-.pmsg.theirs .pmsg-body{background:var(--s2);color:#ccc;border-radius:14px 14px 14px 4px;border:1px solid var(--br)}
-.pmsg.creator .pmsg-body{background:#1a1200;color:#f0c860;border:1px solid #2a1e00;border-radius:14px 14px 14px 4px}
-.pmsg-meta{font-size:10px;color:#444;margin-top:3px;padding:0 3px}
-.pmsg.creator .pmsg-meta{color:#3a2a00}
+.pmsg.mine .pmsg-body{background:var(--blue);color:#fff;border-radius:14px 14px 4px 14px}
+.pmsg.theirs .pmsg-body{background:var(--s2);color:#9abcd0;border-radius:14px 14px 14px 4px;border:1px solid var(--br)}
+.pmsg.creator .pmsg-body{background:#0a0d05;color:#d4b86a;border:1px solid #1a1a05;border-radius:14px 14px 14px 4px}
+.pmsg-meta{font-size:10px;color:#1a3a5a;margin-top:3px;padding:0 3px}
 .priv-input-area{border-top:1px solid var(--br);background:var(--s2);padding:.6rem;flex-shrink:0}
 .priv-row{display:flex;gap:.5rem}
-.priv-in{flex:1;background:var(--s3);border:1px solid var(--br);border-radius:10px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:none}
-.priv-in::placeholder{color:#3a3a3a}
+.priv-in{flex:1;background:var(--s3);border:1px solid var(--br);border-radius:10px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:'DM Sans',sans-serif;outline:none}
+.priv-in::placeholder{color:#1a3a5a}
 .priv-send{padding:9px 14px;background:var(--gold);color:#000;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px;font-family:'DM Sans',sans-serif}
-.priv-empty{color:#2e2e2e;font-size:13px;text-align:center;padding:3rem 1rem;line-height:1.6}
-.encrypted-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;color:#2a4a2a;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;background:#0d1a0d;border-radius:4px;border:1px solid #1a3a1a;margin-bottom:.5rem}
+.priv-empty{color:#1a2a3a;font-size:13px;text-align:center;padding:3rem 1rem;line-height:1.6}
+.encrypted-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;color:#0a2a1a;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;background:#050f07;border-radius:4px;border:1px solid #0a2a1a;margin-bottom:.5rem}
+
 /* GIFTS */
 .gifts{background:var(--s1);border:1px solid var(--br);border-radius:var(--rl);padding:clamp(1.5rem,5vw,2rem);text-align:center}
-.gifts-ico{font-size:2.8rem;opacity:.12;display:block;margin-bottom:.75rem}
+.gifts-ico{font-size:2.8rem;opacity:.15;display:block;margin-bottom:.75rem}
 .gifts-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
-.gifts-ttl{font-size:clamp(.9rem,3vw,1rem);color:#555;line-height:1.5}
-.status-bar{font-size:11px;text-align:center;padding:.3rem;color:#555;letter-spacing:.5px;margin-bottom:.4rem}
-.status-bar.ok{color:#4caf50}
-.status-bar.err{color:#e53935}
+.gifts-ttl{font-size:clamp(.9rem,3vw,1rem);color:#2a4a6a;line-height:1.5}
+
+.status-bar{font-size:11px;text-align:center;padding:.3rem;color:#1a3a5a;letter-spacing:.5px;margin-bottom:.4rem}
+.status-bar.ok{color:#2a6a4a}
+.status-bar.err{color:var(--red)}
+
+/* TREE */
+#treeWrap{width:100%;display:flex;justify-content:center;padding:2rem 0 1rem;position:relative;z-index:2}
+
 /* ADMIN PANEL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
+.overlay{position:fixed;inset:0;background:rgba(2,6,12,.92);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
 .overlay.on{opacity:1;pointer-events:all}
-.modal{background:#111;border:1px solid #2a1e00;border-radius:var(--rl);padding:clamp(1.2rem,4vw,1.6rem);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;transform:translateY(24px);transition:transform .3s;scrollbar-width:thin;scrollbar-color:#222 transparent}
+.modal{background:#070f1a;border:1px solid #1a2a3a;border-radius:var(--rl);padding:clamp(1.2rem,4vw,1.6rem);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;transform:translateY(24px);transition:transform .3s;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent}
 .overlay.on .modal{transform:translateY(0)}
 .mhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
 .mhd-ttl{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--gold)}
@@ -197,47 +217,49 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 .pi{flex:1;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s}
 .pi:focus{border-color:var(--gold)}
 .pbtn{padding:10px 14px;background:var(--s3);border:1px solid var(--br);color:var(--mu);font-size:13px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.pbtn:hover{background:#2a1e00;color:var(--gold)}
+.pbtn:hover{background:#0a1a0a;color:var(--gold)}
 .perr{font-size:11px;color:#e53935;height:16px;margin-bottom:.5rem}
 .tabs{display:flex;gap:.4rem;margin-bottom:1.2rem;flex-wrap:wrap}
 .tab{padding:6px 12px;background:var(--s2);border:1px solid var(--br);border-radius:8px;cursor:pointer;font-size:12px;color:var(--mu);transition:all .2s;font-family:'DM Sans',sans-serif}
-.tab.on{background:#1a1200;border-color:var(--gold);color:var(--gold)}
+.tab.on{background:#0a1a0a;border-color:var(--gold);color:var(--gold)}
 .tc{display:none}.tc.on{display:block}
-.plbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#484848;margin-bottom:.6rem}
+.plbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#1a3a5a;margin-bottom:.6rem}
 .crow{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem}
 .cico{font-size:14px;width:22px;text-align:center;flex-shrink:0}
-.cnm{font-size:12px;color:#666;width:70px;flex-shrink:0}
+.cnm{font-size:12px;color:#2a4a6a;width:70px;flex-shrink:0}
 .cval{flex:1;min-width:0;background:var(--s3);border:1px solid var(--br);border-radius:6px;padding:6px 8px;color:var(--txt);font-size:12px;font-family:'DM Sans',sans-serif;outline:none}
-.svbtn{width:100%;padding:9px;background:#1a1200;border:1px solid #3a2f00;color:var(--gold);font-size:12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.4rem}
-.svbtn:hover{background:#2a1e00}
+.svbtn{width:100%;padding:9px;background:#0a1a0a;border:1px solid #1a3a1a;color:var(--gold);font-size:12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.4rem}
+.svbtn:hover{background:#0a2a0a}
 .flash{font-size:11px;color:#4caf50;text-align:center;margin-top:.4rem;opacity:0;transition:opacity .3s;height:16px}
 .psec{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--br)}
 .vedit{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.9rem;margin-bottom:.6rem}
 .vedit-ttl{font-size:11px;color:var(--gold);margin-bottom:.6rem;font-weight:500}
 .vfi{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:6px;padding:6px 9px;color:var(--txt);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.4rem}
-.vfi:focus{border-color:#3a2f00}
-.vfi-lbl{font-size:10px;color:#555;margin-bottom:.3rem;display:block}
+.vfi-lbl{font-size:10px;color:#1a3a5a;margin-bottom:.3rem;display:block}
 .vpreview{width:100%;height:60px;border-radius:6px;object-fit:cover;margin-bottom:.4rem;display:none;border:1px solid var(--br)}
 .vpreview.on{display:block}
 .panel-links-sec{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.9rem;margin-bottom:.8rem}
 .panel-links-ttl{font-size:11px;color:var(--gold);margin-bottom:.7rem;font-weight:500}
-/* ADMIN BIZ CHATS */
 .biz-thread{background:var(--s2);border:1px solid var(--br);border-radius:10px;padding:.75rem;margin-bottom:.5rem;cursor:pointer;transition:all .2s}
-.biz-thread:hover{border-color:#444;background:var(--s3)}
+.biz-thread:hover{border-color:#2a4a6a}
 .biz-thread.unread{border-color:var(--gold)}
 .biz-thread-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
-.biz-thread-name{font-size:13px;font-weight:500;color:#ccc}
-.biz-thread-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:#1a1200;color:var(--gold);border:1px solid #2a1e00}
-.biz-thread-type{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px}
-.biz-thread-preview{font-size:11px;color:#444;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.biz-thread-name{font-size:13px;font-weight:500;color:#8ab0c8}
+.biz-thread-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:#0a1a0a;color:var(--gold);border:1px solid #1a2a1a}
+.biz-thread-preview{font-size:11px;color:#1a3a5a;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-reply-bar{display:flex;align-items:center;gap:6px;background:#0a1420;border-left:3px solid var(--gold);border-radius:4px;padding:5px 8px;font-size:11px;color:#2a4a6a;margin-bottom:.5rem}
+
 /* LEGAL */
-.legal-footer{max-width:680px;margin:0 auto;padding:1.5rem 1rem 3rem;text-align:center}
+.legal-footer{max-width:680px;margin:0 auto;padding:1.5rem 1rem 3rem;text-align:center;position:relative;z-index:2}
 @media(min-width:900px){.legal-footer{max-width:760px;padding:1.5rem 2rem 3rem}}
 </style>
 </head>
 <body>
-<div class="page">
 
+<canvas id="starCanvas"></canvas>
+<div id="moon"></div>
+
+<div class="page">
   <div class="hero">
     <div class="avatar-wrap" id="avatarWrap">
       <div class="avatar"><img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/></div>
@@ -246,7 +268,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div class="username">19Rey10</div>
     <div class="tagline">Creador de contenido &middot; Comunidad</div>
     <button class="like-btn" id="likeBtn" onclick="toggleLike()">
-      <span id="heart">♡</span><span id="likeCount">0</span><span>me gusta</span>
+      <span id="heart">&#9825;</span><span id="likeCount">0</span><span>me gusta</span>
     </button>
   </div>
 
@@ -255,9 +277,9 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
   <div class="sec">
     <div class="sec-title">Mi audiencia</div>
     <div class="stats-grid">
-      <div class="stat"><div class="stat-ico">📱</div><div class="stat-val" id="d-tt">—</div><div class="stat-lbl">TikTok</div></div>
-      <div class="stat"><div class="stat-ico">▶</div><div class="stat-val" id="d-yt">—</div><div class="stat-lbl">YouTube</div></div>
-      <div class="stat"><div class="stat-ico">💬</div><div class="stat-val" id="d-dc">—</div><div class="stat-lbl">Discord</div></div>
+      <div class="stat"><div class="stat-ico">&#128241;</div><div class="stat-val" id="d-tt">&mdash;</div><div class="stat-lbl">TikTok</div></div>
+      <div class="stat"><div class="stat-ico">&#9654;</div><div class="stat-val" id="d-yt">&mdash;</div><div class="stat-lbl">YouTube</div></div>
+      <div class="stat"><div class="stat-ico">&#128172;</div><div class="stat-val" id="d-dc">&mdash;</div><div class="stat-lbl">Discord</div></div>
     </div>
   </div>
 
@@ -276,7 +298,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
       </a>
       <a class="lcard" id="link-discord" href="#" target="_blank" rel="noopener" style="grid-column:1/-1">
         <div class="lico li-dc"><svg width="22" height="22" viewBox="0 0 24 24" fill="#7289da"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.101 18.08.114 18.1.136 18.114a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></div>
-        <div><div class="lcard-name">Discord</div><div class="lcard-sub" id="sub-discord">Únete a la comunidad</div></div>
+        <div><div class="lcard-name">Discord</div><div class="lcard-sub" id="sub-discord">&#218;nete a la comunidad</div></div>
       </a>
     </div>
   </div>
@@ -285,7 +307,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 
   <div class="sec">
     <div class="sec-title">Videos virales</div>
-    <div class="vscroll" id="videoList"><div style="color:#333;font-size:12px;padding:1rem">Cargando...</div></div>
+    <div class="vscroll" id="videoList"><div style="color:#1a2a3a;font-size:12px;padding:1rem">Cargando...</div></div>
   </div>
 
   <div class="divider"></div>
@@ -295,61 +317,57 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div class="biz-banner">
       <div class="biz-avail">Disponible</div>
       <div class="biz-ttl">TRABAJA CONMIGO</div>
-      <div class="biz-sub">¿Quieres llegar a mi comunidad? Hablemos. Respondo en menos de 48h.</div>
+      <div class="biz-sub">&#191;Quieres llegar a mi comunidad? Hablemos. Respondo en menos de 48h.</div>
     </div>
     <div class="type-grid">
-      <div class="tcard" onclick="selType('promo',this)"><div class="chk">✓</div><div class="tcard-ico">📢</div><div class="tcard-name">Promoción</div><div class="tcard-desc">Menciono tu marca</div></div>
-      <div class="tcard" onclick="selType('collab',this)"><div class="chk">✓</div><div class="tcard-ico">🤝</div><div class="tcard-name">Colaboración</div><div class="tcard-desc">Contenido juntos</div></div>
-      <div class="tcard" onclick="selType('sponsored',this)"><div class="chk">✓</div><div class="tcard-ico">🎬</div><div class="tcard-name">Patrocinado</div><div class="tcard-desc">Video dedicado</div></div>
-      <div class="tcard" onclick="selType('other',this)"><div class="chk">✓</div><div class="tcard-ico">💡</div><div class="tcard-name">Otro</div><div class="tcard-desc">Tu idea</div></div>
+      <div class="tcard" onclick="selType('promo',this)"><div class="chk">&#10003;</div><div class="tcard-ico">&#128226;</div><div class="tcard-name">Promoci&#243;n</div><div class="tcard-desc">Menciono tu marca</div></div>
+      <div class="tcard" onclick="selType('collab',this)"><div class="chk">&#10003;</div><div class="tcard-ico">&#129309;</div><div class="tcard-name">Colaboraci&#243;n</div><div class="tcard-desc">Contenido juntos</div></div>
+      <div class="tcard" onclick="selType('sponsored',this)"><div class="chk">&#10003;</div><div class="tcard-ico">&#127916;</div><div class="tcard-name">Patrocinado</div><div class="tcard-desc">Video dedicado</div></div>
+      <div class="tcard" onclick="selType('other',this)"><div class="chk">&#10003;</div><div class="tcard-ico">&#128161;</div><div class="tcard-name">Otro</div><div class="tcard-desc">Tu idea</div></div>
     </div>
     <div class="bizform" id="form-promo">
-      <div class="form-section-title">📢 Solicitud de Promoción</div>
+      <div class="form-section-title">&#128226; Solicitud de Promoci&#243;n</div>
       <div class="fgrid"><div><label class="fl">Tu nombre / marca</label><input class="fi" id="p-name" placeholder="Nombre o empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="p-contact" placeholder="Email o Instagram"/></div></div>
-      <label class="fl">¿Qué quieres promocionar?</label>
-      <select class="fsel" id="p-type"><option value="">Selecciona...</option><option>Producto físico</option><option>App / Software</option><option>Servicio</option><option>Marca personal</option><option>Otro</option></select>
-      <label class="fl">Descripción</label>
-      <textarea class="ft" id="p-desc" placeholder="Cuéntame qué es lo que quieres que promocione..."></textarea>
+      <label class="fl">&#191;Qu&#233; quieres promocionar?</label>
+      <select class="fsel" id="p-type"><option value="">Selecciona...</option><option>Producto f&#237;sico</option><option>App / Software</option><option>Servicio</option><option>Marca personal</option><option>Otro</option></select>
+      <label class="fl">Descripci&#243;n</label><textarea class="ft" id="p-desc" placeholder="Cu&#233;ntame qu&#233; quieres que promocione..."></textarea>
       <label class="fl">Presupuesto</label>
-      <select class="fsel" id="p-budget"><option value="">Selecciona...</option><option>Menos de $50</option><option>$50–$200</option><option>$200–$500</option><option>$500+</option><option>Hablemos primero</option></select>
+      <select class="fsel" id="p-budget"><option value="">Selecciona...</option><option>Menos de $50</option><option>$50&#8211;$200</option><option>$200&#8211;$500</option><option>$500+</option><option>Hablemos primero</option></select>
       <button class="sbtn" onclick="submitBiz('promo')">Enviar solicitud</button>
-      <div class="succ" id="succ-promo"><div class="succ-txt">✅ ¡Solicitud enviada! Te respondo pronto.</div><button class="chat-btn" onclick="openPrivateChat()">💬 Abrir chat con el creador</button></div>
+      <div class="succ" id="succ-promo"><div class="succ-txt">&#9989; &#161;Solicitud enviada! Te respondo pronto.</div><button class="chat-btn" onclick="openPrivateChat()">&#128172; Abrir chat con el creador</button></div>
       <div class="fnote">Tu mensaje llega directo al creador.</div>
     </div>
     <div class="bizform" id="form-collab">
-      <div class="form-section-title">🤝 Solicitud de Colaboración</div>
-      <div class="fgrid"><div><label class="fl">Tu nombre / usuario</label><input class="fi" id="c-name" placeholder="Nombre o @usuario"/></div><div><label class="fl">Contacto</label><input class="fi" id="c-contact" placeholder="Email o Instagram"/></div></div>
-      <label class="fl">¿En qué plataforma eres creador?</label>
+      <div class="form-section-title">&#129309; Solicitud de Colaboraci&#243;n</div>
+      <div class="fgrid"><div><label class="fl">Tu nombre</label><input class="fi" id="c-name" placeholder="Nombre o @usuario"/></div><div><label class="fl">Contacto</label><input class="fi" id="c-contact" placeholder="Email o Instagram"/></div></div>
+      <label class="fl">Plataforma</label>
       <select class="fsel" id="c-platform"><option value="">Selecciona...</option><option>TikTok</option><option>YouTube</option><option>Instagram</option><option>Twitch</option><option>Varias</option></select>
-      <label class="fl">¿Cuántos seguidores tienes?</label>
-      <select class="fsel" id="c-followers"><option value="">Selecciona...</option><option>Menos de 1K</option><option>1K – 10K</option><option>10K – 100K</option><option>100K+</option></select>
-      <label class="fl">Idea de colaboración</label>
-      <textarea class="ft" id="c-idea" placeholder="¿Qué tipo de collab tienes en mente?"></textarea>
+      <label class="fl">Seguidores</label>
+      <select class="fsel" id="c-followers"><option value="">Selecciona...</option><option>Menos de 1K</option><option>1K &#8211; 10K</option><option>10K &#8211; 100K</option><option>100K+</option></select>
+      <label class="fl">Idea</label><textarea class="ft" id="c-idea" placeholder="&#191;Qu&#233; tipo de collab tienes en mente?"></textarea>
       <button class="sbtn" onclick="submitBiz('collab')">Enviar solicitud</button>
-      <div class="succ" id="succ-collab"><div class="succ-txt">✅ ¡Solicitud enviada! Te respondo pronto.</div><button class="chat-btn" onclick="openPrivateChat()">💬 Abrir chat con el creador</button></div>
+      <div class="succ" id="succ-collab"><div class="succ-txt">&#9989; &#161;Solicitud enviada!</div><button class="chat-btn" onclick="openPrivateChat()">&#128172; Abrir chat con el creador</button></div>
       <div class="fnote">Tu mensaje llega directo al creador.</div>
     </div>
     <div class="bizform" id="form-sponsored">
-      <div class="form-section-title">🎬 Video Patrocinado</div>
-      <div class="fgrid"><div><label class="fl">Empresa / Marca</label><input class="fi" id="s-name" placeholder="Nombre de la empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="s-contact" placeholder="Email o Instagram"/></div></div>
+      <div class="form-section-title">&#127916; Video Patrocinado</div>
+      <div class="fgrid"><div><label class="fl">Empresa</label><input class="fi" id="s-name" placeholder="Nombre de la empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="s-contact" placeholder="Email o Instagram"/></div></div>
       <label class="fl">Link del producto</label><input class="fi" id="s-link" placeholder="https://..."/>
-      <label class="fl">¿Para qué plataforma?</label>
+      <label class="fl">Plataforma</label>
       <select class="fsel" id="s-platform"><option value="">Selecciona...</option><option>TikTok</option><option>YouTube</option><option>Ambas</option></select>
       <label class="fl">Presupuesto</label>
-      <select class="fsel" id="s-budget"><option value="">Selecciona...</option><option>$100–$300</option><option>$300–$500</option><option>$500–$1000</option><option>$1000+</option><option>Hablemos primero</option></select>
-      <label class="fl">Detalles</label>
-      <textarea class="ft" id="s-desc" placeholder="¿Qué mensaje quieres transmitir?"></textarea>
+      <select class="fsel" id="s-budget"><option value="">Selecciona...</option><option>$100&#8211;$300</option><option>$300&#8211;$500</option><option>$500&#8211;$1000</option><option>$1000+</option><option>Hablemos primero</option></select>
+      <label class="fl">Detalles</label><textarea class="ft" id="s-desc" placeholder="&#191;Qu&#233; mensaje quieres transmitir?"></textarea>
       <button class="sbtn" onclick="submitBiz('sponsored')">Enviar solicitud</button>
-      <div class="succ" id="succ-sponsored"><div class="succ-txt">✅ ¡Solicitud enviada! Te respondo pronto.</div><button class="chat-btn" onclick="openPrivateChat()">💬 Abrir chat con el creador</button></div>
+      <div class="succ" id="succ-sponsored"><div class="succ-txt">&#9989; &#161;Solicitud enviada!</div><button class="chat-btn" onclick="openPrivateChat()">&#128172; Abrir chat con el creador</button></div>
       <div class="fnote">Tu mensaje llega directo al creador.</div>
     </div>
     <div class="bizform" id="form-other">
-      <div class="form-section-title">💡 Otra propuesta</div>
+      <div class="form-section-title">&#128161; Otra propuesta</div>
       <div class="fgrid"><div><label class="fl">Tu nombre</label><input class="fi" id="o-name" placeholder="Nombre o empresa"/></div><div><label class="fl">Contacto</label><input class="fi" id="o-contact" placeholder="Email o Instagram"/></div></div>
-      <label class="fl">¿De qué se trata?</label>
-      <textarea class="ft" id="o-desc" style="min-height:100px" placeholder="Cuéntame tu idea..."></textarea>
+      <label class="fl">&#191;De qu&#233; se trata?</label><textarea class="ft" id="o-desc" style="min-height:100px" placeholder="Cu&#233;ntame tu idea..."></textarea>
       <button class="sbtn" onclick="submitBiz('other')">Enviar propuesta</button>
-      <div class="succ" id="succ-other"><div class="succ-txt">✅ ¡Propuesta enviada! Te respondo pronto.</div><button class="chat-btn" onclick="openPrivateChat()">💬 Abrir chat con el creador</button></div>
+      <div class="succ" id="succ-other"><div class="succ-txt">&#9989; &#161;Propuesta enviada!</div><button class="chat-btn" onclick="openPrivateChat()">&#128172; Abrir chat con el creador</button></div>
       <div class="fnote">Tu mensaje llega directo al creador.</div>
     </div>
   </div>
@@ -360,24 +378,24 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
     <div class="sec-title">Chat con la comunidad</div>
     <div id="statusBar" class="status-bar">Conectando...</div>
     <div class="chatbox">
-      <div class="chatmsgs" id="chatMsgs"><div style="color:#2e2e2e;font-size:13px;text-align:center;padding:4rem 0">Conectando...</div></div>
+      <div class="chatmsgs" id="chatMsgs"><div style="color:#1a2a3a;font-size:13px;text-align:center;padding:4rem 0">Conectando...</div></div>
+      <div id="replyPreview" style="display:none" class="reply-preview">
+        <div class="reply-preview-txt" id="replyPreviewTxt"></div>
+        <button class="reply-preview-close" onclick="clearReply()">&#10005;</button>
+      </div>
       <div id="chatRegBox" class="reg-box" style="display:none">
-        <div class="reg-label">¿Cómo te llamas? Solo la primera vez 👇</div>
+        <div class="reg-label">&#191;C&#243;mo te llamas? Solo la primera vez &#128071;</div>
         <div class="reg-row">
           <input class="ni" id="regName" placeholder="Tu nombre o @usuario..." maxlength="30" onkeydown="if(event.key==='Enter')registerUser()"/>
           <button class="cbtn" onclick="registerUser()">Entrar</button>
         </div>
       </div>
       <div id="chatInputBox" style="display:none">
-        <div id="replyPreview" class="reply-preview" style="display:none;margin:.4rem .7rem 0">
-          <div class="reply-preview-txt" id="replyPreviewTxt"></div>
-          <button class="reply-preview-close" onclick="clearReply()">✕</button>
-        </div>
         <div class="chat-user-bar">
           <span>Chateando como <span class="chat-user-name" id="chatUserName"></span></span>
           <div class="chat-user-btns">
-            <button class="chat-sm-btn" onclick="resetUser()">cambiar nombre</button>
-            <button class="chat-sm-btn" onclick="logoutUser()" style="color:#555;border-color:#2a2a2a">salir</button>
+            <button class="chat-sm-btn" onclick="resetUser()">cambiar</button>
+            <button class="chat-sm-btn" onclick="logoutUser()">salir</button>
           </div>
         </div>
         <div class="cinrow">
@@ -393,17 +411,72 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
   <div class="sec" style="padding-bottom:0">
     <div class="sec-title">Regalos</div>
     <div class="gifts">
-      <span class="gifts-ico">🎁</span>
-      <div class="gifts-tag">Próximamente</div>
+      <span class="gifts-ico">&#127873;</span>
+      <div class="gifts-tag">Pr&#243;ximamente</div>
       <div class="gifts-ttl">Sorteos y regalos reales para la comunidad</div>
     </div>
   </div>
 </div>
 
+<!-- TREE SVG -->
+<div id="treeWrap">
+<svg width="340" height="280" viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:2">
+  <!-- Ground fog -->
+  <ellipse cx="170" cy="272" rx="140" ry="10" fill="rgba(10,20,40,0.7)"/>
+  <!-- Main trunk -->
+  <path d="M170 270 L165 200 L160 170 L158 140 L162 110 L160 80" stroke="#1a1008" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <path d="M170 270 L175 200 L180 170 L182 140 L178 110 L180 80" stroke="#0f0a05" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M170 270 L168 200 L166 160 L168 120 L170 80" stroke="#251808" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Bark texture -->
+  <path d="M167 240 Q163 235 165 228" stroke="#0a0804" stroke-width="2" fill="none"/>
+  <path d="M172 210 Q176 205 174 198" stroke="#0a0804" stroke-width="2" fill="none"/>
+  <path d="M165 180 Q161 175 163 168" stroke="#0a0804" stroke-width="2" fill="none"/>
+  <path d="M173 150 Q177 145 175 138" stroke="#0a0804" stroke-width="2" fill="none"/>
+  <!-- Major branches -->
+  <path d="M163 180 Q140 165 118 155" stroke="#1a1008" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M118 155 Q100 148 85 142" stroke="#1a1008" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M175 160 Q200 145 222 135" stroke="#1a1008" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M222 135 Q240 128 258 122" stroke="#1a1008" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M166 140 Q148 120 130 108" stroke="#1a1008" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M130 108 Q115 100 100 92" stroke="#140e06" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M174 130 Q194 112 212 100" stroke="#1a1008" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M212 100 Q228 90 244 82" stroke="#140e06" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M168 110 Q158 90 148 72" stroke="#1a1008" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M172 100 Q182 80 192 62" stroke="#1a1008" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Small branches -->
+  <path d="M85 142 Q75 136 65 130" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M85 142 Q80 132 78 122" stroke="#140e06" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M258 122 Q268 116 278 110" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M258 122 Q262 112 264 102" stroke="#140e06" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M100 92 Q88 86 78 80" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M244 82 Q254 76 264 70" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M148 72 Q138 60 130 48" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M192 62 Q200 50 208 38" stroke="#140e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Tiny twigs -->
+  <path d="M65 130 Q58 124 52 118" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M65 130 Q60 122 58 114" stroke="#0f0a05" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M78 80 Q70 74 64 68" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M278 110 Q286 104 292 98" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M264 70 Q272 64 278 58" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M130 48 Q124 38 120 28" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M130 48 Q136 38 140 28" stroke="#0f0a05" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M208 38 Q202 28 198 18" stroke="#0f0a05" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M208 38 Q214 28 218 18" stroke="#0f0a05" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Roots -->
+  <path d="M165 268 Q148 272 130 270" stroke="#0f0a05" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M175 268 Q192 272 210 270" stroke="#0f0a05" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M162 270 Q145 276 125 278" stroke="#0a0804" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M178 270 Q195 276 215 278" stroke="#0a0804" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Moonlight glow on branches -->
+  <path d="M163 180 Q140 165 118 155" stroke="rgba(74,158,255,0.04)" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M175 160 Q200 145 222 135" stroke="rgba(74,158,255,0.04)" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>
+</div>
+
 <!-- VIDEO MODAL -->
 <div class="vid-overlay" id="vidOverlay" onclick="vidOverlayClick(event)">
   <div class="vid-modal">
-    <button class="vid-close" onclick="closeVideo()">✕</button>
+    <button class="vid-close" onclick="closeVideo()">&#10005;</button>
     <div class="vid-frame" id="vidFrame"></div>
     <div class="vid-label" id="vidLabel"></div>
   </div>
@@ -413,25 +486,23 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 <div class="priv-overlay" id="privOverlay" onclick="privOverlayClick(event)">
   <div class="priv-modal">
     <div class="priv-header">
-      <div class="priv-avatar"><img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/>
-        <span id="privAvatarFallback" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold)">19R</span>
-      </div>
+      <div class="priv-avatar"><img src="foto.png" alt="19Rey10" onerror="this.style.display='none'"/></div>
       <div class="priv-title">
         <div class="priv-name">19Rey10</div>
-        <div class="priv-status">● Activo</div>
+        <div class="priv-status">&#11044; Activo</div>
       </div>
-      <button class="priv-close" onclick="closePrivateChat()">✕</button>
+      <button class="priv-close" onclick="closePrivateChat()">&#10005;</button>
     </div>
     <div style="text-align:center;padding:.4rem;border-bottom:1px solid var(--br)">
-      <span class="encrypted-badge">🔒 Chat cifrado · privado</span>
+      <span class="encrypted-badge">&#128274; Chat cifrado &middot; privado</span>
     </div>
     <div class="priv-msgs" id="privMsgs">
-      <div class="priv-empty">Envía tu primer mensaje.<br><span style="font-size:11px;color:#2a2a2a">🔒 Los mensajes son privados y cifrados</span></div>
+      <div class="priv-empty">Env&#237;a tu primer mensaje.<br><span style="font-size:11px;color:#0a1a2a">&#128274; Privado y cifrado</span></div>
     </div>
     <div class="priv-input-area">
       <div class="priv-row">
         <input class="priv-in" id="privIn" placeholder="Escribe un mensaje..." maxlength="300" onkeydown="if(event.key==='Enter')sendPrivMsg()"/>
-        <button class="priv-send" onclick="sendPrivMsg()">➤</button>
+        <button class="priv-send" onclick="sendPrivMsg()">&#10148;</button>
       </div>
     </div>
   </div>
@@ -442,12 +513,12 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
   <div class="modal">
     <div class="mhd">
       <div class="mhd-ttl">PANEL CREADOR</div>
-      <button class="mclose" onclick="closePanel()">✕</button>
+      <button class="mclose" onclick="closePanel()">&#10005;</button>
     </div>
     <div id="loginSec">
-      <div style="font-size:12px;color:#484848;margin-bottom:.75rem">Contraseña secreta</div>
+      <div style="font-size:12px;color:#1a3a5a;margin-bottom:.75rem">Contrase&#241;a secreta</div>
       <div class="pwrap">
-        <input class="pi" id="passIn" type="password" placeholder="Contraseña..." onkeydown="if(event.key==='Enter')tryUnlock()"/>
+        <input class="pi" id="passIn" type="password" placeholder="Contrase&#241;a..." onkeydown="if(event.key==='Enter')tryUnlock()"/>
         <button class="pbtn" onclick="tryUnlock()">Entrar</button>
       </div>
       <div class="perr" id="perr"></div>
@@ -462,14 +533,14 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
       </div>
       <div class="tc on" id="t-stats">
         <span class="plbl">Contadores de audiencia</span>
-        <div class="crow"><span class="cico">📱</span><span class="cnm">TikTok</span><input class="cval" id="it" placeholder="ej: 12.5K"/></div>
-        <div class="crow"><span class="cico">▶</span><span class="cnm">YouTube</span><input class="cval" id="iy" placeholder="ej: 3.2K"/></div>
-        <div class="crow"><span class="cico">💬</span><span class="cnm">Discord</span><input class="cval" id="idc" placeholder="ej: 850"/></div>
+        <div class="crow"><span class="cico">&#128241;</span><span class="cnm">TikTok</span><input class="cval" id="it" placeholder="ej: 12.5K"/></div>
+        <div class="crow"><span class="cico">&#9654;</span><span class="cnm">YouTube</span><input class="cval" id="iy" placeholder="ej: 3.2K"/></div>
+        <div class="crow"><span class="cico">&#128172;</span><span class="cnm">Discord</span><input class="cval" id="idc" placeholder="ej: 850"/></div>
         <button class="svbtn" onclick="saveStats()">Guardar y publicar</button>
-        <div class="flash" id="sf">✓ Guardado para todos</div>
+        <div class="flash" id="sf">&#10003; Guardado</div>
       </div>
       <div class="tc" id="t-links">
-        <span class="plbl">Links de redes sociales</span>
+        <span class="plbl">Links de redes</span>
         <div class="panel-links-sec">
           <div class="panel-links-ttl">TikTok</div>
           <span class="vfi-lbl">URL del perfil</span><input class="vfi" id="lnk-tt" placeholder="https://tiktok.com/@tuusuario"/>
@@ -478,40 +549,40 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
         <div class="panel-links-sec">
           <div class="panel-links-ttl">YouTube</div>
           <span class="vfi-lbl">URL del canal</span><input class="vfi" id="lnk-yt" placeholder="https://youtube.com/@tucanal"/>
-          <span class="vfi-lbl">Nombre del canal</span><input class="vfi" id="lnk-yt-sub" placeholder="NombreCanal"/>
+          <span class="vfi-lbl">Nombre</span><input class="vfi" id="lnk-yt-sub" placeholder="NombreCanal"/>
         </div>
         <div class="panel-links-sec">
           <div class="panel-links-ttl" style="color:#7289da">Discord</div>
-          <span class="vfi-lbl">Link de invitación</span><input class="vfi" id="lnk-dc" placeholder="https://discord.gg/tucodigo"/>
-          <span class="vfi-lbl">Texto descriptivo</span><input class="vfi" id="lnk-dc-sub" placeholder="Únete a la comunidad"/>
+          <span class="vfi-lbl">Link de invitaci&#243;n</span><input class="vfi" id="lnk-dc" placeholder="https://discord.gg/tucodigo"/>
+          <span class="vfi-lbl">Texto</span><input class="vfi" id="lnk-dc-sub" placeholder="&#218;nete a la comunidad"/>
         </div>
         <button class="svbtn" onclick="saveLinks()">Guardar links</button>
-        <div class="flash" id="lf">✓ Links actualizados</div>
+        <div class="flash" id="lf">&#10003; Links actualizados</div>
       </div>
       <div class="tc" id="t-videos">
         <span class="plbl">Editar videos virales</span>
         <div id="videoEditors"></div>
         <button class="svbtn" onclick="saveVideos()">Guardar videos</button>
-        <div class="flash" id="vf">✓ Videos guardados</div>
+        <div class="flash" id="vf">&#10003; Videos guardados</div>
       </div>
       <div class="tc" id="t-chat">
         <div class="psec">
-          <span class="plbl">Responder en chat público</span>
-          <div id="adminReplyPreview" style="display:none;background:#1a1a1a;border-left:3px solid var(--gold);border-radius:4px;padding:5px 8px;font-size:11px;color:#666;margin-bottom:.5rem;display:flex;align-items:center;gap:6px">
-            <span id="adminReplyTxt" style="flex:1"></span>
-            <button onclick="clearAdminReply()" style="background:none;border:none;color:#444;cursor:pointer;font-size:12px">✕</button>
+          <span class="plbl">Responder en chat p&#250;blico</span>
+          <div id="adminReplyPreview" class="admin-reply-bar" style="display:none">
+            <span id="adminReplyTxt" style="flex:1;font-size:11px;color:#2a4a6a"></span>
+            <button onclick="clearAdminReply()" style="background:none;border:none;color:#1a3a5a;cursor:pointer;font-size:12px">&#10005;</button>
           </div>
           <div style="display:flex;gap:.5rem">
             <input class="cval" style="flex:1" id="creatorIn" placeholder="Responde como creador..." onkeydown="if(event.key==='Enter')sendCreator()"/>
             <button class="cbtn" style="background:var(--gold);color:#000;font-size:12px;padding:8px 12px" onclick="sendCreator()">Enviar</button>
           </div>
         </div>
-        <span class="plbl">Últimos mensajes del chat</span>
-        <div id="chatPreview" style="font-size:12px;color:#484848"></div>
+        <span class="plbl">&#218;ltimos mensajes (toca para responder)</span>
+        <div id="chatPreview" style="font-size:12px;color:#1a3a5a"></div>
       </div>
       <div class="tc" id="t-inbox">
         <span class="plbl">Chats privados de solicitudes</span>
-        <div id="bizThreadList"><div style="color:#3a3a3a;font-size:12px">Cargando...</div></div>
+        <div id="bizThreadList"><div style="color:#1a3a5a;font-size:12px">Cargando...</div></div>
       </div>
     </div>
   </div>
@@ -519,46 +590,127 @@ html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif
 
 <!-- LEGAL FOOTER -->
 <div class="legal-footer">
-  <div style="height:1px;background:linear-gradient(to right,transparent,#2e2e2e 15%,#2e2e2e 85%,transparent);margin-bottom:1.5rem"></div>
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:#282828;margin-bottom:.3rem">19REY10</div>
-  <div style="font-size:10px;color:#222;letter-spacing:1px;margin-bottom:1.2rem">v1.00.1.3.67 &nbsp;&bull;&nbsp; &copy; 2025 19Rey10. Todos los derechos reservados.</div>
+  <div style="height:1px;background:linear-gradient(to right,transparent,#1a2a3a 15%,#1a2a3a 85%,transparent);margin-bottom:1.5rem"></div>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:#0d1a28;margin-bottom:.3rem">19REY10</div>
+  <div style="font-size:10px;color:#0a1520;letter-spacing:1px;margin-bottom:1.2rem">v1.00.1.3.67 &nbsp;&bull;&nbsp; &copy; 2025 19Rey10. Todos los derechos reservados.</div>
   <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.2rem">
-    <span onclick="showLegal('terms')" style="font-size:11px;color:#333;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Términos de uso</span>
-    <span onclick="showLegal('privacy')" style="font-size:11px;color:#333;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Privacidad</span>
-    <span onclick="showLegal('cookies')" style="font-size:11px;color:#333;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Cookies</span>
-    <span onclick="showLegal('dmca')" style="font-size:11px;color:#333;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">DMCA</span>
+    <span onclick="showLegal('terms')" style="font-size:11px;color:#1a3a5a;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">T&#233;rminos</span>
+    <span onclick="showLegal('privacy')" style="font-size:11px;color:#1a3a5a;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Privacidad</span>
+    <span onclick="showLegal('cookies')" style="font-size:11px;color:#1a3a5a;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Cookies</span>
+    <span onclick="showLegal('dmca')" style="font-size:11px;color:#1a3a5a;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">DMCA</span>
   </div>
-  <div style="font-size:10px;color:#222;line-height:1.6;font-family:'DM Sans',sans-serif">Sitio independiente operado por 19Rey10. No afiliado a TikTok, YouTube ni Discord.</div>
+  <div style="font-size:10px;color:#0a1520;line-height:1.6;font-family:'DM Sans',sans-serif">Sitio independiente operado por 19Rey10. No afiliado a TikTok, YouTube ni Discord.</div>
 </div>
 
 <!-- LEGAL MODAL -->
-<div id="legalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:20000;display:none;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)this.style.display='none'">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:18px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;padding:1.5rem;scrollbar-width:thin">
+<div id="legalOverlay" style="position:fixed;inset:0;background:rgba(2,6,12,.95);z-index:20000;display:none;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#070f1a;border:1px solid #1a2a3a;border-radius:18px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;padding:1.5rem;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem">
       <div id="legalTitle" style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#d4a843"></div>
-      <button onclick="document.getElementById('legalOverlay').style.display='none'" style="background:none;border:1px solid #333;color:#666;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif">✕</button>
+      <button onclick="document.getElementById('legalOverlay').style.display='none'" style="background:none;border:1px solid #1a2a3a;color:#2a4a6a;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif">&#10005;</button>
     </div>
-    <div id="legalContent" style="font-size:12px;color:#666;line-height:1.8;font-family:'DM Sans',sans-serif"></div>
-    <div style="margin-top:1.5rem;font-size:10px;color:#2a2a2a;text-align:center">19Rey10 &bull; v1.00.1.3.67 &bull; &copy; 2025</div>
+    <div id="legalContent" style="font-size:12px;color:#2a4a6a;line-height:1.8;font-family:'DM Sans',sans-serif"></div>
+    <div style="margin-top:1.5rem;font-size:10px;color:#0a1520;text-align:center">19Rey10 &bull; v1.00.1.3.67 &bull; &copy; 2025</div>
   </div>
 </div>
 
+<!-- FIREBASE OBFUSCATED -->
 <script type="module">
 (function(_h){
 var _c=_h.match(/.{1,2}/g).map(function(b){return String.fromCharCode(parseInt(b,16));}).join('');
 var _b=new Blob([_c],{type:'application/javascript'});
 var _u=URL.createObjectURL(_b);
 var _s=document.createElement('script');
-_s.type='module';
-_s.src=_u;
+_s.type='module';_s.src=_u;
 document.head.appendChild(_s);
 setTimeout(function(){URL.revokeObjectURL(_u);},8000);
-})("0a696d706f7274207b20696e697469616c697a65417070207d2066726f6d202268747470733a2f2f7777772e677374617469632e636f6d2f66697265626173656a732f31302e31322e302f66697265626173652d6170702e6a73223b0a696d706f7274207b206765744669726573746f72652c20636f6c6c656374696f6e2c20646f632c20616464446f632c20676574446f63732c20676574446f632c20736574446f632c206f6e536e617073686f742c2071756572792c206f7264657242792c206c696d69742c2073657276657254696d657374616d70207d2066726f6d202268747470733a2f2f7777772e677374617469632e636f6d2f66697265626173656a732f31302e31322e302f66697265626173652d6669726573746f72652e6a73223b0a0a636f6e737420617070203d20696e697469616c697a65417070287b0a20206170694b65793a2241497a6153794273323850672d6a356f395f4e697148667857764e4e307678725f35355f4a5a55222c0a202061757468446f6d61696e3a2272657931302d706167652e66697265626173656170702e636f6d222c0a202070726f6a65637449643a2272657931302d70616765222c0a202073746f726167654275636b65743a2272657931302d706167652e666972656261736573746f726167652e617070222c0a20206d6573736167696e6753656e64657249643a22343939383234353139323732222c0a202061707049643a22313a3439393832343531393237323a7765623a66663530333635323362386564373238366262336464220a7d293b0a636f6e7374206462203d206765744669726573746f7265286170702c22726579313931302d7061676522293b0a0a636f6e73742050415353203d2022555877614c586e6c6e5e5941343675564654302a223b0a636f6e737420454e435f4b4559203d202230663037616263663337356235363765323730306462346434666461653837393461663862313366666437383363616231666466656533366437653466353064223b0a0a636f6e7374206c696b657352656620203d20646f632864622c2273697465222c226c696b657322293b0a636f6e737420737461747352656620203d20646f632864622c2273697465222c22737461747322293b0a636f6e737420766964656f73526566203d20646f632864622c2273697465222c22766964656f7322293b0a636f6e7374206c696e6b7352656620203d20646f632864622c2273697465222c226c696e6b7322293b0a636f6e73742063686174436f6c2020203d20636f6c6c656374696f6e2864622c226368617422293b0a636f6e73742062697a436f6c202020203d20636f6c6c656374696f6e2864622c22627573696e65737322293b0a636f6e73742070726976436f6c2020203d20636f6c6c656374696f6e2864622c22707269766174655f636861747322293b0a0a6c6574206973556e6c6f636b65643d66616c73652c206c696b656442794d653d6c6f63616c53746f726167652e6765744974656d28226c696b65645f3139726579313022293d3d3d2231223b0a6c65742061637469766542697a547970653d6e756c6c2c2063757272656e74557365723d6e756c6c2c20637572566964656f733d5b5d3b0a6c6574207265706c79696e67546f3d6e756c6c2c2061646d696e5265706c79696e67546f3d6e756c6c2c2063757272656e74507269764368617449643d6e756c6c2c20697341646d696e56696577696e67436861743d66616c73653b0a0a636f6e7374204445465f564944454f533d5b0a20207b7469746c653a22547520766964656f206d617320766972616c222c76696577733a22312e324d222c75726c3a2223222c7468756d623a22227d2c0a20207b7469746c653a22536567756e646f20766964656f20766972616c222c76696577733a223938304b222c75726c3a2223222c7468756d623a22227d2c0a20207b7469746c653a2254657263657220766964656f2061717569222c76696577733a223735304b222c75726c3a2223222c7468756d623a22227d0a5d3b0a0a636f6e73742067203d206964203d3e20646f63756d656e742e676574456c656d656e7442794964286964293b0a636f6e737420666c203d206964203d3e207b20636f6e737420653d67286964293b206966282165292072657475726e3b20652e7374796c652e6f7061636974793d2231223b2073657454696d656f75742828293d3e652e7374796c652e6f7061636974793d2230222c32323030293b207d3b0a0a2f2f2053696d706c6520584f522063697068657220666f72206d65737361676520656e6372797074696f6e0a66756e6374696f6e20656e63727970744d7367287465787429207b0a2020636f6e7374206b6579203d20454e435f4b45593b0a20206c657420726573756c74203d2022223b0a2020666f72286c657420693d303b693c746578742e6c656e6774683b692b2b2920726573756c74202b3d20537472696e672e66726f6d43686172436f646528746578742e63686172436f646541742869295e6b65792e63686172436f646541742869256b65792e6c656e67746829293b0a202072657475726e2062746f6128756e65736361706528656e636f6465555249436f6d706f6e656e7428726573756c742929293b0a7d0a66756e6374696f6e20646563727970744d736728656e6329207b0a2020747279207b0a20202020636f6e7374206b6579203d20454e435f4b45593b0a20202020636f6e73742074657874203d206465636f6465555249436f6d706f6e656e74286573636170652861746f6228656e632929293b0a202020206c657420726573756c74203d2022223b0a20202020666f72286c657420693d303b693c746578742e6c656e6774683b692b2b2920726573756c74202b3d20537472696e672e66726f6d43686172436f646528746578742e63686172436f646541742869295e6b65792e63686172436f646541742869256b65792e6c656e67746829293b0a2020202072657475726e20726573756c743b0a20207d206361746368286529207b2072657475726e20656e633b207d0a7d0a0a2f2f2053484f57205441420a66756e6374696f6e2073686f775461622869642c62746e297b0a2020646f63756d656e742e717565727953656c6563746f72416c6c28222e746322292e666f724561636828743d3e742e636c6173734c6973742e72656d6f766528226f6e2229293b0a2020646f63756d656e742e717565727953656c6563746f72416c6c28222e74616222292e666f724561636828743d3e742e636c6173734c6973742e72656d6f766528226f6e2229293b0a202067286964292e636c6173734c6973742e61646428226f6e22293b2062746e2e636c6173734c6973742e61646428226f6e22293b0a202069662869643d3d3d22742d696e626f782229206c6f616442697a5468726561647328293b0a202069662869643d3d3d22742d6368617422292072656e646572436861745072657669657728293b0a7d0a77696e646f772e73686f775461623d73686f775461623b0a0a2f2f20444f55424c452054415020415641544152203d3e2050414e454c0a6c657420746170433d302c746170543d6e756c6c3b0a6728226176617461725772617022292e6164644576656e744c697374656e65722822636c69636b222c28293d3e7b0a2020746170432b2b3b0a2020636c65617254696d656f75742874617054293b0a2020746170543d73657454696d656f75742828293d3e7b20696628746170433e3d3229206f70656e50616e656c28293b20746170433d303b207d2c333830293b0a202067282272696e6722292e7374796c652e626f72646572436f6c6f723d22766172282d2d676f6c6429223b0a202073657454696d656f75742828293d3e67282272696e6722292e7374796c652e626f72646572436f6c6f723d22222c353030293b0a7d293b0a66756e6374696f6e206f70656e50616e656c28297b206728226f7665726c617922292e636c6173734c6973742e61646428226f6e22293b2073657454696d656f75742828293d3e7b20696628216973556e6c6f636b6564292067282270617373496e22292e666f63757328293b207d2c333030293b207d0a66756e6374696f6e20636c6f736550616e656c28297b206728226f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b207d0a66756e6374696f6e206f7665726c6179436c69636b2865297b20696628652e7461726765743d3d3d6728226f7665726c617922292920636c6f736550616e656c28293b207d0a77696e646f772e6f70656e50616e656c3d6f70656e50616e656c3b2077696e646f772e636c6f736550616e656c3d636c6f736550616e656c3b2077696e646f772e6f7665726c6179436c69636b3d6f7665726c6179436c69636b3b0a0a66756e6374696f6e20747279556e6c6f636b28297b0a202069662867282270617373496e22292e76616c75653d3d3d50415353297b0a202020206973556e6c6f636b65643d747275653b0a202020206728226c6f67696e53656322292e7374796c652e646973706c61793d226e6f6e65223b0a2020202067282270616e656c53656322292e7374796c652e646973706c61793d22626c6f636b223b0a2020202066696c6c537461747328293b206275696c64456469746f727328293b206c6f61644c696e6b7328293b0a20207d20656c7365207b0a202020206728227065727222292e74657874436f6e74656e743d22436f6e7472617365c3b16120696e636f727265637461223b0a2020202067282270617373496e22292e7374796c652e626f72646572436f6c6f723d2223653533393335223b0a2020202073657454696d656f75742828293d3e7b2067282270617373496e22292e7374796c652e626f72646572436f6c6f723d22223b206728227065727222292e74657874436f6e74656e743d22223b207d2c31353030293b0a20207d0a7d0a77696e646f772e747279556e6c6f636b3d747279556e6c6f636b3b0a0a2f2f204c494b45530a6c6574207365727665724c696b65436f756e743d303b0a6f6e536e617073686f74286c696b65735265662c736e61703d3e7b0a20207365727665724c696b65436f756e743d736e61702e65786973747328293f28736e61702e6461746128292e636f756e747c7c30293a303b0a20206728226c696b65436f756e7422292e74657874436f6e74656e743d7365727665724c696b65436f756e743b0a20206966286c696b656442794d65297b20672822686561727422292e74657874436f6e74656e743d22e299a5223b206728226c696b6542746e22292e636c6173734c6973742e61646428226c696b656422293b207d0a7d293b0a6173796e632066756e6374696f6e20746f67676c654c696b6528297b0a20206966286c696b656442794d65297b0a202020206c696b656442794d653d66616c73653b206c6f63616c53746f726167652e72656d6f76654974656d28226c696b65645f3139726579313022293b0a20202020636f6e7374206e3d4d6174682e6d617828302c7365727665724c696b65436f756e742d31293b0a202020206728226c696b65436f756e7422292e74657874436f6e74656e743d6e3b20672822686561727422292e74657874436f6e74656e743d22e299a1223b206728226c696b6542746e22292e636c6173734c6973742e72656d6f766528226c696b656422293b0a202020207472797b20617761697420736574446f63286c696b65735265662c7b636f756e743a6e7d2c7b6d657267653a747275657d293b207d63617463682865297b7d0a20207d20656c7365207b0a202020206c696b656442794d653d747275653b206c6f63616c53746f726167652e7365744974656d28226c696b65645f31397265793130222c223122293b0a20202020636f6e7374206e3d7365727665724c696b65436f756e742b313b0a202020206728226c696b65436f756e7422292e74657874436f6e74656e743d6e3b20672822686561727422292e74657874436f6e74656e743d22e299a5223b206728226c696b6542746e22292e636c6173734c6973742e61646428226c696b656422293b0a202020207472797b20617761697420736574446f63286c696b65735265662c7b636f756e743a6e7d2c7b6d657267653a747275657d293b207d63617463682865297b7d0a20207d0a7d0a77696e646f772e746f67676c654c696b653d746f67676c654c696b653b0a0a2f2f2053544154530a6f6e536e617073686f742873746174735265662c736e61703d3e7b0a202069662821736e61702e6578697374732829292072657475726e3b0a2020636f6e737420643d736e61702e6461746128293b0a2020672822642d747422292e74657874436f6e74656e743d642e74696b746f6b7c7c22e28094223b0a2020672822642d797422292e74657874436f6e74656e743d642e796f75747562657c7c22e28094223b0a2020672822642d646322292e74657874436f6e74656e743d642e646973636f72647c7c22e28094223b0a7d293b0a66756e6374696f6e2066696c6c537461747328297b0a2020672822697422292e76616c75653d672822642d747422292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d747422292e74657874436f6e74656e743b0a2020672822697922292e76616c75653d672822642d797422292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d797422292e74657874436f6e74656e743b0a202067282269646322292e76616c75653d672822642d646322292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d646322292e74657874436f6e74656e743b0a7d0a6173796e632066756e6374696f6e2073617665537461747328297b0a20207472797b20617761697420736574446f632873746174735265662c7b74696b746f6b3a672822697422292e76616c75652e7472696d28297c7c22e28094222c796f75747562653a672822697922292e76616c75652e7472696d28297c7c22e28094222c646973636f72643a67282269646322292e76616c75652e7472696d28297c7c22e28094227d2c7b6d657267653a747275657d293b20666c2822736622293b207d0a202063617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e7361766553746174733d7361766553746174733b0a0a2f2f204c494e4b530a6f6e536e617073686f74286c696e6b735265662c736e61703d3e7b0a202069662821736e61702e6578697374732829292072657475726e3b0a2020636f6e737420643d736e61702e6461746128293b0a2020696628642e747455726c29206728226c696e6b2d74696b746f6b22292e687265663d642e747455726c3b0a2020696628642e747453756229206728227375622d74696b746f6b22292e74657874436f6e74656e743d642e74745375623b0a2020696628642e797455726c29206728226c696e6b2d796f757475626522292e687265663d642e797455726c3b0a2020696628642e797453756229206728227375622d796f757475626522292e74657874436f6e74656e743d642e79745375623b0a2020696628642e646355726c29206728226c696e6b2d646973636f726422292e687265663d642e646355726c3b0a2020696628642e646353756229206728227375622d646973636f726422292e74657874436f6e74656e743d642e64635375623b0a7d293b0a66756e6374696f6e206c6f61644c696e6b7328297b0a2020676574446f63286c696e6b73526566292e7468656e28736e61703d3e7b0a2020202069662821736e61702e6578697374732829292072657475726e3b0a20202020636f6e737420643d736e61702e6461746128293b0a202020205b227474222c227974222c226463225d2e666f7245616368286b3d3e7b0a202020202020696628645b6b2b2255726c225d29207b20636f6e737420656c3d6728226c6e6b2d222b6b293b20696628656c2920656c2e76616c75653d645b6b2b2255726c225d3b207d0a202020202020696628645b6b2b22537562225d29207b20636f6e737420656c3d6728226c6e6b2d222b6b2b222d73756222293b20696628656c2920656c2e76616c75653d645b6b2b22537562225d3b207d0a202020207d293b0a20207d292e63617463682828293d3e7b7d293b0a7d0a6173796e632066756e6374696f6e20736176654c696e6b7328297b0a20207472797b0a20202020617761697420736574446f63286c696e6b735265662c7b747455726c3a6728226c6e6b2d747422292e76616c75652e7472696d28292c74745375623a6728226c6e6b2d74742d73756222292e76616c75652e7472696d28292c797455726c3a6728226c6e6b2d797422292e76616c75652e7472696d28292c79745375623a6728226c6e6b2d79742d73756222292e76616c75652e7472696d28292c646355726c3a6728226c6e6b2d646322292e76616c75652e7472696d28292c64635375623a6728226c6e6b2d64632d73756222292e76616c75652e7472696d28297d2c7b6d657267653a747275657d293b0a20202020666c28226c6622293b0a20207d2063617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e736176654c696e6b733d736176654c696e6b733b0a0a2f2f20564944454f530a66756e6374696f6e20676574595449642875726c297b206966282175726c292072657475726e206e756c6c3b20636f6e7374206d3d75726c2e6d61746368282f283f3a796f7574755c2e62655c2f7c796f75747562655c2e636f6d5c2f283f3a77617463685c3f763d7c73686f7274735c2f7c656d6265645c2f2929285b612d7a412d5a302d395f2d5d7b31317d292f293b2072657475726e206d3f6d5b315d3a6e756c6c3b207d0a66756e6374696f6e2067657459545468756d622875726c297b20636f6e73742069643d676574595449642875726c293b2072657475726e2069643f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b69642b222f6d7164656661756c742e6a7067223a6e756c6c3b207d0a0a6f6e536e617073686f7428766964656f735265662c736e61703d3e7b0a2020637572566964656f733d28736e61702e65786973747328292626736e61702e6461746128292e6c697374293f736e61702e6461746128292e6c6973743a5b2e2e2e4445465f564944454f535d3b0a202072656e646572566964656f7328293b0a7d293b0a66756e6374696f6e2072656e646572566964656f7328297b0a2020672822766964656f4c69737422292e696e6e657248544d4c3d637572566964656f732e6d61702828762c69293d3e7b0a20202020636f6e73742079745468756d623d762e75726c3f67657459545468756d6228762e75726c293a6e756c6c3b0a20202020636f6e7374207468756d625372633d762e7468756d627c7c79745468756d627c7c22223b0a20202020636f6e7374207361666555726c3d28762e75726c7c7c222322292e7265706c616365282f222f672c222671756f743b22293b0a20202020636f6e737420736166655469746c653d28762e7469746c657c7c2822566964656f20222b28692b312929292e7265706c616365282f222f672c222671756f743b22293b0a20202020636f6e737420696d675461673d7468756d625372633f603c696d67207372633d22247b7468756d625372637d2220616c743d22247b736166655469746c657d22207374796c653d2277696474683a313030253b6865696768743a313030253b6f626a6563742d6669743a636f7665723b706f736974696f6e3a6162736f6c7574653b696e7365743a303b706f696e7465722d6576656e74733a6e6f6e6522206f6e6572726f723d22746869732e72656d6f76652829222f3e603a22223b0a2020202072657475726e20603c64697620636c6173733d227663617264223e3c64697620636c6173733d22767468756d622220646174612d75726c3d22247b7361666555726c7d2220646174612d7469746c653d22247b736166655469746c657d22206f6e636c69636b3d226f70656e566964656f28746869732c6576656e7429223e247b696d675461677d3c64697620636c6173733d2276706c6179223e3c64697620636c6173733d2276706c61792d6172726f77223e3c2f6469763e3c2f6469763e3c2f6469763e3c64697620636c6173733d22767469746c65223e247b736166655469746c657d3c2f6469763e3c64697620636c6173733d22767669657773223ef09f94a520247b762e76696577737c7c22e28094227d207669737461733c2f6469763e3c2f6469763e603b0a20207d292e6a6f696e282222293b0a7d0a66756e6374696f6e206275696c64456469746f727328297b0a2020672822766964656f456469746f727322292e696e6e657248544d4c3d637572566964656f732e6d61702828762c69293d3e7b0a20202020636f6e737420797449643d6765745954496428762e75726c7c7c2222293b0a20202020636f6e7374206175746f5468756d623d797449643f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b797449642b222f6d7164656661756c742e6a7067223a22223b0a20202020636f6e737420707265766965775372633d762e7468756d627c7c6175746f5468756d623b0a2020202072657475726e20603c64697620636c6173733d227665646974223e3c64697620636c6173733d2276656469742d74746c223ef09f8eac20566964656f20247b692b317d3c2f6469763e0a202020203c7370616e20636c6173733d227666692d6c626c223e54c3ad74756c6f3c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227674247b697d222076616c75653d22247b762e7469746c657c7c22227d222f3e0a202020203c7370616e20636c6173733d227666692d6c626c223e5669737461733c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227676247b697d222076616c75653d22247b762e76696577737c7c22227d222f3e0a202020203c7370616e20636c6173733d227666692d6c626c223e55524c2064656c20766964656f3c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227675247b697d222076616c75653d22247b762e75726c7c7c22227d22206f6e696e7075743d22707265765468756d6228247b697d29222f3e0a202020203c7370616e20636c6173733d227666692d6c626c223e4d696e6961747572612028596f75547562653a206175746f6dc3a17469636120c2b72054696b546f6b3a2055524c2064656c2073637265656e73686f74293c2f7370616e3e0a202020203c696e70757420636c6173733d22766669222069643d22767468247b697d222076616c75653d22247b762e7468756d627c7c22227d22206f6e696e7075743d22707265765468756d6228247b697d29222f3e0a202020203c696d6720636c6173733d227670726576696577247b707265766965775372633f22206f6e223a22227d222069643d227670726576247b697d22207372633d22247b707265766965775372637c7c22227d2220616c743d2270726576696577222f3e3c2f6469763e603b0a20207d292e6a6f696e282222293b0a7d0a77696e646f772e707265765468756d623d66756e6374696f6e2869297b0a2020636f6e7374207468756d6255726c3d672822767468222b69293f2e76616c75652e7472696d28297c7c22223b0a2020636f6e737420766964656f55726c3d6728227675222b69293f2e76616c75652e7472696d28297c7c22223b0a2020636f6e737420797449643d6765745954496428766964656f55726c293b0a2020636f6e7374207372633d7468756d6255726c7c7c28797449643f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b797449642b222f6d7164656661756c742e6a7067223a2222293b0a2020636f6e737420696d673d6728227670726576222b69293b0a202069662821696d67292072657475726e3b0a2020696628737263297b20696d672e7372633d7372633b20696d672e636c6173734e616d653d227670726576696577206f6e223b20696d672e6f6e6572726f723d28293d3e696d672e636c6173734e616d653d227670726576696577223b207d0a2020656c736520696d672e636c6173734e616d653d227670726576696577223b0a7d3b0a6173796e632066756e6374696f6e2073617665566964656f7328297b0a2020636f6e7374206c6973743d637572566964656f732e6d617028285f2c69293d3e287b7469746c653a6728227674222b69293f2e76616c75657c7c22222c76696577733a6728227676222b69293f2e76616c75657c7c22222c75726c3a6728227675222b69293f2e76616c75657c7c22222c7468756d623a672822767468222b69293f2e76616c75657c7c22227d29293b0a20207472797b20617761697420736574446f6328766964656f735265662c7b6c6973747d2c7b6d657267653a747275657d293b20666c2822766622293b207d0a202063617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e73617665566964656f733d73617665566964656f733b0a0a2f2f20564944454f204d4f44414c0a66756e6374696f6e20697354696b546f6b2875726c297b2072657475726e2075726c262675726c2e696e6465784f66282274696b746f6b2e636f6d2229213d3d2d313b207d0a66756e6374696f6e20676574456d62656455726c2875726c297b0a20206966282175726c7c7c75726c3d3d3d222322292072657475726e206e756c6c3b0a2020696628697354696b546f6b2875726c29292072657475726e206e756c6c3b0a2020636f6e73742079744d3d75726c2e6d61746368282f283f3a796f7574755c2e62655c2f7c796f75747562655c2e636f6d5c2f283f3a77617463685c3f763d7c73686f7274735c2f7c656d6265645c2f2929285b612d7a412d5a302d395f2d5d7b31317d292f293b0a202069662879744d292072657475726e202268747470733a2f2f7777772e796f75747562652e636f6d2f656d6265642f222b79744d5b315d2b223f6175746f706c61793d312672656c3d30223b0a202072657475726e206e756c6c3b0a7d0a66756e6374696f6e206f70656e566964656f28656c2c657674297b0a2020696628657674297b206576742e70726576656e7444656661756c7428293b206576742e73746f7050726f7061676174696f6e28293b207d0a20206c6574207461726765743d656c3b0a20207768696c65287461726765742626217461726765742e646174617365742e75726c29207461726765743d7461726765742e706172656e74456c656d656e743b0a202069662821746172676574292072657475726e3b0a2020636f6e73742075726c3d7461726765742e646174617365742e75726c2c207469746c653d7461726765742e646174617365742e7469746c653b0a20206966282175726c7c7c75726c3d3d3d222322292072657475726e3b0a2020636f6e737420656d62656455726c3d676574456d62656455726c2875726c293b0a202069662821656d62656455726c297b2077696e646f772e6f70656e2875726c2c225f626c616e6b22293b2072657475726e3b207d0a20206728227669644672616d6522292e696e6e657248544d4c3d603c696672616d65207372633d22247b656d62656455726c7d2220616c6c6f7766756c6c73637265656e20616c6c6f773d226175746f706c61793b20656e637279707465642d6d6564696122207374796c653d2277696474683a313030253b6865696768743a313030253b626f726465723a6e6f6e65223e3c2f696672616d653e603b0a20206728227669644c6162656c22292e74657874436f6e74656e743d7469746c657c7c22223b0a20206728227669644f7665726c617922292e636c6173734c6973742e61646428226f6e22293b0a2020646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b0a7d0a66756e6374696f6e20636c6f7365566964656f28297b206728227669644f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b206728227669644672616d6522292e696e6e657248544d4c3d22223b20646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d22223b207d0a66756e6374696f6e207669644f7665726c6179436c69636b2865297b20696628652e7461726765743d3d3d6728227669644f7665726c617922292920636c6f7365566964656f28293b207d0a77696e646f772e6f70656e566964656f3d6f70656e566964656f3b2077696e646f772e636c6f7365566964656f3d636c6f7365566964656f3b2077696e646f772e7669644f7665726c6179436c69636b3d7669644f7665726c6179436c69636b3b0a0a2f2f205055424c494320434841540a6c657420616c6c4d7367733d5b5d3b0a636f6e73742063686174513d71756572792863686174436f6c2c6f72646572427928227473222c2261736322292c6c696d697428383029293b0a6f6e536e617073686f742863686174512c736e61703d3e7b0a2020616c6c4d7367733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29293b0a202072656e6465724368617428293b0a202067282273746174757342617222292e74657874436f6e74656e743d22f09f9fa220456e206cc3ad6e656120c2b7207469656d706f207265616c223b0a202067282273746174757342617222292e636c6173734e616d653d227374617475732d626172206f6b223b0a20206966286973556e6c6f636b6564292072656e646572436861745072657669657728293b0a7d2c28293d3e7b2067282273746174757342617222292e74657874436f6e74656e743d22e29aa0efb88f2053696e20636f6e657869c3b36e223b2067282273746174757342617222292e636c6173734e616d653d227374617475732d62617220657272223b207d293b0a0a66756e6374696f6e2072656e6465724368617428297b0a2020636f6e737420626f783d672822636861744d73677322293b0a2020636f6e7374206174426f743d626f782e7363726f6c6c4865696768742d626f782e7363726f6c6c546f702d626f782e636c69656e744865696768743c38303b0a202069662821616c6c4d7367732e6c656e677468297b0a20202020626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233265326532653b666f6e742d73697a653a313370783b746578742d616c69676e3a63656e7465723b70616464696e673a3472656d2030223e53c3a920656c207072696d65726f20656e20636f6d656e74617220f09f91873c2f6469763e603b0a2020202072657475726e3b0a20207d0a2020626f782e696e6e657248544d4c3d616c6c4d7367732e6d6170286d3d3e7b0a20202020636f6e7374207265706c794261723d6d2e7265706c79546f3f603c64697620636c6173733d226d73672d7265706c792d626172223ee286a920247b6d2e7265706c79546f2e6e616d657d3a20247b286d2e7265706c79546f2e746578747c7c2222292e737562737472696e6728302c3430297d2e2e2e3c2f6469763e603a22223b0a20202020636f6e7374207265706c7942746e3d603c627574746f6e20636c6173733d227265706c792d62746e22206f6e636c69636b3d227365745265706c792827247b6d2e69647d272c27247b286d2e6e616d657c7c2222292e7265706c616365282f272f672c225c5c2722297d272c27247b286d2e746578747c7c2222292e737562737472696e6728302c3530292e7265706c616365282f272f672c225c5c2722297d2729223ee286a920726573706f6e6465723c2f627574746f6e3e603b0a2020202072657475726e20603c64697620636c6173733d226d7367247b6d2e63723f2220636d223a22227d222069643d226d73672d247b6d2e69647d223e0a202020202020247b7265706c794261727d0a2020202020203c64697620636c6173733d226d686472223e0a20202020202020203c7370616e20636c6173733d226d6e616d65247b6d2e63723f22206372223a22227d223e247b6d2e6e616d657c7c223f227d3c2f7370616e3e0a2020202020202020247b6d2e63723f603c7370616e20636c6173733d22636261646765223e43726561646f723c2f7370616e3e603a22227d0a20202020202020203c7370616e3e247b6d2e74696d657c7c22227d3c2f7370616e3e0a2020202020202020247b216d2e63723f7265706c7942746e3a22227d0a2020202020203c2f6469763e0a2020202020203c64697620636c6173733d226d626f6479223e247b6d2e746578747c7c22227d3c2f6469763e0a202020203c2f6469763e603b0a20207d292e6a6f696e282222293b0a20206966286174426f742920626f782e7363726f6c6c546f703d626f782e7363726f6c6c4865696768743b0a7d0a0a66756e6374696f6e2072656e646572436861745072657669657728297b0a2020636f6e737420707265763d672822636861745072657669657722293b0a20206966282170726576292072657475726e3b0a2020707265762e696e6e657248544d4c3d616c6c4d7367732e736c696365282d38292e7265766572736528292e6d6170286d3d3e600a202020203c646976207374796c653d2270616464696e673a35707820303b626f726465722d626f74746f6d3a31707820736f6c696420766172282d2d6272293b646973706c61793a666c65783b616c69676e2d6974656d733a63656e7465723b6761703a3670783b637572736f723a706f696e74657222206f6e636c69636b3d2261646d696e5265706c792827247b6d2e69647d272c27247b286d2e6e616d657c7c2222292e7265706c616365282f272f672c225c5c2722297d272c27247b286d2e746578747c7c2222292e737562737472696e6728302c3530292e7265706c616365282f272f672c225c5c2722297d2729223e0a2020202020203c7370616e207374796c653d22636f6c6f723a247b6d2e63723f22766172282d2d676f6c6429223a2223363636227d3b666f6e742d73697a653a313170783b6d696e2d77696474683a363070783b6f766572666c6f773a68696464656e3b746578742d6f766572666c6f773a656c6c69707369733b77686974652d73706163653a6e6f77726170223e247b6d2e6e616d657c7c223f227d3c2f7370616e3e0a2020202020203c7370616e207374796c653d22636f6c6f723a233434343b666f6e742d73697a653a313170783b666c65783a313b6f766572666c6f773a68696464656e3b746578742d6f766572666c6f773a656c6c69707369733b77686974652d73706163653a6e6f77726170223e247b286d2e746578747c7c2222292e737562737472696e6728302c3530297d3c2f7370616e3e0a2020202020203c7370616e207374796c653d22666f6e742d73697a653a313070783b636f6c6f723a233261326132613b77686974652d73706163653a6e6f77726170223ee286a93c2f7370616e3e0a202020203c2f6469763e60292e6a6f696e282222293b0a7d0a0a2f2f205245504c5920494e205055424c494320434841540a66756e6374696f6e207365745265706c792869642c6e616d652c74657874297b0a20207265706c79696e67546f3d7b69642c6e616d652c746578747d3b0a2020636f6e737420707265763d6728227265706c795072657669657722293b0a2020636f6e737420707265765478743d6728227265706c795072657669657754787422293b0a202069662870726576262670726576547874297b0a20202020707265765478742e74657874436f6e74656e743d60e286a920247b6e616d657d3a20247b746578747d603b0a20202020707265762e7374796c652e646973706c61793d22666c6578223b0a20207d0a20206728226d7367496e22293f2e666f63757328293b0a7d0a66756e6374696f6e20636c6561725265706c7928297b207265706c79696e67546f3d6e756c6c3b20636f6e737420703d6728227265706c795072657669657722293b20696628702920702e7374796c652e646973706c61793d226e6f6e65223b207d0a77696e646f772e7365745265706c793d7365745265706c793b2077696e646f772e636c6561725265706c793d636c6561725265706c793b0a0a66756e6374696f6e2061646d696e5265706c792869642c6e616d652c74657874297b0a202061646d696e5265706c79696e67546f3d7b69642c6e616d652c746578747d3b0a2020636f6e737420703d67282261646d696e5265706c795072657669657722293b0a2020636f6e737420743d67282261646d696e5265706c7954787422293b0a202069662870262674297b20742e74657874436f6e74656e743d60e286a920247b6e616d657d3a20247b746578747d603b20702e7374796c652e646973706c61793d22666c6578223b207d0a202067282263726561746f72496e22293f2e666f63757328293b0a7d0a66756e6374696f6e20636c65617241646d696e5265706c7928297b2061646d696e5265706c79696e67546f3d6e756c6c3b20636f6e737420703d67282261646d696e5265706c795072657669657722293b20696628702920702e7374796c652e646973706c61793d226e6f6e65223b207d0a77696e646f772e61646d696e5265706c793d61646d696e5265706c793b2077696e646f772e636c65617241646d696e5265706c793d636c65617241646d696e5265706c793b0a0a6173796e632066756e6374696f6e2073656e644d736728297b0a20206966282163757272656e7455736572297b2067282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b2072657475726e3b207d0a2020636f6e737420746578743d6728226d7367496e22292e76616c75652e7472696d28293b206966282174657874292072657475726e3b0a20206728226d7367496e22292e76616c75653d22223b0a2020636f6e737420646174613d7b6e616d653a63757272656e74557365722e6e616d652c7569643a63757272656e74557365722e7569642c746578742c63723a66616c73652c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b0a20206966287265706c79696e67546f2920646174612e7265706c79546f3d7265706c79696e67546f3b0a2020636c6561725265706c7928293b0a20207472797b20617761697420616464446f632863686174436f6c2c64617461293b207d63617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e73656e644d73673d73656e644d73673b0a0a6173796e632066756e6374696f6e2073656e6443726561746f7228297b0a2020636f6e737420746578743d67282263726561746f72496e22292e76616c75652e7472696d28293b206966282174657874292072657475726e3b0a202067282263726561746f72496e22292e76616c75653d22223b0a2020636f6e737420646174613d7b6e616d653a2231395265793130222c746578742c63723a747275652c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b0a202069662861646d696e5265706c79696e67546f2920646174612e7265706c79546f3d61646d696e5265706c79696e67546f3b0a2020636c65617241646d696e5265706c7928293b0a20207472797b20617761697420616464446f632863686174436f6c2c64617461293b207d63617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e73656e6443726561746f723d73656e6443726561746f723b0a0a2f2f205553455220524547495354524154494f4e0a66756e6374696f6e2067656e55494428297b2072657475726e2022755f222b4d6174682e72616e646f6d28292e746f537472696e67283336292e73756273747228322c39292b225f222b446174652e6e6f7728292e746f537472696e67283336293b207d0a66756e6374696f6e2073686f7743686174496e707574286e616d65297b0a202067282263686174526567426f7822292e7374796c652e646973706c61793d226e6f6e65223b0a202067282263686174496e707574426f7822292e7374796c652e646973706c61793d22626c6f636b223b0a202067282263686174557365724e616d6522292e74657874436f6e74656e743d6e616d653b0a7d0a66756e6374696f6e20696e69744368617428297b0a2020636f6e7374207569643d6c6f63616c53746f726167652e6765744974656d2822636861745f7569645f3139726579313022293b0a2020636f6e7374206e616d653d6c6f63616c53746f726167652e6765744974656d2822636861745f6e616d655f3139726579313022293b0a202069662875696426266e616d65297b2063757272656e74557365723d7b7569642c6e616d657d3b2073686f7743686174496e707574286e616d65293b207d0a2020656c73652067282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b0a7d0a6173796e632066756e6374696f6e2072656769737465725573657228297b0a2020636f6e7374206e616d653d6728227265674e616d6522292e76616c75652e7472696d28293b20696628216e616d65292072657475726e3b0a2020636f6e7374207569643d67656e55494428293b0a202063757272656e74557365723d7b7569642c6e616d657d3b0a20206c6f63616c53746f726167652e7365744974656d2822636861745f7569645f31397265793130222c756964293b0a20206c6f63616c53746f726167652e7365744974656d2822636861745f6e616d655f31397265793130222c6e616d65293b0a202073686f7743686174496e707574286e616d65293b0a20207472797b20617761697420736574446f6328646f632864622c227573657273222c756964292c7b6e616d652c7569642c6a6f696e65643a73657276657254696d657374616d7028297d293b207d63617463682865297b7d0a20206728227265674e616d6522292e76616c75653d22223b0a7d0a66756e6374696f6e2072657365745573657228297b0a202069662821636f6e6669726d2822c2bf43616d62696172207475206e6f6d6272653f2229292072657475726e3b0a20206c6f63616c53746f726167652e72656d6f76654974656d2822636861745f7569645f3139726579313022293b0a20206c6f63616c53746f726167652e72656d6f76654974656d2822636861745f6e616d655f3139726579313022293b0a202063757272656e74557365723d6e756c6c3b0a202067282263686174496e707574426f7822292e7374796c652e646973706c61793d226e6f6e65223b0a202067282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b0a7d0a66756e6374696f6e206c6f676f75745573657228297b0a202069662821636f6e6669726d2822c2bf53616c69722064656c20636861743f2229292072657475726e3b0a20206c6f63616c53746f726167652e72656d6f76654974656d2822636861745f7569645f3139726579313022293b0a20206c6f63616c53746f726167652e72656d6f76654974656d2822636861745f6e616d655f3139726579313022293b0a202063757272656e74557365723d6e756c6c3b0a202067282263686174496e707574426f7822292e7374796c652e646973706c61793d226e6f6e65223b0a202067282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b0a7d0a77696e646f772e7265676973746572557365723d7265676973746572557365723b2077696e646f772e7265736574557365723d7265736574557365723b2077696e646f772e6c6f676f7574557365723d6c6f676f7574557365723b0a696e69744368617428293b0a0a2f2f205052495641544520434841540a6c65742070726976556e7375623d6e756c6c3b0a66756e6374696f6e206765745072697643686174496428297b2072657475726e2063757272656e74557365723f63757272656e74557365722e7569643a6e756c6c3b207d0a0a6173796e632066756e6374696f6e206f70656e507269766174654368617428297b0a20206966282163757272656e7455736572297b20616c65727428224e656365736974617320726567697374726172746520656e20656c2063686174207072696d65726f2e22293b2072657475726e3b207d0a2020636f6e7374206368617449643d6765745072697643686174496428293b0a202063757272656e74507269764368617449643d6368617449643b0a2020697341646d696e56696577696e67436861743d66616c73653b0a2020672822707269764f7665726c617922292e636c6173734c6973742e61646428226f6e22293b0a2020646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b0a20206c697374656e507269764368617428636861744964293b0a7d0a66756e6374696f6e20636c6f7365507269766174654368617428297b0a2020672822707269764f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b0a2020646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d22223b0a202069662870726976556e737562297b2070726976556e73756228293b2070726976556e7375623d6e756c6c3b207d0a202063757272656e74507269764368617449643d6e756c6c3b0a2020697341646d696e56696577696e67436861743d66616c73653b0a7d0a66756e6374696f6e20707269764f7665726c6179436c69636b2865297b20696628652e7461726765743d3d3d672822707269764f7665726c617922292920636c6f7365507269766174654368617428293b207d0a77696e646f772e6f70656e50726976617465436861743d6f70656e50726976617465436861743b2077696e646f772e636c6f736550726976617465436861743d636c6f736550726976617465436861743b2077696e646f772e707269764f7665726c6179436c69636b3d707269764f7665726c6179436c69636b3b0a0a66756e6374696f6e206c697374656e507269764368617428636861744964297b0a202069662870726976556e737562297b2070726976556e73756228293b2070726976556e7375623d6e756c6c3b207d0a2020636f6e737420713d717565727928636f6c6c656374696f6e2864622c22707269766174655f6368617473222c6368617449642c226d6573736167657322292c6f72646572427928227473222c2261736322292c6c696d69742831303029293b0a202070726976556e7375623d6f6e536e617073686f7428712c736e61703d3e7b0a20202020636f6e7374206d7367733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29293b0a2020202072656e646572507269764d736773286d7367732c636861744964293b0a20207d293b0a7d0a0a66756e6374696f6e2072656e646572507269764d736773286d7367732c636861744964297b0a2020636f6e737420626f783d672822707269764d73677322293b0a2020636f6e737420697341646d696e3d697341646d696e56696577696e67436861743b0a2020636f6e7374206174426f743d626f782e7363726f6c6c4865696768742d626f782e7363726f6c6c546f702d626f782e636c69656e744865696768743c38303b0a2020696628216d7367732e6c656e677468297b0a20202020626f782e696e6e657248544d4c3d603c64697620636c6173733d22707269762d656d707479223e456e76c3ad61207475207072696d6572206d656e73616a652e3c62723e3c7370616e207374796c653d22666f6e742d73697a653a313170783b636f6c6f723a23326132613261223ef09f9492204c6f73206d656e73616a657320736f6e207072697661646f732079206369667261646f733c2f7370616e3e3c2f6469763e603b0a2020202072657475726e3b0a20207d0a2020626f782e696e6e657248544d4c3d6d7367732e6d6170286d3d3e7b0a20202020636f6e7374206465637279707465643d646563727970744d7367286d2e746578747c7c2222293b0a20202020636f6e73742069734d696e653d697341646d696e3f6d2e63723a2863757272656e745573657226266d2e7569643d3d3d63757272656e74557365722e7569642626216d2e6372293b0a20202020636f6e737420636c733d6d2e63723f2263726561746f72223a2869734d696e653f226d696e65223a2274686569727322293b0a20202020636f6e7374206d6574613d6d2e63723f2231395265793130223a286d2e6e616d657c7c2254c3ba22293b0a2020202072657475726e20603c64697620636c6173733d22706d736720247b636c737d223e0a2020202020203c64697620636c6173733d22706d73672d626f6479223e247b6465637279707465647d3c2f6469763e0a2020202020203c64697620636c6173733d22706d73672d6d657461223e247b6d6574617d20c2b720247b6d2e74696d657c7c22227d3c2f6469763e0a202020203c2f6469763e603b0a20207d292e6a6f696e282222293b0a20206966286174426f742920626f782e7363726f6c6c546f703d626f782e7363726f6c6c4865696768743b0a7d0a0a6173796e632066756e6374696f6e2073656e64507269764d736728297b0a2020636f6e737420746578743d67282270726976496e22292e76616c75652e7472696d28293b206966282174657874292072657475726e3b0a202067282270726976496e22292e76616c75653d22223b0a2020636f6e7374206368617449643d63757272656e74507269764368617449643b2069662821636861744964292072657475726e3b0a2020636f6e737420656e637279707465643d656e63727970744d73672874657874293b0a2020636f6e737420697341646d696e3d697341646d696e56696577696e67436861743b0a2020636f6e737420646174613d7b746578743a656e637279707465642c63723a697341646d696e2c7569643a697341646d696e3f2261646d696e223a2863757272656e74557365723f2e7569647c7c2222292c6e616d653a697341646d696e3f2231395265793130223a2863757272656e74557365723f2e6e616d657c7c225573756172696f22292c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b0a20207472797b0a20202020617761697420616464446f6328636f6c6c656374696f6e2864622c22707269766174655f6368617473222c6368617449642c226d6573736167657322292c64617461293b0a20202020617761697420736574446f6328646f632864622c22707269766174655f6368617473222c636861744964292c7b7569643a697341646d696e3f2261646d696e223a2863757272656e74557365723f2e7569647c7c2222292c6e616d653a697341646d696e3f2231395265793130223a2863757272656e74557365723f2e6e616d657c7c225573756172696f22292c6c6173744d73673a656e637279707465642c6c61737454696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c6c61737454733a73657276657254696d657374616d7028292c686173556e726561643a21697341646d696e7d2c7b6d657267653a747275657d293b0a20207d2063617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e73656e64507269764d73673d73656e64507269764d73673b0a0a2f2f2041444d494e20494e424f580a6173796e632066756e6374696f6e206c6f616442697a5468726561647328297b0a2020636f6e737420626f783d67282262697a5468726561644c69737422293b2069662821626f78292072657475726e3b0a2020626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233361336133613b666f6e742d73697a653a31327078223e43617267616e646f2e2e2e3c2f6469763e603b0a20207472797b0a20202020636f6e737420736e61703d617761697420676574446f637328636f6c6c656374696f6e2864622c22707269766174655f63686174732229293b0a20202020696628736e61702e656d707479297b20626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233361336133613b666f6e742d73697a653a31327078223e4e6f2068617920636f6e766572736163696f6e65732061c3ba6e3c2f6469763e603b2072657475726e3b207d0a20202020636f6e737420746872656164733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29292e736f72742828612c62293d3e28622e6c61737454733f2e7365636f6e64737c7c30292d28612e6c61737454733f2e7365636f6e64737c7c3029293b0a20202020626f782e696e6e657248544d4c3d746872656164732e6d617028743d3e600a2020202020203c64697620636c6173733d2262697a2d746872656164247b742e686173556e726561643f2220756e72656164223a22227d22206f6e636c69636b3d2261646d696e4f70656e50726976436861742827247b742e69647d272c27247b28742e6e616d657c7c225573756172696f22292e7265706c616365282f272f672c225c5c2722297d2729223e0a20202020202020203c64697620636c6173733d2262697a2d7468726561642d686472223e0a202020202020202020203c7370616e20636c6173733d2262697a2d7468726561642d6e616d65223e247b742e6e616d657c7c225573756172696f227d3c2f7370616e3e0a20202020202020202020247b742e686173556e726561643f603c7370616e20636c6173733d2262697a2d7468726561642d6261646765223e4e7565766f3c2f7370616e3e603a22227d0a20202020202020203c2f6469763e0a20202020202020203c64697620636c6173733d2262697a2d7468726561642d70726576696577223e247b742e6c6173744d73673f646563727970744d736728742e6c6173744d7367292e737562737472696e6728302c3530292b222e2e2e223a2253696e206d656e73616a6573227d3c2f6469763e0a20202020202020203c646976207374796c653d22666f6e742d73697a653a313070783b636f6c6f723a233361336133613b6d617267696e2d746f703a327078223e247b742e6c61737454696d657c7c22227d3c2f6469763e0a2020202020203c2f6469763e60292e6a6f696e282222293b0a20207d2063617463682865297b20626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a236535333933353b666f6e742d73697a653a31327078223e4572726f723a20247b652e6d6573736167657d3c2f6469763e603b207d0a7d0a0a66756e6374696f6e2061646d696e4f70656e5072697643686174286368617449642c6e616d65297b0a202063757272656e74507269764368617449643d6368617449643b0a2020697341646d696e56696577696e67436861743d747275653b0a2020636f6e7374206865616465723d672822707269764f7665726c617922292e717565727953656c6563746f7228222e707269762d6e616d6522293b0a202069662868656164657229206865616465722e74657874436f6e74656e743d6e616d653b0a2020672822707269764f7665726c617922292e636c6173734c6973742e61646428226f6e22293b0a2020646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b0a20206c697374656e507269764368617428636861744964293b0a20202f2f204d61726b20617320726561640a2020736574446f6328646f632864622c22707269766174655f6368617473222c636861744964292c7b686173556e726561643a66616c73657d2c7b6d657267653a747275657d292e63617463682828293d3e7b7d293b0a7d0a77696e646f772e61646d696e4f70656e50726976436861743d61646d696e4f70656e50726976436861743b0a0a2f2f20425553494e45535320464f524d530a66756e6374696f6e2073656c5479706528747970652c656c297b0a2020636f6e73742073616d653d61637469766542697a547970653d3d3d747970653b0a2020646f63756d656e742e717565727953656c6563746f72416c6c28222e746361726422292e666f724561636828653d3e652e636c6173734c6973742e72656d6f766528226f6e2229293b0a2020646f63756d656e742e717565727953656c6563746f72416c6c28222e62697a666f726d22292e666f724561636828663d3e662e636c6173734c6973742e72656d6f766528226f6e2229293b0a202069662873616d65297b2061637469766542697a547970653d6e756c6c3b207d0a2020656c73657b2061637469766542697a547970653d747970653b20656c2e636c6173734c6973742e61646428226f6e22293b20672822666f726d2d222b74797065292e636c6173734c6973742e61646428226f6e22293b20672822737563632d222b74797065292e7374796c652e646973706c61793d226e6f6e65223b207d0a7d0a77696e646f772e73656c547970653d73656c547970653b0a0a6173796e632066756e6374696f6e207375626d697442697a2874797065297b0a20206966282163757272656e7455736572297b20616c6572742822526567c3ad73747261746520656e20656c2063686174207072696d65726f207061726120656e7669617220756e6120736f6c6963697475642e22293b2072657475726e3b207d0a20206c6574206e616d653d22222c636f6e746163743d22222c65787472613d7b7d3b0a2020696628747970653d3d3d2270726f6d6f22297b0a202020206e616d653d672822702d6e616d6522292e76616c75652e7472696d28293b20636f6e746163743d672822702d636f6e7461637422292e76616c75652e7472696d28293b0a2020202065787472613d7b70726f64756374547970653a672822702d7479706522292e76616c75652c646573633a672822702d6465736322292e76616c75652e7472696d28292c6275646765743a672822702d62756467657422292e76616c75657d3b0a20202020696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b22702d6e616d65222c22702d636f6e74616374222c22702d64657363225d293b72657475726e3b7d0a202020205b22702d6e616d65222c22702d636f6e74616374222c22702d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b20672822702d7479706522292e76616c75653d22223b20672822702d62756467657422292e76616c75653d22223b0a20207d20656c736520696628747970653d3d3d22636f6c6c616222297b0a202020206e616d653d672822632d6e616d6522292e76616c75652e7472696d28293b20636f6e746163743d672822632d636f6e7461637422292e76616c75652e7472696d28293b0a2020202065787472613d7b706c6174666f726d3a672822632d706c6174666f726d22292e76616c75652c666f6c6c6f776572733a672822632d666f6c6c6f7765727322292e76616c75652c696465613a672822632d6964656122292e76616c75652e7472696d28297d3b0a20202020696628216e616d657c7c21636f6e746163747c7c2165787472612e69646561297b686967686c69676874285b22632d6e616d65222c22632d636f6e74616374222c22632d69646561225d293b72657475726e3b7d0a202020205b22632d6e616d65222c22632d636f6e74616374222c22632d69646561225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b20672822632d706c6174666f726d22292e76616c75653d22223b20672822632d666f6c6c6f7765727322292e76616c75653d22223b0a20207d20656c736520696628747970653d3d3d2273706f6e736f72656422297b0a202020206e616d653d672822732d6e616d6522292e76616c75652e7472696d28293b20636f6e746163743d672822732d636f6e7461637422292e76616c75652e7472696d28293b0a2020202065787472613d7b6c696e6b3a672822732d6c696e6b22292e76616c75652e7472696d28292c706c6174666f726d3a672822732d706c6174666f726d22292e76616c75652c6275646765743a672822732d62756467657422292e76616c75652c646573633a672822732d6465736322292e76616c75652e7472696d28297d3b0a20202020696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b22732d6e616d65222c22732d636f6e74616374222c22732d64657363225d293b72657475726e3b7d0a202020205b22732d6e616d65222c22732d636f6e74616374222c22732d6c696e6b222c22732d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b20672822732d706c6174666f726d22292e76616c75653d22223b20672822732d62756467657422292e76616c75653d22223b0a20207d20656c7365207b0a202020206e616d653d6728226f2d6e616d6522292e76616c75652e7472696d28293b20636f6e746163743d6728226f2d636f6e7461637422292e76616c75652e7472696d28293b0a2020202065787472613d7b646573633a6728226f2d6465736322292e76616c75652e7472696d28297d3b0a20202020696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b226f2d6e616d65222c226f2d636f6e74616374222c226f2d64657363225d293b72657475726e3b7d0a202020205b226f2d6e616d65222c226f2d636f6e74616374222c226f2d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b0a20207d0a20207472797b0a202020202f2f205361766520746f20627573696e65737320636f6c6c656374696f6e0a20202020617761697420616464446f632862697a436f6c2c4f626a6563742e61737369676e287b747970652c6e616d652c636f6e746163742c7569643a63757272656e74557365722e7569642c74733a73657276657254696d657374616d7028292c74696d653a6e6577204461746528292e746f4c6f63616c6544617465537472696e6728226573222c7b6461793a22322d6469676974222c6d6f6e74683a2273686f7274222c686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d297d2c657874726129293b0a202020202f2f2043726561746520707269766174652063686174207468726561640a20202020617761697420736574446f6328646f632864622c22707269766174655f6368617473222c63757272656e74557365722e756964292c7b7569643a63757272656e74557365722e7569642c6e616d653a63757272656e74557365722e6e616d657c7c6e616d652c62697a547970653a747970652c6c6173744d73673a22222c6c61737454696d653a22222c686173556e726561643a66616c73652c6372656174656441743a73657276657254696d657374616d7028297d2c7b6d657267653a747275657d293b0a20202020672822737563632d222b74797065292e7374796c652e646973706c61793d22626c6f636b223b0a20207d2063617463682865297b20616c65727428224572726f723a20222b652e6d657373616765293b207d0a7d0a77696e646f772e7375626d697442697a3d7375626d697442697a3b0a0a66756e6374696f6e20686967686c6967687428696473297b0a20206964732e666f72456163682869643d3e7b20696628672869642926262167286964292e76616c75652e7472696d2829292067286964292e7374796c652e626f72646572436f6c6f723d2223653533393335223b207d293b0a202073657454696d656f75742828293d3e6964732e666f72456163682869643d3e7b206966286728696429292067286964292e7374796c652e626f72646572436f6c6f723d22223b207d292c31353030293b0a7d0a");
+})("0a696d706f7274207b20696e697469616c697a65417070207d2066726f6d202268747470733a2f2f7777772e677374617469632e636f6d2f66697265626173656a732f31302e31322e302f66697265626173652d6170702e6a73223b0a696d706f7274207b206765744669726573746f72652c20636f6c6c656374696f6e2c20646f632c20616464446f632c20676574446f63732c20676574446f632c20736574446f632c206f6e536e617073686f742c2071756572792c206f7264657242792c206c696d69742c2073657276657254696d657374616d70207d2066726f6d202268747470733a2f2f7777772e677374617469632e636f6d2f66697265626173656a732f31302e31322e302f66697265626173652d6669726573746f72652e6a73223b0a0a636f6e737420617070203d20696e697469616c697a65417070287b0a20206170694b65793a2241497a6153794273323850672d6a356f395f4e697148667857764e4e307678725f35355f4a5a55222c0a202061757468446f6d61696e3a2272657931302d706167652e66697265626173656170702e636f6d222c0a202070726f6a65637449643a2272657931302d70616765222c0a202073746f726167654275636b65743a2272657931302d706167652e666972656261736573746f726167652e617070222c0a20206d6573736167696e6753656e64657249643a22343939383234353139323732222c0a202061707049643a22313a3439393832343531393237323a7765623a66663530333635323362386564373238366262336464220a7d293b0a636f6e7374206462203d206765744669726573746f7265286170702c22726579313931302d7061676522293b0a636f6e73742050415353203d2022555877614c586e6c6e5e5941343675564654302a223b0a636f6e737420454e435f4b4559203d202230663037616263663337356235363765323730306462346434666461653837393461663862313366666437383363616231666466656533366437653466353064223b0a0a636f6e7374206c696b65735265663d646f632864622c2273697465222c226c696b657322292c2073746174735265663d646f632864622c2273697465222c22737461747322292c20766964656f735265663d646f632864622c2273697465222c22766964656f7322292c206c696e6b735265663d646f632864622c2273697465222c226c696e6b7322293b0a636f6e73742063686174436f6c3d636f6c6c656374696f6e2864622c226368617422292c2062697a436f6c3d636f6c6c656374696f6e2864622c22627573696e65737322293b0a0a6c6574206973556e6c6f636b65643d66616c73652c206c696b656442794d653d6c6f63616c53746f726167652e6765744974656d28226c696b65645f3139726579313022293d3d3d2231223b0a6c65742061637469766542697a547970653d6e756c6c2c2063757272656e74557365723d6e756c6c2c20637572566964656f733d5b5d3b0a6c6574207265706c79696e67546f3d6e756c6c2c2061646d696e5265706c79696e67546f3d6e756c6c2c2063757272656e74507269764368617449643d6e756c6c2c20697341646d696e56696577696e67436861743d66616c73653b0a6c65742070726976556e7375623d6e756c6c2c20616c6c4d7367733d5b5d3b0a0a636f6e7374204445465f564944454f533d5b7b7469746c653a22547520766964656f206d617320766972616c222c76696577733a22312e324d222c75726c3a2223222c7468756d623a22227d2c7b7469746c653a22536567756e646f20766964656f20766972616c222c76696577733a223938304b222c75726c3a2223222c7468756d623a22227d2c7b7469746c653a2254657263657220766964656f2061717569222c76696577733a223735304b222c75726c3a2223222c7468756d623a22227d5d3b0a636f6e737420673d69643d3e646f63756d656e742e676574456c656d656e7442794964286964293b0a636f6e737420666c3d69643d3e7b636f6e737420653d67286964293b69662821652972657475726e3b652e7374796c652e6f7061636974793d2231223b73657454696d656f75742828293d3e652e7374796c652e6f7061636974793d2230222c32323030293b7d3b0a0a66756e6374696f6e20656e63727970744d73672874297b636f6e7374206b3d454e435f4b45593b6c657420723d22223b666f72286c657420693d303b693c742e6c656e6774683b692b2b29722b3d537472696e672e66726f6d43686172436f646528742e63686172436f646541742869295e6b2e63686172436f646541742869256b2e6c656e67746829293b72657475726e2062746f6128756e65736361706528656e636f6465555249436f6d706f6e656e7428722929293b7d0a66756e6374696f6e20646563727970744d73672865297b7472797b636f6e7374206b3d454e435f4b45592c743d6465636f6465555249436f6d706f6e656e74286573636170652861746f6228652929293b6c657420723d22223b666f72286c657420693d303b693c742e6c656e6774683b692b2b29722b3d537472696e672e66726f6d43686172436f646528742e63686172436f646541742869295e6b2e63686172436f646541742869256b2e6c656e67746829293b72657475726e20723b7d63617463682878297b72657475726e20653b7d7d0a0a66756e6374696f6e2073686f775461622869642c62746e297b646f63756d656e742e717565727953656c6563746f72416c6c28222e746322292e666f724561636828743d3e742e636c6173734c6973742e72656d6f766528226f6e2229293b646f63756d656e742e717565727953656c6563746f72416c6c28222e74616222292e666f724561636828743d3e742e636c6173734c6973742e72656d6f766528226f6e2229293b67286964292e636c6173734c6973742e61646428226f6e22293b62746e2e636c6173734c6973742e61646428226f6e22293b69662869643d3d3d22742d696e626f7822296c6f616442697a5468726561647328293b69662869643d3d3d22742d63686174222972656e646572436861745072657669657728293b7d0a77696e646f772e73686f775461623d73686f775461623b0a0a6c657420746170433d302c746170543d6e756c6c3b0a6728226176617461725772617022292e6164644576656e744c697374656e65722822636c69636b222c28293d3e7b746170432b2b3b636c65617254696d656f75742874617054293b746170543d73657454696d656f75742828293d3e7b696628746170433e3d32296f70656e50616e656c28293b746170433d303b7d2c333830293b67282272696e6722292e7374796c652e626f72646572436f6c6f723d22766172282d2d676f6c6429223b73657454696d656f75742828293d3e67282272696e6722292e7374796c652e626f72646572436f6c6f723d22222c353030293b7d293b0a66756e6374696f6e206f70656e50616e656c28297b6728226f7665726c617922292e636c6173734c6973742e61646428226f6e22293b73657454696d656f75742828293d3e7b696628216973556e6c6f636b65642967282270617373496e22292e666f63757328293b7d2c333030293b7d0a66756e6374696f6e20636c6f736550616e656c28297b6728226f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b7d0a66756e6374696f6e206f7665726c6179436c69636b2865297b696628652e7461726765743d3d3d6728226f7665726c6179222929636c6f736550616e656c28293b7d0a77696e646f772e6f70656e50616e656c3d6f70656e50616e656c3b77696e646f772e636c6f736550616e656c3d636c6f736550616e656c3b77696e646f772e6f7665726c6179436c69636b3d6f7665726c6179436c69636b3b0a0a66756e6374696f6e20747279556e6c6f636b28297b0a202069662867282270617373496e22292e76616c75653d3d3d50415353297b6973556e6c6f636b65643d747275653b6728226c6f67696e53656322292e7374796c652e646973706c61793d226e6f6e65223b67282270616e656c53656322292e7374796c652e646973706c61793d22626c6f636b223b66696c6c537461747328293b6275696c64456469746f727328293b6c6f61644c696e6b7328293b7d0a2020656c73657b6728227065727222292e74657874436f6e74656e743d22436f6e7472617365c3b16120696e636f727265637461223b67282270617373496e22292e7374796c652e626f72646572436f6c6f723d2223653533393335223b73657454696d656f75742828293d3e7b67282270617373496e22292e7374796c652e626f72646572436f6c6f723d22223b6728227065727222292e74657874436f6e74656e743d22223b7d2c31353030293b7d0a7d0a77696e646f772e747279556e6c6f636b3d747279556e6c6f636b3b0a0a6c6574207365727665724c696b65436f756e743d303b0a6f6e536e617073686f74286c696b65735265662c736e61703d3e7b7365727665724c696b65436f756e743d736e61702e65786973747328293f28736e61702e6461746128292e636f756e747c7c30293a303b6728226c696b65436f756e7422292e74657874436f6e74656e743d7365727665724c696b65436f756e743b6966286c696b656442794d65297b672822686561727422292e74657874436f6e74656e743d225c7532363635223b6728226c696b6542746e22292e636c6173734c6973742e61646428226c696b656422293b7d7d293b0a6173796e632066756e6374696f6e20746f67676c654c696b6528297b0a20206966286c696b656442794d65297b6c696b656442794d653d66616c73653b6c6f63616c53746f726167652e72656d6f76654974656d28226c696b65645f3139726579313022293b636f6e7374206e3d4d6174682e6d617828302c7365727665724c696b65436f756e742d31293b6728226c696b65436f756e7422292e74657874436f6e74656e743d6e3b672822686561727422292e74657874436f6e74656e743d225c7532363631223b6728226c696b6542746e22292e636c6173734c6973742e72656d6f766528226c696b656422293b7472797b617761697420736574446f63286c696b65735265662c7b636f756e743a6e7d2c7b6d657267653a747275657d293b7d63617463682865297b7d7d0a2020656c73657b6c696b656442794d653d747275653b6c6f63616c53746f726167652e7365744974656d28226c696b65645f31397265793130222c223122293b636f6e7374206e3d7365727665724c696b65436f756e742b313b6728226c696b65436f756e7422292e74657874436f6e74656e743d6e3b672822686561727422292e74657874436f6e74656e743d225c7532363635223b6728226c696b6542746e22292e636c6173734c6973742e61646428226c696b656422293b7472797b617761697420736574446f63286c696b65735265662c7b636f756e743a6e7d2c7b6d657267653a747275657d293b7d63617463682865297b7d7d0a7d0a77696e646f772e746f67676c654c696b653d746f67676c654c696b653b0a0a6f6e536e617073686f742873746174735265662c736e61703d3e7b69662821736e61702e65786973747328292972657475726e3b636f6e737420643d736e61702e6461746128293b672822642d747422292e74657874436f6e74656e743d642e74696b746f6b7c7c222623383231323b223b672822642d797422292e74657874436f6e74656e743d642e796f75747562657c7c222623383231323b223b672822642d646322292e74657874436f6e74656e743d642e646973636f72647c7c222623383231323b223b7d293b0a66756e6374696f6e2066696c6c537461747328297b672822697422292e76616c75653d672822642d747422292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d747422292e74657874436f6e74656e743b672822697922292e76616c75653d672822642d797422292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d797422292e74657874436f6e74656e743b67282269646322292e76616c75653d672822642d646322292e74657874436f6e74656e743d3d3d22e28094223f22223a672822642d646322292e74657874436f6e74656e743b7d0a6173796e632066756e6374696f6e2073617665537461747328297b7472797b617761697420736574446f632873746174735265662c7b74696b746f6b3a672822697422292e76616c75652e7472696d28297c7c22e28094222c796f75747562653a672822697922292e76616c75652e7472696d28297c7c22e28094222c646973636f72643a67282269646322292e76616c75652e7472696d28297c7c22e28094227d2c7b6d657267653a747275657d293b666c2822736622293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e7361766553746174733d7361766553746174733b0a0a6f6e536e617073686f74286c696e6b735265662c736e61703d3e7b69662821736e61702e65786973747328292972657475726e3b636f6e737420643d736e61702e6461746128293b696628642e747455726c296728226c696e6b2d74696b746f6b22292e687265663d642e747455726c3b696628642e7474537562296728227375622d74696b746f6b22292e74657874436f6e74656e743d642e74745375623b696628642e797455726c296728226c696e6b2d796f757475626522292e687265663d642e797455726c3b696628642e7974537562296728227375622d796f757475626522292e74657874436f6e74656e743d642e79745375623b696628642e646355726c296728226c696e6b2d646973636f726422292e687265663d642e646355726c3b696628642e6463537562296728227375622d646973636f726422292e74657874436f6e74656e743d642e64635375623b7d293b0a66756e6374696f6e206c6f61644c696e6b7328297b676574446f63286c696e6b73526566292e7468656e28736e61703d3e7b69662821736e61702e65786973747328292972657475726e3b636f6e737420643d736e61702e6461746128293b5b227474222c227974222c226463225d2e666f7245616368286b3d3e7b696628645b6b2b2255726c225d297b636f6e737420656c3d6728226c6e6b2d222b6b293b696628656c29656c2e76616c75653d645b6b2b2255726c225d3b7d696628645b6b2b22537562225d297b636f6e737420656c3d6728226c6e6b2d222b6b2b222d73756222293b696628656c29656c2e76616c75653d645b6b2b22537562225d3b7d7d293b7d292e63617463682828293d3e7b7d293b7d0a6173796e632066756e6374696f6e20736176654c696e6b7328297b7472797b617761697420736574446f63286c696e6b735265662c7b747455726c3a6728226c6e6b2d747422292e76616c75652e7472696d28292c74745375623a6728226c6e6b2d74742d73756222292e76616c75652e7472696d28292c797455726c3a6728226c6e6b2d797422292e76616c75652e7472696d28292c79745375623a6728226c6e6b2d79742d73756222292e76616c75652e7472696d28292c646355726c3a6728226c6e6b2d646322292e76616c75652e7472696d28292c64635375623a6728226c6e6b2d64632d73756222292e76616c75652e7472696d28297d2c7b6d657267653a747275657d293b666c28226c6622293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e736176654c696e6b733d736176654c696e6b733b0a0a66756e6374696f6e20676574595449642875726c297b6966282175726c2972657475726e206e756c6c3b636f6e7374206d3d75726c2e6d61746368282f283f3a796f7574755c2e62655c2f7c796f75747562655c2e636f6d5c2f283f3a77617463685c3f763d7c73686f7274735c2f7c656d6265645c2f2929285b612d7a412d5a302d395f2d5d7b31317d292f293b72657475726e206d3f6d5b315d3a6e756c6c3b7d0a66756e6374696f6e2067657459545468756d622875726c297b636f6e73742069643d676574595449642875726c293b72657475726e2069643f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b69642b222f6d7164656661756c742e6a7067223a6e756c6c3b7d0a0a6f6e536e617073686f7428766964656f735265662c736e61703d3e7b637572566964656f733d28736e61702e65786973747328292626736e61702e6461746128292e6c697374293f736e61702e6461746128292e6c6973743a5b2e2e2e4445465f564944454f535d3b72656e646572566964656f7328293b7d293b0a66756e6374696f6e2072656e646572566964656f7328297b672822766964656f4c69737422292e696e6e657248544d4c3d637572566964656f732e6d61702828762c69293d3e7b636f6e73742079743d762e75726c3f67657459545468756d6228762e75726c293a6e756c6c3b636f6e73742074733d762e7468756d627c7c79747c7c22223b636f6e73742073753d28762e75726c7c7c222322292e7265706c616365282f222f672c222671756f743b22293b636f6e73742073743d28762e7469746c657c7c2822566964656f20222b28692b312929292e7265706c616365282f222f672c222671756f743b22293b636f6e737420696d673d74733f603c696d67207372633d22247b74737d2220616c743d22247b73747d22207374796c653d2277696474683a313030253b6865696768743a313030253b6f626a6563742d6669743a636f7665723b706f736974696f6e3a6162736f6c7574653b696e7365743a303b706f696e7465722d6576656e74733a6e6f6e6522206f6e6572726f723d22746869732e72656d6f76652829222f3e603a22223b72657475726e603c64697620636c6173733d227663617264223e3c64697620636c6173733d22767468756d622220646174612d75726c3d22247b73757d2220646174612d7469746c653d22247b73747d22206f6e636c69636b3d226f70656e566964656f28746869732c6576656e7429223e247b696d677d3c64697620636c6173733d2276706c6179223e3c64697620636c6173733d2276706c61792d6172726f77223e3c2f6469763e3c2f6469763e3c2f6469763e3c64697620636c6173733d22767469746c65223e247b73747d3c2f6469763e3c64697620636c6173733d22767669657773223e5c75443833445c754444323520247b762e76696577737c7c22266d646173683b227d207669737461733c2f6469763e3c2f6469763e603b7d292e6a6f696e282222293b7d0a66756e6374696f6e206275696c64456469746f727328297b672822766964656f456469746f727322292e696e6e657248544d4c3d637572566964656f732e6d61702828762c69293d3e7b636f6e737420797449643d6765745954496428762e75726c7c7c2222293b636f6e73742061743d797449643f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b797449642b222f6d7164656661756c742e6a7067223a22223b636f6e73742070733d762e7468756d627c7c61743b72657475726e603c64697620636c6173733d227665646974223e3c64697620636c6173733d2276656469742d74746c223e26233132373931363b20566964656f20247b692b317d3c2f6469763e3c7370616e20636c6173733d227666692d6c626c223e545c78656474756c6f3c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227674247b697d222076616c75653d22247b762e7469746c657c7c22227d222f3e3c7370616e20636c6173733d227666692d6c626c223e5669737461733c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227676247b697d222076616c75653d22247b762e76696577737c7c22227d222f3e3c7370616e20636c6173733d227666692d6c626c223e55524c2064656c20766964656f3c2f7370616e3e3c696e70757420636c6173733d22766669222069643d227675247b697d222076616c75653d22247b762e75726c7c7c22227d22206f6e696e7075743d22707265765468756d6228247b697d29222f3e3c7370616e20636c6173733d227666692d6c626c223e4d696e6961747572612028596f75547562653a206175746f6d5c78653174696361205c7532373133205c7862372054696b546f6b3a2055524c2064656c2073637265656e73686f74293c2f7370616e3e3c696e70757420636c6173733d22766669222069643d22767468247b697d222076616c75653d22247b762e7468756d627c7c22227d22206f6e696e7075743d22707265765468756d6228247b697d29222f3e3c696d6720636c6173733d227670726576696577247b70733f22206f6e223a22227d222069643d227670726576247b697d22207372633d22247b70737c7c22227d2220616c743d2270726576696577222f3e3c2f6469763e603b7d292e6a6f696e282222293b7d0a77696e646f772e707265765468756d623d66756e6374696f6e2869297b636f6e73742074753d672822767468222b69293f2e76616c75652e7472696d28297c7c22223b636f6e73742076753d6728227675222b69293f2e76616c75652e7472696d28297c7c22223b636f6e73742079693d67657459544964287675293b636f6e7374207372633d74757c7c2879693f2268747470733a2f2f696d672e796f75747562652e636f6d2f76692f222b79692b222f6d7164656661756c742e6a7067223a2222293b636f6e737420696d673d6728227670726576222b69293b69662821696d672972657475726e3b696628737263297b696d672e7372633d7372633b696d672e636c6173734e616d653d227670726576696577206f6e223b696d672e6f6e6572726f723d28293d3e696d672e636c6173734e616d653d227670726576696577223b7d656c736520696d672e636c6173734e616d653d227670726576696577223b7d3b0a6173796e632066756e6374696f6e2073617665566964656f7328297b636f6e7374206c6973743d637572566964656f732e6d617028285f2c69293d3e287b7469746c653a6728227674222b69293f2e76616c75657c7c22222c76696577733a6728227676222b69293f2e76616c75657c7c22222c75726c3a6728227675222b69293f2e76616c75657c7c22222c7468756d623a672822767468222b69293f2e76616c75657c7c22227d29293b7472797b617761697420736574446f6328766964656f735265662c7b6c6973747d2c7b6d657267653a747275657d293b666c2822766622293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e73617665566964656f733d73617665566964656f733b0a0a66756e6374696f6e20697354696b546f6b2875297b72657475726e20752626752e696e6465784f66282274696b746f6b2e636f6d2229213d3d2d313b7d0a66756e6374696f6e20676574456d62656455726c2875726c297b6966282175726c7c7c75726c3d3d3d2223222972657475726e206e756c6c3b696628697354696b546f6b2875726c292972657475726e206e756c6c3b636f6e7374206d3d75726c2e6d61746368282f283f3a796f7574755c2e62655c2f7c796f75747562655c2e636f6d5c2f283f3a77617463685c3f763d7c73686f7274735c2f7c656d6265645c2f2929285b612d7a412d5a302d395f2d5d7b31317d292f293b6966286d2972657475726e2268747470733a2f2f7777772e796f75747562652e636f6d2f656d6265642f222b6d5b315d2b223f6175746f706c61793d312672656c3d30223b72657475726e206e756c6c3b7d0a66756e6374696f6e206f70656e566964656f28656c2c657674297b696628657674297b6576742e70726576656e7444656661756c7428293b6576742e73746f7050726f7061676174696f6e28293b7d6c657420743d656c3b7768696c652874262621742e646174617365742e75726c29743d742e706172656e74456c656d656e743b69662821742972657475726e3b636f6e73742075726c3d742e646174617365742e75726c2c7469746c653d742e646174617365742e7469746c653b6966282175726c7c7c75726c3d3d3d2223222972657475726e3b636f6e73742065753d676574456d62656455726c2875726c293b696628216575297b77696e646f772e6f70656e2875726c2c225f626c616e6b22293b72657475726e3b7d6728227669644672616d6522292e696e6e657248544d4c3d603c696672616d65207372633d22247b65757d2220616c6c6f7766756c6c73637265656e20616c6c6f773d226175746f706c61793b20656e637279707465642d6d6564696122207374796c653d2277696474683a313030253b6865696768743a313030253b626f726465723a6e6f6e65223e3c2f696672616d653e603b6728227669644c6162656c22292e74657874436f6e74656e743d7469746c657c7c22223b6728227669644f7665726c617922292e636c6173734c6973742e61646428226f6e22293b646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b7d0a66756e6374696f6e20636c6f7365566964656f28297b6728227669644f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b6728227669644672616d6522292e696e6e657248544d4c3d22223b646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d22223b7d0a66756e6374696f6e207669644f7665726c6179436c69636b2865297b696628652e7461726765743d3d3d6728227669644f7665726c6179222929636c6f7365566964656f28293b7d0a77696e646f772e6f70656e566964656f3d6f70656e566964656f3b77696e646f772e636c6f7365566964656f3d636c6f7365566964656f3b77696e646f772e7669644f7665726c6179436c69636b3d7669644f7665726c6179436c69636b3b0a0a636f6e73742063686174513d71756572792863686174436f6c2c6f72646572427928227473222c2261736322292c6c696d697428383029293b0a6f6e536e617073686f742863686174512c736e61703d3e7b616c6c4d7367733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29293b72656e6465724368617428293b67282273746174757342617222292e74657874436f6e74656e743d225c75443833445c754446453220456e206c5c7865646e6561205c786237207469656d706f207265616c223b67282273746174757342617222292e636c6173734e616d653d227374617475732d626172206f6b223b6966286973556e6c6f636b65642972656e646572436861745072657669657728293b7d2c28293d3e7b67282273746174757342617222292e74657874436f6e74656e743d225c75323641305c75464530462053696e20636f6e6578695c7866336e223b67282273746174757342617222292e636c6173734e616d653d227374617475732d62617220657272223b7d293b0a0a66756e6374696f6e2072656e6465724368617428297b636f6e737420626f783d672822636861744d73677322293b636f6e7374206174426f743d626f782e7363726f6c6c4865696768742d626f782e7363726f6c6c546f702d626f782e636c69656e744865696768743c38303b69662821616c6c4d7367732e6c656e677468297b626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233165326133613b666f6e742d73697a653a313370783b746578742d616c69676e3a63656e7465723b70616464696e673a3472656d2030223e535c78653920656c207072696d65726f20656e20636f6d656e746172205c75443833445c75444334373c2f6469763e603b72657475726e3b7d626f782e696e6e657248544d4c3d616c6c4d7367732e6d6170286d3d3e7b636f6e73742072623d6d2e7265706c79546f3f603c64697620636c6173733d226d73672d7265706c792d626172223e5c753231613920247b6d2e7265706c79546f2e6e616d657d3a20247b286d2e7265706c79546f2e746578747c7c2222292e737562737472696e6728302c3430297d2e2e2e3c2f6469763e603a22223b636f6e7374207262746e3d603c627574746f6e20636c6173733d227265706c792d62746e22206f6e636c69636b3d227365745265706c792827247b6d2e69647d272c27247b286d2e6e616d657c7c2222292e7265706c616365282f272f672c225c5c2722297d272c27247b286d2e746578747c7c2222292e737562737472696e6728302c3530292e7265706c616365282f272f672c225c5c2722297d27223e5c75323161393c2f627574746f6e3e603b72657475726e603c64697620636c6173733d226d7367247b6d2e63723f2220636d223a22227d222069643d226d73672d247b6d2e69647d223e247b72627d3c64697620636c6173733d226d686472223e3c7370616e20636c6173733d226d6e616d65247b6d2e63723f22206372223a22227d223e247b6d2e6e616d657c7c223f227d3c2f7370616e3e247b6d2e63723f603c7370616e20636c6173733d22636261646765223e43726561646f723c2f7370616e3e603a22227d247b216d2e63723f7262746e3a22227d3c7370616e3e247b6d2e74696d657c7c22227d3c2f7370616e3e3c2f6469763e3c64697620636c6173733d226d626f6479223e247b6d2e746578747c7c22227d3c2f6469763e3c2f6469763e603b7d292e6a6f696e282222293b6966286174426f7429626f782e7363726f6c6c546f703d626f782e7363726f6c6c4865696768743b7d0a0a66756e6374696f6e2072656e646572436861745072657669657728297b636f6e737420707265763d672822636861745072657669657722293b69662821707265762972657475726e3b707265762e696e6e657248544d4c3d616c6c4d7367732e736c696365282d38292e7265766572736528292e6d6170286d3d3e603c646976207374796c653d2270616464696e673a35707820303b626f726465722d626f74746f6d3a31707820736f6c696420233161326133613b646973706c61793a666c65783b616c69676e2d6974656d733a63656e7465723b6761703a3670783b637572736f723a706f696e74657222206f6e636c69636b3d2261646d696e5265706c792827247b6d2e69647d272c27247b286d2e6e616d657c7c2222292e7265706c616365282f272f672c225c5c2722297d272c27247b286d2e746578747c7c2222292e737562737472696e6728302c3530292e7265706c616365282f272f672c225c5c2722297d2729223e3c7370616e207374796c653d22636f6c6f723a247b6d2e63723f22766172282d2d676f6c6429223a2223346136613861227d3b666f6e742d73697a653a313170783b6d696e2d77696474683a363070783b6f766572666c6f773a68696464656e3b746578742d6f766572666c6f773a656c6c69707369733b77686974652d73706163653a6e6f77726170223e247b6d2e6e616d657c7c223f227d3c2f7370616e3e3c7370616e207374796c653d22636f6c6f723a233261346135613b666f6e742d73697a653a313170783b666c65783a313b6f766572666c6f773a68696464656e3b746578742d6f766572666c6f773a656c6c69707369733b77686974652d73706163653a6e6f77726170223e247b286d2e746578747c7c2222292e737562737472696e6728302c3530297d3c2f7370616e3e3c7370616e207374796c653d22666f6e742d73697a653a313070783b636f6c6f723a23316133613461223e5c75323161393c2f7370616e3e3c2f6469763e60292e6a6f696e282222293b7d0a0a66756e6374696f6e207365745265706c792869642c6e616d652c74657874297b7265706c79696e67546f3d7b69642c6e616d652c746578747d3b636f6e737420703d6728227265706c795072657669657722293b636f6e737420743d6728227265706c795072657669657754787422293b69662870262674297b742e74657874436f6e74656e743d225c753231613920222b6e616d652b223a20222b746578743b702e7374796c652e646973706c61793d22666c6578223b7d6728226d7367496e22293f2e666f63757328293b7d0a66756e6374696f6e20636c6561725265706c7928297b7265706c79696e67546f3d6e756c6c3b636f6e737420703d6728227265706c795072657669657722293b6966287029702e7374796c652e646973706c61793d226e6f6e65223b7d0a77696e646f772e7365745265706c793d7365745265706c793b77696e646f772e636c6561725265706c793d636c6561725265706c793b0a0a66756e6374696f6e2061646d696e5265706c792869642c6e616d652c74657874297b61646d696e5265706c79696e67546f3d7b69642c6e616d652c746578747d3b636f6e737420703d67282261646d696e5265706c795072657669657722293b636f6e737420743d67282261646d696e5265706c7954787422293b69662870262674297b742e74657874436f6e74656e743d225c753231613920222b6e616d652b223a20222b746578743b702e7374796c652e646973706c61793d22666c6578223b7d67282263726561746f72496e22293f2e666f63757328293b7d0a66756e6374696f6e20636c65617241646d696e5265706c7928297b61646d696e5265706c79696e67546f3d6e756c6c3b636f6e737420703d67282261646d696e5265706c795072657669657722293b6966287029702e7374796c652e646973706c61793d226e6f6e65223b7d0a77696e646f772e61646d696e5265706c793d61646d696e5265706c793b77696e646f772e636c65617241646d696e5265706c793d636c65617241646d696e5265706c793b0a0a6173796e632066756e6374696f6e2073656e644d736728297b6966282163757272656e7455736572297b67282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b72657475726e3b7d636f6e737420746578743d6728226d7367496e22292e76616c75652e7472696d28293b69662821746578742972657475726e3b6728226d7367496e22292e76616c75653d22223b636f6e737420646174613d7b6e616d653a63757272656e74557365722e6e616d652c7569643a63757272656e74557365722e7569642c746578742c63723a66616c73652c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b6966287265706c79696e67546f29646174612e7265706c79546f3d7265706c79696e67546f3b636c6561725265706c7928293b7472797b617761697420616464446f632863686174436f6c2c64617461293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e73656e644d73673d73656e644d73673b0a0a6173796e632066756e6374696f6e2073656e6443726561746f7228297b636f6e737420746578743d67282263726561746f72496e22292e76616c75652e7472696d28293b69662821746578742972657475726e3b67282263726561746f72496e22292e76616c75653d22223b636f6e737420646174613d7b6e616d653a2231395265793130222c746578742c63723a747275652c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b69662861646d696e5265706c79696e67546f29646174612e7265706c79546f3d61646d696e5265706c79696e67546f3b636c65617241646d696e5265706c7928293b7472797b617761697420616464446f632863686174436f6c2c64617461293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e73656e6443726561746f723d73656e6443726561746f723b0a0a66756e6374696f6e2067656e55494428297b72657475726e22755f222b4d6174682e72616e646f6d28292e746f537472696e67283336292e73756273747228322c39292b225f222b446174652e6e6f7728292e746f537472696e67283336293b7d0a66756e6374696f6e2073686f7743686174496e707574286e616d65297b67282263686174526567426f7822292e7374796c652e646973706c61793d226e6f6e65223b67282263686174496e707574426f7822292e7374796c652e646973706c61793d22626c6f636b223b67282263686174557365724e616d6522292e74657874436f6e74656e743d6e616d653b7d0a66756e6374696f6e20696e69744368617428297b636f6e7374207569643d6c6f63616c53746f726167652e6765744974656d2822636861745f7569645f3139726579313022292c6e616d653d6c6f63616c53746f726167652e6765744974656d2822636861745f6e616d655f3139726579313022293b69662875696426266e616d65297b63757272656e74557365723d7b7569642c6e616d657d3b73686f7743686174496e707574286e616d65293b7d656c73652067282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b7d0a6173796e632066756e6374696f6e2072656769737465725573657228297b636f6e7374206e616d653d6728227265674e616d6522292e76616c75652e7472696d28293b696628216e616d652972657475726e3b636f6e7374207569643d67656e55494428293b63757272656e74557365723d7b7569642c6e616d657d3b6c6f63616c53746f726167652e7365744974656d2822636861745f7569645f31397265793130222c756964293b6c6f63616c53746f726167652e7365744974656d2822636861745f6e616d655f31397265793130222c6e616d65293b73686f7743686174496e707574286e616d65293b7472797b617761697420736574446f6328646f632864622c227573657273222c756964292c7b6e616d652c7569642c6a6f696e65643a73657276657254696d657374616d7028297d293b7d63617463682865297b7d6728227265674e616d6522292e76616c75653d22223b7d0a66756e6374696f6e2072657365745573657228297b69662821636f6e6669726d28225c78626643616d62696172207475206e6f6d6272653f22292972657475726e3b6c6f63616c53746f726167652e72656d6f76654974656d2822636861745f7569645f3139726579313022293b6c6f63616c53746f726167652e72656d6f76654974656d2822636861745f6e616d655f3139726579313022293b63757272656e74557365723d6e756c6c3b67282263686174496e707574426f7822292e7374796c652e646973706c61793d226e6f6e65223b67282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b7d0a66756e6374696f6e206c6f676f75745573657228297b69662821636f6e6669726d28225c78626653616c69722064656c20636861743f22292972657475726e3b6c6f63616c53746f726167652e72656d6f76654974656d2822636861745f7569645f3139726579313022293b6c6f63616c53746f726167652e72656d6f76654974656d2822636861745f6e616d655f3139726579313022293b63757272656e74557365723d6e756c6c3b67282263686174496e707574426f7822292e7374796c652e646973706c61793d226e6f6e65223b67282263686174526567426f7822292e7374796c652e646973706c61793d22626c6f636b223b7d0a77696e646f772e7265676973746572557365723d7265676973746572557365723b77696e646f772e7265736574557365723d7265736574557365723b77696e646f772e6c6f676f7574557365723d6c6f676f7574557365723b0a696e69744368617428293b0a0a66756e6374696f6e206765745072697643686174496428297b72657475726e2063757272656e74557365723f63757272656e74557365722e7569643a6e756c6c3b7d0a6173796e632066756e6374696f6e206f70656e507269766174654368617428297b6966282163757272656e7455736572297b616c65727428225265675c78656473747261746520656e20656c2063686174207072696d65726f2e22293b72657475726e3b7d636f6e7374206368617449643d6765745072697643686174496428293b63757272656e74507269764368617449643d6368617449643b697341646d696e56696577696e67436861743d66616c73653b672822707269764f7665726c617922292e636c6173734c6973742e61646428226f6e22293b646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b6c697374656e507269764368617428636861744964293b7d0a66756e6374696f6e20636c6f7365507269766174654368617428297b672822707269764f7665726c617922292e636c6173734c6973742e72656d6f766528226f6e22293b646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d22223b69662870726976556e737562297b70726976556e73756228293b70726976556e7375623d6e756c6c3b7d63757272656e74507269764368617449643d6e756c6c3b697341646d696e56696577696e67436861743d66616c73653b7d0a66756e6374696f6e20707269764f7665726c6179436c69636b2865297b696628652e7461726765743d3d3d672822707269764f7665726c6179222929636c6f7365507269766174654368617428293b7d0a77696e646f772e6f70656e50726976617465436861743d6f70656e50726976617465436861743b77696e646f772e636c6f736550726976617465436861743d636c6f736550726976617465436861743b77696e646f772e707269764f7665726c6179436c69636b3d707269764f7665726c6179436c69636b3b0a0a66756e6374696f6e206c697374656e507269764368617428636861744964297b69662870726976556e737562297b70726976556e73756228293b70726976556e7375623d6e756c6c3b7d636f6e737420713d717565727928636f6c6c656374696f6e2864622c22707269766174655f6368617473222c6368617449642c226d6573736167657322292c6f72646572427928227473222c2261736322292c6c696d69742831303029293b70726976556e7375623d6f6e536e617073686f7428712c736e61703d3e7b636f6e7374206d7367733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29293b72656e646572507269764d736773286d736773293b7d293b7d0a0a66756e6374696f6e2072656e646572507269764d736773286d736773297b636f6e737420626f783d672822707269764d73677322293b636f6e7374206174426f743d626f782e7363726f6c6c4865696768742d626f782e7363726f6c6c546f702d626f782e636c69656e744865696768743c38303b696628216d7367732e6c656e677468297b626f782e696e6e657248544d4c3d603c64697620636c6173733d22707269762d656d707479223e456e765c78656461207475207072696d6572206d656e73616a652e3c62723e3c7370616e207374796c653d22666f6e742d73697a653a313170783b636f6c6f723a23316132613361223e5c75443833445c7544443132204c6f73206d656e73616a657320736f6e207072697661646f732079206369667261646f733c2f7370616e3e3c2f6469763e603b72657475726e3b7d626f782e696e6e657248544d4c3d6d7367732e6d6170286d3d3e7b636f6e7374206465633d646563727970744d7367286d2e746578747c7c2222293b636f6e73742069734d696e653d697341646d696e56696577696e67436861743f6d2e63723a2863757272656e745573657226266d2e7569643d3d3d63757272656e74557365722e7569642626216d2e6372293b636f6e737420636c733d6d2e63723f2263726561746f72223a2869734d696e653f226d696e65223a2274686569727322293b72657475726e603c64697620636c6173733d22706d736720247b636c737d223e3c64697620636c6173733d22706d73672d626f6479223e247b6465637d3c2f6469763e3c64697620636c6173733d22706d73672d6d657461223e247b6d2e63723f2231395265793130223a286d2e6e616d657c7c22545c78666122297d205c78623720247b6d2e74696d657c7c22227d3c2f6469763e3c2f6469763e603b7d292e6a6f696e282222293b6966286174426f7429626f782e7363726f6c6c546f703d626f782e7363726f6c6c4865696768743b7d0a0a6173796e632066756e6374696f6e2073656e64507269764d736728297b636f6e737420746578743d67282270726976496e22292e76616c75652e7472696d28293b69662821746578742972657475726e3b67282270726976496e22292e76616c75653d22223b636f6e7374206368617449643d63757272656e74507269764368617449643b696628216368617449642972657475726e3b636f6e737420656e633d656e63727970744d73672874657874293b636f6e737420646174613d7b746578743a656e632c63723a697341646d696e56696577696e67436861742c7569643a697341646d696e56696577696e67436861743f2261646d696e223a2863757272656e74557365723f2e7569647c7c2222292c6e616d653a697341646d696e56696577696e67436861743f2231395265793130223a2863757272656e74557365723f2e6e616d657c7c225573756172696f22292c74696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c74733a73657276657254696d657374616d7028297d3b7472797b617761697420616464446f6328636f6c6c656374696f6e2864622c22707269766174655f6368617473222c6368617449642c226d6573736167657322292c64617461293b617761697420736574446f6328646f632864622c22707269766174655f6368617473222c636861744964292c7b7569643a697341646d696e56696577696e67436861743f2261646d696e223a2863757272656e74557365723f2e7569647c7c2222292c6e616d653a697341646d696e56696577696e67436861743f2231395265793130223a2863757272656e74557365723f2e6e616d657c7c225573756172696f22292c6c6173744d73673a656e632c6c61737454696d653a6e6577204461746528292e746f4c6f63616c6554696d65537472696e6728226573222c7b686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d292c6c61737454733a73657276657254696d657374616d7028292c686173556e726561643a21697341646d696e56696577696e67436861747d2c7b6d657267653a747275657d293b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e73656e64507269764d73673d73656e64507269764d73673b0a0a6173796e632066756e6374696f6e206c6f616442697a5468726561647328297b636f6e737420626f783d67282262697a5468726561644c69737422293b69662821626f782972657475726e3b626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233161326133613b666f6e742d73697a653a31327078223e43617267616e646f2e2e2e3c2f6469763e603b7472797b636f6e737420736e61703d617761697420676574446f637328636f6c6c656374696f6e2864622c22707269766174655f63686174732229293b696628736e61702e656d707479297b626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a233161326133613b666f6e742d73697a653a31327078223e4e6f2068617920636f6e766572736163696f6e657320615c7866616e3c2f6469763e603b72657475726e3b7d636f6e737420746872656164733d736e61702e646f63732e6d617028643d3e287b69643a642e69642c2e2e2e642e6461746128297d29292e66696c74657228743d3e742e7569642626742e756964213d3d2261646d696e22292e736f72742828612c62293d3e28622e6c61737454733f2e7365636f6e64737c7c30292d28612e6c61737454733f2e7365636f6e64737c7c3029293b626f782e696e6e657248544d4c3d746872656164732e6d617028743d3e603c64697620636c6173733d2262697a2d746872656164247b742e686173556e726561643f2220756e72656164223a22227d22206f6e636c69636b3d2261646d696e4f70656e50726976436861742827247b742e69647d272c27247b28742e6e616d657c7c225573756172696f22292e7265706c616365282f272f672c225c5c2722297d2729223e3c64697620636c6173733d2262697a2d7468726561642d686472223e3c7370616e20636c6173733d2262697a2d7468726561642d6e616d65223e247b742e6e616d657c7c225573756172696f227d3c2f7370616e3e247b742e686173556e726561643f603c7370616e20636c6173733d2262697a2d7468726561642d6261646765223e4e7565766f3c2f7370616e3e603a22227d3c2f6469763e3c64697620636c6173733d2262697a2d7468726561642d70726576696577223e247b742e6c6173744d73673f646563727970744d736728742e6c6173744d7367292e737562737472696e6728302c3530292b222e2e2e223a2253696e206d656e73616a6573227d3c2f6469763e3c646976207374796c653d22666f6e742d73697a653a313070783b636f6c6f723a233161326133613b6d617267696e2d746f703a327078223e247b742e6c61737454696d657c7c22227d3c2f6469763e3c2f6469763e60292e6a6f696e282222293b7d63617463682865297b626f782e696e6e657248544d4c3d603c646976207374796c653d22636f6c6f723a236535333933353b666f6e742d73697a653a31327078223e4572726f723a20247b652e6d6573736167657d3c2f6469763e603b7d7d0a0a66756e6374696f6e2061646d696e4f70656e5072697643686174286368617449642c6e616d65297b63757272656e74507269764368617449643d6368617449643b697341646d696e56696577696e67436861743d747275653b636f6e737420683d672822707269764f7665726c617922293f2e717565727953656c6563746f7228222e707269762d6e616d6522293b6966286829682e74657874436f6e74656e743d6e616d653b672822707269764f7665726c617922292e636c6173734c6973742e61646428226f6e22293b646f63756d656e742e626f64792e7374796c652e6f766572666c6f773d2268696464656e223b6c697374656e507269764368617428636861744964293b736574446f6328646f632864622c22707269766174655f6368617473222c636861744964292c7b686173556e726561643a66616c73657d2c7b6d657267653a747275657d292e63617463682828293d3e7b7d293b7d0a77696e646f772e61646d696e4f70656e50726976436861743d61646d696e4f70656e50726976436861743b0a0a66756e6374696f6e2073656c5479706528747970652c656c297b636f6e73742073616d653d61637469766542697a547970653d3d3d747970653b646f63756d656e742e717565727953656c6563746f72416c6c28222e746361726422292e666f724561636828653d3e652e636c6173734c6973742e72656d6f766528226f6e2229293b646f63756d656e742e717565727953656c6563746f72416c6c28222e62697a666f726d22292e666f724561636828663d3e662e636c6173734c6973742e72656d6f766528226f6e2229293b69662873616d65297b61637469766542697a547970653d6e756c6c3b7d656c73657b61637469766542697a547970653d747970653b656c2e636c6173734c6973742e61646428226f6e22293b672822666f726d2d222b74797065292e636c6173734c6973742e61646428226f6e22293b672822737563632d222b74797065292e7374796c652e646973706c61793d226e6f6e65223b7d7d0a77696e646f772e73656c547970653d73656c547970653b0a0a6173796e632066756e6374696f6e207375626d697442697a2874797065297b6966282163757272656e7455736572297b616c65727428225265675c78656473747261746520656e20656c2063686174207072696d65726f2e22293b72657475726e3b7d6c6574206e616d653d22222c636f6e746163743d22222c65787472613d7b7d3b696628747970653d3d3d2270726f6d6f22297b6e616d653d672822702d6e616d6522292e76616c75652e7472696d28293b636f6e746163743d672822702d636f6e7461637422292e76616c75652e7472696d28293b65787472613d7b70726f64756374547970653a672822702d7479706522292e76616c75652c646573633a672822702d6465736322292e76616c75652e7472696d28292c6275646765743a672822702d62756467657422292e76616c75657d3b696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b22702d6e616d65222c22702d636f6e74616374222c22702d64657363225d293b72657475726e3b7d5b22702d6e616d65222c22702d636f6e74616374222c22702d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b672822702d7479706522292e76616c75653d22223b672822702d62756467657422292e76616c75653d22223b7d656c736520696628747970653d3d3d22636f6c6c616222297b6e616d653d672822632d6e616d6522292e76616c75652e7472696d28293b636f6e746163743d672822632d636f6e7461637422292e76616c75652e7472696d28293b65787472613d7b706c6174666f726d3a672822632d706c6174666f726d22292e76616c75652c666f6c6c6f776572733a672822632d666f6c6c6f7765727322292e76616c75652c696465613a672822632d6964656122292e76616c75652e7472696d28297d3b696628216e616d657c7c21636f6e746163747c7c2165787472612e69646561297b686967686c69676874285b22632d6e616d65222c22632d636f6e74616374222c22632d69646561225d293b72657475726e3b7d5b22632d6e616d65222c22632d636f6e74616374222c22632d69646561225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b672822632d706c6174666f726d22292e76616c75653d22223b672822632d666f6c6c6f7765727322292e76616c75653d22223b7d656c736520696628747970653d3d3d2273706f6e736f72656422297b6e616d653d672822732d6e616d6522292e76616c75652e7472696d28293b636f6e746163743d672822732d636f6e7461637422292e76616c75652e7472696d28293b65787472613d7b6c696e6b3a672822732d6c696e6b22292e76616c75652e7472696d28292c706c6174666f726d3a672822732d706c6174666f726d22292e76616c75652c6275646765743a672822732d62756467657422292e76616c75652c646573633a672822732d6465736322292e76616c75652e7472696d28297d3b696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b22732d6e616d65222c22732d636f6e74616374222c22732d64657363225d293b72657475726e3b7d5b22732d6e616d65222c22732d636f6e74616374222c22732d6c696e6b222c22732d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b672822732d706c6174666f726d22292e76616c75653d22223b672822732d62756467657422292e76616c75653d22223b7d656c73657b6e616d653d6728226f2d6e616d6522292e76616c75652e7472696d28293b636f6e746163743d6728226f2d636f6e7461637422292e76616c75652e7472696d28293b65787472613d7b646573633a6728226f2d6465736322292e76616c75652e7472696d28297d3b696628216e616d657c7c21636f6e746163747c7c2165787472612e64657363297b686967686c69676874285b226f2d6e616d65222c226f2d636f6e74616374222c226f2d64657363225d293b72657475726e3b7d5b226f2d6e616d65222c226f2d636f6e74616374222c226f2d64657363225d2e666f72456163682869643d3e67286964292e76616c75653d2222293b7d0a7472797b617761697420616464446f632862697a436f6c2c4f626a6563742e61737369676e287b747970652c6e616d652c636f6e746163742c7569643a63757272656e74557365722e7569642c74733a73657276657254696d657374616d7028292c74696d653a6e6577204461746528292e746f4c6f63616c6544617465537472696e6728226573222c7b6461793a22322d6469676974222c6d6f6e74683a2273686f7274222c686f75723a22322d6469676974222c6d696e7574653a22322d6469676974227d297d2c657874726129293b617761697420736574446f6328646f632864622c22707269766174655f6368617473222c63757272656e74557365722e756964292c7b7569643a63757272656e74557365722e7569642c6e616d653a63757272656e74557365722e6e616d657c7c6e616d652c62697a547970653a747970652c6c6173744d73673a22222c6c61737454696d653a22222c686173556e726561643a66616c73652c6372656174656441743a73657276657254696d657374616d7028297d2c7b6d657267653a747275657d293b672822737563632d222b74797065292e7374796c652e646973706c61793d22626c6f636b223b7d63617463682865297b616c65727428224572726f723a20222b652e6d657373616765293b7d7d0a77696e646f772e7375626d697442697a3d7375626d697442697a3b0a0a66756e6374696f6e20686967686c6967687428696473297b6964732e666f72456163682869643d3e7b696628672869642926262167286964292e76616c75652e7472696d28292967286964292e7374796c652e626f72646572436f6c6f723d2223653533393335223b7d293b73657454696d656f75742828293d3e6964732e666f72456163682869643d3e7b69662867286964292967286964292e7374796c652e626f72646572436f6c6f723d22223b7d292c31353030293b7d0a");
 </script>
 
+<!-- STARS + SHOOTING STARS + LEGAL JS -->
 <script>
-var legalDocs={terms:{title:'TÉRMINOS DE USO',content:['<b style="color:#aaa">1. Aceptación</b><br>Al acceder a este sitio web acepta quedar vinculado por estos Términos. Si no está de acuerdo, no utilice el Sitio.','<b style="color:#aaa">2. Uso del sitio</b><br>El Sitio es de carácter informativo y comunitario. Queda prohibido el uso ilegal, ofensivo o discriminatorio.','<b style="color:#aaa">3. Contenido del usuario</b><br>Los mensajes del chat son responsabilidad de quien los envía. El creador puede eliminar contenido inapropiado sin previo aviso.','<b style="color:#aaa">4. Propiedad intelectual</b><br>Todo el contenido es propiedad de 19Rey10. Prohibida su reproducción sin autorización.','<b style="color:#aaa">5. Solicitudes comerciales</b><br>Las propuestas no garantizan respuesta ni acuerdo. El creador puede aceptar o rechazar cualquier propuesta.','<b style="color:#aaa">6. Limitación de responsabilidad</b><br>El Sitio se provee "tal cual". El creador no es responsable de daños derivados de su uso.','<b style="color:#aaa">7. Legislación</b><br>Estos Términos se rigen por las leyes de la República Dominicana.']},privacy:{title:'POLÍTICA DE PRIVACIDAD',content:['<b style="color:#aaa">1. Responsable</b><br>Creador de contenido identificado como 19Rey10, operador independiente.','<b style="color:#aaa">2. Datos recopilados</b><br>Nombre/seudónimo en el chat, mensajes públicos, datos de solicitudes comerciales, identificador único anónimo generado localmente.','<b style="color:#aaa">3. Finalidad</b><br>Facilitar la comunicación comunitaria y gestionar solicitudes comerciales.','<b style="color:#aaa">4. Almacenamiento</b><br>Google Firebase (Firestore), con servidores en Estados Unidos, cumpliendo con el RGPD.','<b style="color:#aaa">5. Derechos</b><br>Puede solicitar acceso, rectificación o eliminación de sus datos contactando al creador.','<b style="color:#aaa">6. Menores</b><br>No dirigido a menores de 13 años.']},cookies:{title:'POLÍTICA DE COOKIES',content:['<b style="color:#aaa">1. Almacenamiento local</b><br>Este Sitio almacena en su navegador: preferencia de like, nombre de usuario y sesión del chat.','<b style="color:#aaa">2. Terceros</b><br>Google Firebase, Google Fonts y YouTube pueden establecer sus propias cookies.','<b style="color:#aaa">3. Eliminar datos</b><br>Borre los datos del sitio desde Configuración > Privacidad de su navegador.']},dmca:{title:'POLÍTICA DMCA',content:['<b style="color:#aaa">1. Respeto a derechos de autor</b><br>19Rey10 respeta los derechos de propiedad intelectual y cumple con la DMCA.','<b style="color:#aaa">2. Videos</b><br>Los videos se muestran a través de los reproductores oficiales. No se almacena ningún archivo de video.','<b style="color:#aaa">3. Notificación</b><br>Si cree que su contenido ha sido infringido, contacte al creador con la identificación de la obra y URL del contenido.']}};
-function showLegal(type){var doc=legalDocs[type];if(!doc)return;document.getElementById('legalTitle').textContent=doc.title;document.getElementById('legalContent').innerHTML='<p style="color:#444;font-size:11px;margin-bottom:1rem">Última actualización: enero 2025 · v1.00.1.3.67</p>'+doc.content.map(function(p){return'<p style="margin-bottom:1rem">'+p+'</p>';}).join('');document.getElementById('legalOverlay').style.display='flex';}
+// ── STARS ──
+(function(){
+var canvas=document.getElementById('starCanvas');
+var ctx=canvas.getContext('2d');
+var W,H,stars=[],shooting=[];
+
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();
+window.addEventListener('resize',resize);
+
+// Create static stars
+for(var i=0;i<280;i++){
+  stars.push({
+    x:Math.random()*2000,y:Math.random()*1200,
+    r:Math.random()*1.4+0.2,
+    a:Math.random()*0.7+0.2,
+    twinkleSpeed:Math.random()*0.015+0.005,
+    twinkleOffset:Math.random()*Math.PI*2
+  });
+}
+
+var scrollY=0;
+window.addEventListener('scroll',function(){scrollY=window.scrollY;},{ passive:true });
+
+var t=0;
+function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  t+=0.016;
+  // Draw static stars (parallax with scroll)
+  stars.forEach(function(s){
+    var parallaxY=s.y-(scrollY*0.15);
+    var py=((parallaxY%H)+H)%H;
+    var px=s.x%W;
+    var twinkle=s.a*(0.5+0.5*Math.sin(t*s.twinkleSpeed*60+s.twinkleOffset));
+    ctx.beginPath();
+    ctx.arc(px,py,s.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(200,230,255,'+twinkle+')';
+    ctx.fill();
+  });
+  // Draw shooting stars
+  shooting.forEach(function(s,i){
+    s.x+=s.vx;s.y+=s.vy;s.life-=1;
+    var prog=1-s.life/s.maxLife;
+    var alpha=(prog<0.3?prog/0.3:prog>0.7?(1-prog)/0.3:1)*0.9;
+    var grad=ctx.createLinearGradient(s.x,s.y,s.x-s.vx*12,s.y-s.vy*12);
+    grad.addColorStop(0,'rgba(220,240,255,'+alpha+')');
+    grad.addColorStop(1,'rgba(220,240,255,0)');
+    ctx.beginPath();
+    ctx.moveTo(s.x,s.y);
+    ctx.lineTo(s.x-s.vx*14,s.y-s.vy*14);
+    ctx.strokeStyle=grad;
+    ctx.lineWidth=s.r;
+    ctx.stroke();
+    if(s.life<=0)shooting.splice(i,1);
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// Spawn shooting stars randomly
+function spawnShooting(){
+  var angle=(Math.random()*30+10)*Math.PI/180;
+  var speed=Math.random()*8+10;
+  shooting.push({
+    x:Math.random()*W*0.8,y:Math.random()*H*0.3,
+    vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+    r:Math.random()*1.5+1,
+    life:80,maxLife:80
+  });
+  setTimeout(spawnShooting,Math.random()*6000+3000);
+}
+setTimeout(spawnShooting,2000);
+})();
+
+// ── LEGAL ──
+var legalDocs={
+  terms:{title:'TERMINOS DE USO',content:['<b style="color:#4a6a8a">1. Aceptaci&oacute;n</b><br>Al acceder a este sitio web acepta quedar vinculado por estos T&eacute;rminos.','<b style="color:#4a6a8a">2. Uso del sitio</b><br>Sitio de car&aacute;cter informativo y comunitario. Queda prohibido el uso ilegal, ofensivo o discriminatorio.','<b style="color:#4a6a8a">3. Contenido del usuario</b><br>Los mensajes del chat son responsabilidad de quien los env&iacute;a. El creador puede eliminar contenido inapropiado.','<b style="color:#4a6a8a">4. Propiedad intelectual</b><br>Todo el contenido es propiedad de 19Rey10. Prohibida su reproducci&oacute;n sin autorizaci&oacute;n.','<b style="color:#4a6a8a">5. Solicitudes comerciales</b><br>Las propuestas no garantizan respuesta ni acuerdo. El creador puede aceptar o rechazar cualquier propuesta.','<b style="color:#4a6a8a">6. Limitaci&oacute;n de responsabilidad</b><br>El Sitio se provee "tal cual". El creador no es responsable de da&ntilde;os derivados de su uso.','<b style="color:#4a6a8a">7. Legislaci&oacute;n</b><br>Estos T&eacute;rminos se rigen por las leyes de la Rep&uacute;blica Dominicana.']},
+  privacy:{title:'POLITICA DE PRIVACIDAD',content:['<b style="color:#4a6a8a">1. Responsable</b><br>Creador de contenido identificado como 19Rey10, operador independiente.','<b style="color:#4a6a8a">2. Datos recopilados</b><br>Nombre/seud&oacute;nimo en el chat, mensajes p&uacute;blicos, datos de solicitudes, identificador &uacute;nico an&oacute;nimo local.','<b style="color:#4a6a8a">3. Finalidad</b><br>Facilitar la comunicaci&oacute;n comunitaria y gestionar solicitudes comerciales.','<b style="color:#4a6a8a">4. Almacenamiento</b><br>Google Firebase (Firestore), servidores en Estados Unidos, cumpliendo con el RGPD.','<b style="color:#4a6a8a">5. Derechos</b><br>Puede solicitar acceso, rectificaci&oacute;n o eliminaci&oacute;n de sus datos contactando al creador.','<b style="color:#4a6a8a">6. Menores</b><br>No dirigido a menores de 13 a&ntilde;os.']},
+  cookies:{title:'POLITICA DE COOKIES',content:['<b style="color:#4a6a8a">1. Almacenamiento local</b><br>Este Sitio almacena: preferencia de like, nombre de usuario y sesi&oacute;n del chat.','<b style="color:#4a6a8a">2. Terceros</b><br>Google Firebase, Google Fonts y YouTube pueden establecer sus propias cookies.','<b style="color:#4a6a8a">3. Eliminar datos</b><br>Borre los datos del sitio desde Configuraci&oacute;n &gt; Privacidad de su navegador.']},
+  dmca:{title:'POLITICA DMCA',content:['<b style="color:#4a6a8a">1. Derechos de autor</b><br>19Rey10 respeta los derechos de propiedad intelectual y cumple con la DMCA.','<b style="color:#4a6a8a">2. Videos</b><br>Los videos se muestran v&iacute;a reproductores oficiales. No se almacena ning&uacute;n archivo de video.','<b style="color:#4a6a8a">3. Notificaci&oacute;n</b><br>Si su contenido ha sido infringido, contacte al creador con la identificaci&oacute;n de la obra y URL del contenido.']}
+};
+function showLegal(type){var doc=legalDocs[type];if(!doc)return;document.getElementById('legalTitle').textContent=doc.title;document.getElementById('legalContent').innerHTML='<p style="color:#1a3a5a;font-size:11px;margin-bottom:1rem">&Uacute;ltima actualizaci&oacute;n: enero 2025 &middot; v1.00.1.3.67</p>'+doc.content.map(function(p){return'<p style="margin-bottom:1rem">'+p+'</p>';}).join('');document.getElementById('legalOverlay').style.display='flex';}
 window.showLegal=showLegal;
 </script>
 </body>
